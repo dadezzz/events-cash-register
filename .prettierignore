@@ -1,0 +1,11 @@
+# We use prettier only for formats not yet supported by biome.
+*.css
+*.html
+*.js
+*.json
+*.jsonc
+*.ts
+*.webmanifest
+# Biome has issues with formatting svelte files.
+# *.svelte
+pnpm-lock.yaml

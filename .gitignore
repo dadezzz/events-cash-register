@@ -1,0 +1,7 @@
+.env
+.svelte-kit/
+.pnpm-store/
+data/**
+!data/.gitkeep
+dist/
+node_modules/

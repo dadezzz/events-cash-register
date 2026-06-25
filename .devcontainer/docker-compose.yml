@@ -1,0 +1,17 @@
+services:
+  # TODO: mock cups server.
+
+  workspace:
+    entrypoint: sleep infinity
+    env_file: ../.env
+    image: git.zarantonello.dev/projects/events-cash-register:ci
+    # Drizzle studio has problems running inside a docker container. The other
+    # solution would be running a reverse proxy, but this is simpler.
+    network_mode: host
+    volumes:
+      - ..:/workspace:z,cached
+      - pnpm-cache:/usr/local/pnpm/store
+    working_dir: /workspace
+
+volumes:
+  pnpm-cache: {}

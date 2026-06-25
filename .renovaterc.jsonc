@@ -1,0 +1,74 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "assignees": ["davide"],
+  "extends": [
+    "config:best-practices",
+    "customManagers:dockerfileVersions",
+    "customManagers:biomeVersions",
+    ":semanticCommits"
+  ],
+  "packageRules": [
+    // Automerge actions and devcontainer deps.
+    {
+      "automerge": true,
+      "groupName": "CI dependencies",
+      "groupSlug": "ci",
+      "matchFileNames": [".devcontainer/**", ".forgejo/**", "ci.Dockerfile"],
+      "matchUpdateTypes": ["!major"]
+    },
+    // Rebuild the dockerfile when a build dependency changes.
+    {
+      "automerge": true,
+      "matchFileNames": ["packages/website/Dockerfile"],
+      "matchUpdateTypes": ["!major"],
+      "semanticCommitType": "fix"
+    },
+    // Like above but for major versions.
+    {
+      "matchFileNames": ["packages/website/Dockerfile"],
+      "matchUpdateTypes": ["major"],
+      "semanticCommitType": "feat"
+    },
+    // Formatters and linters get automerged.
+    {
+      "automerge": true,
+      "matchPackageNames": ["svelte-check", "@biomejs/biome", "@types/*", "prettier*", "pnpm", "knip", "vitest"],
+      "matchUpdateTypes": ["!major"]
+    },
+    // These are devDependencies but they can cause user visible changes.
+    {
+      "matchPackageNames": [
+        "@sveltejs/adapter-node",
+        "@sveltejs/enhanced-img",
+        "@sveltejs/kit",
+        "@tailwindcss/vite",
+        "bits-ui",
+        "phospor-svelte",
+        "svelte",
+        "tailwindcss",
+        "vite"
+      ],
+      "matchUpdateTypes": ["!major"],
+      "semanticCommitType": "fix"
+    },
+    // Like above but for major versions we use feat.
+    {
+      "matchPackageNames": [
+        "@sveltejs/adapter-node",
+        "@sveltejs/enhanced-img",
+        "@sveltejs/kit",
+        "@tailwindcss/vite",
+        "bits-ui",
+        "phospor-svelte",
+        "svelte",
+        "tailwindcss",
+        "vite"
+      ],
+      "matchUpdateTypes": ["major"],
+      "semanticCommitType": "feat"
+    }
+  ],
+  // Raise limit or there are situations where we can't keep up with the number
+  // of deps to update.
+  "prHourlyLimit": 6
+}

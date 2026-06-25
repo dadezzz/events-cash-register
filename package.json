@@ -1,0 +1,48 @@
+{
+  "dependencies": {
+    "@libsql/client": "0.17.4",
+    "@node-rs/argon2": "2.0.2",
+    "drizzle-orm": "0.45.2",
+    "valibot": "1.4.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.16",
+    "@sveltejs/adapter-node": "5.5.5",
+    "@sveltejs/enhanced-img": "0.11.0",
+    "@sveltejs/kit": "2.65.2",
+    "@tailwindcss/vite": "4.3.1",
+    "@types/node": "25.9.4",
+    "bits-ui": "2.18.1",
+    "drizzle-kit": "0.31.10",
+    "knip": "6.17.1",
+    "phosphor-svelte": "3.1.0",
+    "prettier": "3.8.4",
+    "prettier-plugin-svelte": "4.1.1",
+    "prettier-plugin-tailwindcss": "0.8.0",
+    "svelte": "5.56.3",
+    "svelte-check": "4.6.0",
+    "tailwindcss": "4.3.1",
+    "typescript": "6.0.3",
+    "vite": "8.0.16",
+    "vitest": "4.1.9"
+  },
+  "imports": {
+    "#assets/*": "./src/assets/*",
+    "#components/*": "./src/components/*",
+    "#lib/*": "./src/lib/*",
+    "#routes/*": "./src/routes/*"
+  },
+  "scripts": {
+    "build": "svelte-kit sync && vite build",
+    "check": "svelte-kit sync && svelte-check --tsconfig tsconfig.json",
+    "clean": "rm -rf ./dist ./node_modules ./.svelte-kit",
+    "dev": "vite dev --host",
+    "drizzle": "drizzle-kit",
+    "format:check": "biome format && prettier --check .",
+    "format:fix": "biome format --fix && prettier --write .",
+    "lint:check": "biome check",
+    "lint:fix": "biome check --fix",
+    "test": "vitest run"
+  },
+  "type": "module"
+}

@@ -1,0 +1,23 @@
+concurrency:
+  cancel-in-progress: true
+  group: ${{ forge.ref }}-${{ forge.workflow }}
+
+jobs:
+  check-commitizen:
+    container:
+      image: git.zarantonello.dev/infra/ci-commitizen:latest@sha256:c45fc1f570a2e1e85ee9998fc9d3b53f81f9b1ab2ea8d47902226dbea7ba52e2
+    name: Check the PR title
+    runs-on: srv-generic
+    steps:
+      - name: Run commitizen
+        run: cz check --message '${{ forge.event.pull_request.title }}'
+
+name: check-commitizen.yaml
+
+"on":
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - edited
