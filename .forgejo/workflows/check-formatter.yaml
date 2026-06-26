@@ -5,7 +5,7 @@ concurrency:
 jobs:
   check:
     container:
-      image: git.zarantonello.dev/projects/events-cash-register:ci
+      image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:047f247e7b32a2fd6aa5e52b70b958302e53889b47f79ecc09f5a039cce7003a
       volumes:
         - forgejo-runner-cache-pnpm:/usr/local/pnpm/store
     name: Checks with formatters

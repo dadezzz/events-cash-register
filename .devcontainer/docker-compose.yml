@@ -4,7 +4,7 @@ services:
   workspace:
     entrypoint: sleep infinity
     env_file: ../.env
-    image: git.zarantonello.dev/projects/events-cash-register:ci
+    image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:047f247e7b32a2fd6aa5e52b70b958302e53889b47f79ecc09f5a039cce7003a
     # Drizzle studio has problems running inside a docker container. The other
     # solution would be running a reverse proxy, but this is simpler.
     network_mode: host
