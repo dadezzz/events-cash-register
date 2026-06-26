@@ -17,6 +17,8 @@ jobs:
           git checkout --quiet ${{ forge.sha }};
       - name: Install dependencies with pnpm
         run: pnpm install
+      - name: Copy .env.example to .env
+        run: cp .env.example .env
       - name: Build the website
         run: pnpm run build
 

@@ -1,10 +1,10 @@
 import { desc } from "drizzle-orm";
 import { db, s } from "#lib/server/database/index.ts";
+import { Logger } from "#lib/server/logger/index.ts";
 import { INITIAL_ADMIN_NAME, INITIAL_ADMIN_PASSWORD, INITIAL_ADMIN_USERNAME } from "$app/env/private";
 import { ADMIN_USERS_PAGE_SIZE } from "$app/env/public";
 import { UserBatch } from "./batch.ts";
 import { User } from "./index.ts";
-import { Logger } from "#lib/server/logger/index.ts";
 
 export class AdminUser {
   readonly user: User;

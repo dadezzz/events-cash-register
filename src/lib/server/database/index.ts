@@ -28,6 +28,6 @@ export { db, s };
 
 export async function initMigrateDatabase() {
   const logger = new Logger();
-    logger.info("applying database migrations...");
-    await migrate(db, { migrationsFolder: DATABASE_MIGRATIONS_FOLDER });
+  logger.info("applying database migrations...");
+  await migrate(db, { migrationsFolder: DATABASE_MIGRATIONS_FOLDER });
 }

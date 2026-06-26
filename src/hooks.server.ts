@@ -1,11 +1,11 @@
 import type { HandleServerError, HandleValidationError, ServerInit } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
+import { initCreateAdmin } from "#lib/entities/user/admin.ts";
 import { logError } from "#lib/server/logger/error.ts";
 import { Logger } from "#lib/server/logger/index.ts";
 import { logger } from "#lib/server/logger/request.ts";
-import { initMigrateDatabase } from "./lib/server/database";
-import { initCreateAdmin } from "#lib/entities/user/admin.ts";
 import { building } from "$app/env";
+import { initMigrateDatabase } from "./lib/server/database/index.ts";
 
 export const handle = sequence(
   // Initialize RequestLogger.
@@ -28,10 +28,9 @@ export const handleValidationError: HandleValidationError = () => {
   return { message: "bad request" };
 };
 
-export const init: ServerInit = async ()=> {
+export const init: ServerInit = async () => {
   if (!building) {
-
-  await initMigrateDatabase()
-  await initCreateAdmin()
+    await initMigrateDatabase();
+    await initCreateAdmin();
   }
-}
+};

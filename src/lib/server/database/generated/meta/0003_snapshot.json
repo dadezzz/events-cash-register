@@ -46,9 +46,7 @@
       "indexes": {
         "product_name_unique": {
           "name": "product_name_unique",
-          "columns": [
-            "name"
-          ],
+          "columns": ["name"],
           "isUnique": true
         }
       },
@@ -86,11 +84,7 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {
         "rateLimiterToken_bucketGroup_bucket_createdAt_pk": {
-          "columns": [
-            "bucketGroup",
-            "bucket",
-            "createdAt"
-          ],
+          "columns": ["bucketGroup", "bucket", "createdAt"],
           "name": "rateLimiterToken_bucketGroup_bucket_createdAt_pk"
         }
       },
@@ -160,23 +154,17 @@
       "indexes": {
         "session_hashedSecret_unique": {
           "name": "session_hashedSecret_unique",
-          "columns": [
-            "hashedSecret"
-          ],
+          "columns": ["hashedSecret"],
           "isUnique": true
         },
         "session_userId": {
           "name": "session_userId",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         },
         "session_hashedSecret": {
           "name": "session_hashedSecret",
-          "columns": [
-            "hashedSecret"
-          ],
+          "columns": ["hashedSecret"],
           "isUnique": false
         }
       },
@@ -185,12 +173,8 @@
           "name": "session_userId_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -241,9 +225,7 @@
       "indexes": {
         "user_username_unique": {
           "name": "user_username_unique",
-          "columns": [
-            "username"
-          ],
+          "columns": ["username"],
           "isUnique": true
         }
       },
@@ -273,9 +255,7 @@
       "indexes": {
         "userPrivilege_userId": {
           "name": "userPrivilege_userId",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         }
       },
@@ -284,22 +264,15 @@
           "name": "userPrivilege_userId_user_id_fk",
           "tableFrom": "userPrivilege",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {
         "userPrivilege_privilege_userId_pk": {
-          "columns": [
-            "privilege",
-            "userId"
-          ],
+          "columns": ["privilege", "userId"],
           "name": "userPrivilege_privilege_userId_pk"
         }
       },

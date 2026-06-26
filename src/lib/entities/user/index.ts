@@ -26,7 +26,7 @@ export class User {
       .where(eq(s.user.username, username))
       .then(getFirstOptional);
 
-    if (!user?.passwordHash || !(await argon2.verify( user.passwordHash,password))) {
+    if (!user?.passwordHash || !(await argon2.verify(user.passwordHash, password))) {
       return null;
     }
 
