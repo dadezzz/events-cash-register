@@ -120,10 +120,11 @@
               }
             }}
             role="combobox"
+            aria-activedescendant={suggestionsOpen ? `${id}-option-${suggestions[suggestionsIndex]}` : undefined}
             aria-autocomplete="list"
             aria-controls="{id}-list"
             aria-expanded={suggestionsOpen}
-            aria-activedescendant={suggestionsOpen ? `${id}-option-${suggestions[suggestionsIndex]}` : undefined}
+            aria-haspopup="listbox"
           />
 
           <Popover.Trigger
@@ -149,7 +150,7 @@
             e.preventDefault();
           }}
         >
-          <ul id="{id}-list" role="listbox">
+          <ul id="{id}-list">
             {#each suggestions as entry (entry.value)}
               <li id="{id}-option-{entry.value}">
                 <Button

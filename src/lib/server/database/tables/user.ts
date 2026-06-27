@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
-import type { UserId } from "#lib/entities/user/utils.ts";
+import type { UserId } from "#lib/entities/user/id.ts";
 import { timestamp } from "./utils.ts";
 
 export default sqliteTable("user", {

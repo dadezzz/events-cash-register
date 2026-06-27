@@ -1,26 +1,30 @@
 <script lang="ts">
   import { Pagination } from "bits-ui";
   import { CaretLeftIcon, CaretRightIcon } from "phosphor-svelte";
-  import { getCurrentPage, goToPage } from "#lib/pagination.ts";
+  import { createUrlForPagination, type PaginationOptions } from "#lib/pagination.ts";
+  import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import { Button } from "./controls";
 
   interface Props {
+    paginationOptions: PaginationOptions<string>;
     itemsCount: number;
     pageSize: number;
   }
 
-  const { itemsCount, pageSize }: Props = $props();
+  const { paginationOptions, itemsCount, pageSize }: Props = $props();
 </script>
 
 <!-- Show pagination only if necessary. -->
 {#if itemsCount > pageSize}
   <Pagination.Root
     count={itemsCount}
-    page={getCurrentPage(page.url)}
-    onPageChange={(newPage) => goToPage(newPage)}
+    page={paginationOptions.page}
     perPage={pageSize}
     class="flex items-center gap-1 font-semibold text-slate-600"
+    onPageChange={async (newPage) => {
+      await goto(createUrlForPagination(page.url, { page: newPage }));
+    }}
   >
     {#snippet children({ pages, currentPage })}
       <Pagination.PrevButton>

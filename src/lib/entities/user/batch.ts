@@ -1,8 +1,9 @@
 import { inArray } from "drizzle-orm";
-import { Batch, BatchRows } from "#lib/batch.ts";
+import { Batch, BatchRows } from "#lib/server/batch.ts";
 import { db, s } from "#lib/server/database/index.ts";
 import { User as UserClient } from "./client/index.ts";
-import { sqlDataColumns, type UserId, type UserPrivilege } from "./utils.ts";
+import { sqlDataColumns } from "./data.ts";
+import type { UserId, UserPrivilege } from "./id.ts";
 
 export class UserBatch extends Batch<UserId> {
   async getClients(): Promise<BatchRows<UserId, UserClient>> {

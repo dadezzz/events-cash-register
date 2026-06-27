@@ -4,19 +4,14 @@ import { SessionBatch } from "#lib/entities/session/batch.ts";
 import { NewSession } from "#lib/entities/session/index.ts";
 import { type SessionId, sqlSessionNotExpired } from "#lib/entities/session/utils.ts";
 import { db, s } from "#lib/server/database/index.ts";
-import { getFirstOptional, getFirstOrThrow } from "#lib/utils/array.ts";
-import type { UserId, UserPrivilege } from "./utils.ts";
+import { getFirstOptional } from "#lib/utils/array.ts";
+import type { UserId, UserPrivilege } from "./id.ts";
 
 export class User {
   readonly id: UserId;
 
   constructor(id: UserId) {
     this.id = id;
-  }
-
-  static async fromId(id: UserId): Promise<User | null> {
-    const user = await db.select({ id: s.user.id }).from(s.user).where(eq(s.user.id, id)).then(getFirstOptional);
-    return user ? new User(user.id) : null;
   }
 
   static async fromUsernameAndPassword(username: string, password: string): Promise<User | null> {
@@ -29,16 +24,6 @@ export class User {
     if (!user?.passwordHash || !(await argon2.verify(user.passwordHash, password))) {
       return null;
     }
-
-    return new User(user.id);
-  }
-
-  static async create(profile: { name: string; username: string; password: string }): Promise<User> {
-    const user = await db
-      .insert(s.user)
-      .values({ ...profile, passwordHash: await argon2.hash(profile.password) })
-      .returning({ id: s.user.id })
-      .then(getFirstOrThrow);
 
     return new User(user.id);
   }

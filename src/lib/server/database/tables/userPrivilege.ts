@@ -1,5 +1,5 @@
 import { index, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import type { UserId, UserPrivilege } from "#lib/entities/user/utils.ts";
+import type { UserId, UserPrivilege } from "#lib/entities/user/id.ts";
 import user from "./user.ts";
 
 const columns = {

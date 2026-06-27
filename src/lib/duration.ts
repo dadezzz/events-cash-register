@@ -30,10 +30,14 @@ export class Duration {
   }
 
   asMinutes(): number {
-    return Math.floor(this.milliseconds / 60000);
+    return Math.floor(this.milliseconds / (1000 * 60));
   }
 
   asHours(): number {
-    return Math.floor(this.milliseconds / 3600000);
+    return Math.floor(this.milliseconds / (1000 * 60 * 60));
+  }
+
+  asDays(): number {
+    return Math.floor(this.milliseconds / (1000 * 60 * 60 * 24));
   }
 }

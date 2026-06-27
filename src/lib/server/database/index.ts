@@ -1,4 +1,3 @@
-import { createClient } from "@libsql/client/node";
 import { sql } from "drizzle-orm";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { drizzle } from "drizzle-orm/libsql/node";
@@ -9,7 +8,7 @@ import * as s from "./tables/index.ts";
 const logger = new Logger();
 
 const db = drizzle({
-  client: createClient({ url: DATABASE_URL }),
+  connection: DATABASE_URL,
   schema: s,
   logger: {
     logQuery: (query, _params) => {

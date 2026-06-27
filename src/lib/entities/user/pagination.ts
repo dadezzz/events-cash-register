@@ -1,0 +1,2 @@
+export const paginationSortColumns = ["createdAt", "name", "username"] as const;
+export type PaginationSortColumn = (typeof paginationSortColumns)[number];

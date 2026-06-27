@@ -36,7 +36,7 @@
     "build": "svelte-kit sync && vite build",
     "check": "svelte-kit sync && svelte-check --tsconfig tsconfig.json",
     "clean": "rm -rf ./dist ./node_modules ./.svelte-kit",
-    "dev": "vite dev --host",
+    "dev": "vite dev",
     "drizzle": "drizzle-kit",
     "format:check": "biome format && prettier --check .",
     "format:fix": "biome format --fix && prettier --write .",

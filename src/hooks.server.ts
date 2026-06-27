@@ -1,11 +1,11 @@
 import type { HandleServerError, HandleValidationError, ServerInit } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 import { initCreateAdmin } from "#lib/entities/user/admin.ts";
+import { initMigrateDatabase } from "#lib/server/database/index.ts";
 import { logError } from "#lib/server/logger/error.ts";
 import { Logger } from "#lib/server/logger/index.ts";
 import { logger } from "#lib/server/logger/request.ts";
 import { building } from "$app/env";
-import { initMigrateDatabase } from "./lib/server/database/index.ts";
 
 export const handle = sequence(
   // Initialize RequestLogger.

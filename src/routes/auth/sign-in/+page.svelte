@@ -3,9 +3,10 @@
   import { Form } from "#components/form/index.ts";
   import { PasswordInput, TextInput } from "#components/form/input/index.ts";
   import { signInForm } from "./_forms/sign-in.remote.ts";
+  import { signInFormSchema } from "./_forms/sign-in.schema.ts";
 </script>
 
-<Form form={signInForm}>
+<Form form={signInForm.preflight(signInFormSchema)}>
   <TextInput field={signInForm.fields.username} label="Nome utente" />
   <PasswordInput field={signInForm.fields.password} label="Password" />
 
