@@ -32,7 +32,7 @@
     // Formatters and linters get automerged.
     {
       "automerge": true,
-      "matchPackageNames": ["svelte-check", "@biomejs/biome", "@types/*", "prettier*", "pnpm", "knip", "vitest"],
+      "matchPackageNames": ["svelte-check", "@biomejs/biome", "@types/*", "prettier*", "pnpm", "vitest"],
       "matchUpdateTypes": ["!major"]
     },
     // These are devDependencies but they can cause user visible changes.
