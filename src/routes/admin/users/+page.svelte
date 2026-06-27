@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { PencilIcon, PlusIcon, TrashIcon } from "phosphor-svelte";
+  import { PlusIcon } from "phosphor-svelte";
   import { A, Button } from "#components/controls/index.ts";
-  import { Dialog, DialogClose } from "#components/dialog/index.ts";
+  import { Dialog } from "#components/dialog/index.ts";
   import Form from "#components/form/Form.svelte";
-  import { HiddenInput, PasswordInput, TextInput } from "#components/form/input/index.ts";
+  import { PasswordInput, TextInput } from "#components/form/input/index.ts";
   import { FormatDuration } from "#components/format/index.ts";
   import Pagination from "#components/Pagination.svelte";
   import { Duration } from "#lib/duration.ts";
@@ -12,7 +12,9 @@
   import { createUrlForPagination, getCurrentPaginationOptions, invertSortDirection } from "#lib/pagination.ts";
   import { ADMIN_USERS_PAGE_SIZE } from "$app/env/public";
   import { page } from "$app/state";
-  import { addUserForm, deleteUserForm } from "./_forms.remote.ts";
+  import DeleteUserButton from "./_components/DeleteUserButton.svelte";
+  import UpdateUserButton from "./_components/UpdateUserButton.svelte";
+  import { addUserForm } from "./_forms.remote.ts";
   import { addUserFormSchema, paginationSchema } from "./_schemas.ts";
 
   const paginationOptions = $derived(getCurrentPaginationOptions(paginationSchema, page.url));
@@ -83,33 +85,8 @@
         </td>
         <td>{privileges}</td>
         <td>
-          <Dialog>
-            {#snippet trigger({ props })}
-              <Button type="button" {...props} aria-label="Modifica"><PencilIcon class="size-5" /></Button>
-            {/snippet}
-            {#snippet content({ props })}
-
-            {/snippet}
-          </Dialog>
-          <Dialog>
-            {#snippet trigger({ props })}
-              <Button type="button" {...props} aria-label="Elimina"><TrashIcon class="size-5" /></Button>
-            {/snippet}
-            {#snippet content({ props })}
-              <div {...props} class="bg-white fixed z-50 top-1/2 left-1/2 -translate-1/2">
-                <h2>Elimina utente</h2>
-
-                <p>Conferma di voler eliminare l'utente {user.data.username}</p>
-
-                <Form form={deleteUserForm}>
-                  <HiddenInput field={deleteUserForm.fields.id} value={user.data.id} />
-
-                  <DialogClose type="button">Annulla</DialogClose>
-                  <Button type="submit">Conferma</Button>
-                </Form>
-              </div>
-            {/snippet}
-          </Dialog>
+          <UpdateUserButton {user} />
+          <DeleteUserButton {user} />
         </td>
       </tr>
     {/each}
