@@ -1,4 +1,4 @@
-import { getRequestClientIp } from "#lib/server/request.ts";
+import { getRequestClientIp } from "#lib/server/request/index.ts";
 import { getRequestEvent } from "$app/server";
 import { Logger, type LoggerData, type LoggerDataValue } from "./index.ts";
 

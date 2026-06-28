@@ -1,21 +1,35 @@
 import { getRequestEvent } from "$app/server";
 
 /**
- * Stores an item in AsyncLocalStorage for the whole duration of the request.
+ * Request-scoped cache that stores a value in `event.locals` for the
+ * duration of a single request. Values are computed lazily on first access
+ * and reused on subsequent calls within the same request.
+ *
+ * This is useful for avoiding redundant database queries or expensive
+ * computations across multiple components/hooks in the same request.
+ *
+ * @typeParam T - The type of the cached value.
  */
 export class LocalsCache<T> {
   private readonly key = Symbol();
   private readonly getCallback: () => Promise<T> | T;
 
+  /**
+   * Creates a new `LocalsCache`.
+   *
+   * @param getCallback - A function that produces the value to cache. This
+   *   function is only called on the first access; subsequent calls to
+   *   {@link get} return the cached value.
+   */
   constructor(getCallback: () => Promise<T> | T) {
     this.getCallback = getCallback;
   }
 
   /**
-   * Tries to get a value from the cache and if it't missing lazyly computes it
-   * from getCallback.
+   * Retrieves the cached value, computing it lazily on first access
+   * via `getCallback` if not yet present.
    *
-   * @returns The found or inserted value.
+   * @returns The cached (or newly computed) value.
    */
   async get(): Promise<T> {
     const locals = getRequestEvent().locals;

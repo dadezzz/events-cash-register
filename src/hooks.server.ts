@@ -1,5 +1,6 @@
 import type { HandleServerError, HandleValidationError, ServerInit } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
+import { getSession } from "#lib/auth/index.server.ts";
 import { initCreateAdmin } from "#lib/entities/user/admin.ts";
 import { initMigrateDatabase } from "#lib/server/database/index.ts";
 import { logError } from "#lib/server/logger/error.ts";
@@ -11,6 +12,14 @@ export const handle = sequence(
   // Initialize RequestLogger.
   ({ event, resolve }) => {
     logger.init();
+    return resolve(event);
+  },
+  // This is needed to rotate session cookies without giving a 500 error page.
+  // If the session cookie is rotated from a getSession call inside a remote
+  // function, the request fails. So we do it here since this is called before
+  // any remote function runs.
+  async ({ event, resolve }) => {
+    await getSession();
     return resolve(event);
   },
 );

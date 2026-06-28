@@ -1,12 +1,11 @@
 import { and, eq } from "drizzle-orm";
+import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { User } from "#lib/entities/user/index.ts";
-import { deleteCookie, setCookie } from "#lib/server/cookie.ts";
 import { db, s } from "#lib/server/database/index.ts";
-import { getRequestClientIp, getRequestHeader, getRequestHeadersHash } from "#lib/server/request.ts";
-import { getFirstOptional, getFirstOrThrow } from "#lib/utils/array.ts";
-import { generateRandomString } from "#lib/utils/random.ts";
+import { generateRandomString } from "#lib/server/random.ts";
+import { deleteCookie, getCookie, setCookie } from "#lib/server/request/cookie.ts";
+import { getRequestClientIp, getRequestHeader, getRequestHeadersHash } from "#lib/server/request/index.ts";
 import { SESSION_COOKIE_NAME, SESSION_EXPIRE_AFTER, SESSION_RENOVATE_AFTER } from "$app/env/private";
-import { getRequestEvent } from "$app/server";
 import { headersToHash, type SessionId, type SessionIdHash, sqlSessionNotExpired } from "./utils.ts";
 
 export class Session {
@@ -25,13 +24,21 @@ export class Session {
    * @returns The session, if found.
    */
   static async fromCookie(): Promise<Session | null> {
-    const secret = getRequestEvent().cookies.get(SESSION_COOKIE_NAME);
-    if (!secret) return null;
+    const secret = getCookie(SESSION_COOKIE_NAME);
+    if (!secret) {
+      return null;
+    }
 
     const session = await Session.fromSecret(secret);
 
     if (session instanceof NewSession) {
       session.setCookie();
+    }
+
+    // If a cookie was found, but the session expired, delete it to avoid
+    // expensive database checks until the user signs in again.
+    if (secret && !session) {
+      deleteCookie(SESSION_COOKIE_NAME);
     }
 
     return session;
@@ -53,7 +60,9 @@ export class Session {
       .returning({ id: s.session.id, renovatedAt: s.session.renovatedAt, userId: s.session.userId })
       .then(getFirstOptional);
 
-    if (!r) return null;
+    if (!r) {
+      return null;
+    }
 
     const { id, userId, renovatedAt } = r;
     const session = new Session(id, new User(userId));

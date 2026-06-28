@@ -1,9 +1,9 @@
 import * as argon2 from "@node-rs/argon2";
 import { asc, desc, eq, inArray, isNotNull } from "drizzle-orm";
+import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import type { PaginationOptions } from "#lib/pagination.ts";
 import { db, s } from "#lib/server/database/index.ts";
 import { Logger } from "#lib/server/logger/index.ts";
-import { getFirstOptional, getFirstOrThrow } from "#lib/utils/array.ts";
 import { INITIAL_ADMIN_NAME, INITIAL_ADMIN_PASSWORD, INITIAL_ADMIN_USERNAME } from "$app/env/private";
 import { ADMIN_USERS_PAGE_SIZE } from "$app/env/public";
 import { UserBatch } from "./batch.ts";
