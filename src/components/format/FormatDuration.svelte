@@ -7,10 +7,10 @@
     // How many parts to show (eg. 5:03 minutes will be shown as `5 minutes`
     // with 1 level and `5 minutes and 3 seconds` with 2 levels).
     // Must be equal or greater than 1.
-    levels: number;
+    levels?: number;
   }
 
-  const { duration, levels, ...rest }: Props = $props();
+  const { duration, levels = 1, ...rest }: Props = $props();
 
   const splits = $derived([
     duration.asDays(),
@@ -32,30 +32,16 @@
   const splitsNamesSingular = ["giorno", "ora", "minuto", "secondo"];
   const splitsNamesPlural = ["giorni", "ore", "minuti", "secondi"];
   function getSplitStr(idx: number): string {
-    if (splits[idx] === 1) {
-      return `${splits[idx]} ${splitsNamesSingular[idx]}`;
-    } else {
-      return `${splits[idx]} ${splitsNamesPlural[idx]}`;
-    }
+    return `${splits[idx]} ${splits[idx] === 1 ? splitsNamesSingular[idx] : splitsNamesPlural[idx]}`;
   }
 
   const splitString = $derived.by(() => {
     let str = getSplitStr(startSplitIdx);
 
-    if (levels > 1) {
-      // For second level with add `e` conjunction.
-      if (startSplitIdx + 1 < splits.length) {
-        str = `${getSplitStr(startSplitIdx + 1)} e ${str}`;
-      }
-
-      // We separate successive levels with a comma.
-      if (levels > 2) {
-        for (let i = 2; i <= levels; i++) {
-          if (startSplitIdx + i < splits.length) {
-            str = `${getSplitStr(startSplitIdx + i)}, ${str}`;
-          }
-        }
-      }
+    const maxIValue = Math.min(levels, splits.length - startSplitIdx);
+    for (let i = 1; i < maxIValue; i++) {
+      let separator = i === maxIValue - 1 ? " e " : ", ";
+      str += `${separator}${getSplitStr(startSplitIdx + i)}`;
     }
 
     return str;

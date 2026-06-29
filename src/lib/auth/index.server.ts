@@ -6,13 +6,13 @@ import { e } from "#lib/error.ts";
 import { LocalsCache } from "#lib/server/locals-cache.ts";
 import { getRequestEvent } from "$app/server";
 
-const requestSession = new LocalsCache<Session | null>(() => Session.fromCookie());
+const requestSession = new LocalsCache<Session | null>("session", () => Session.fromCookie());
 
 export function getSession() {
   return requestSession.get();
 }
 
-const requestUser = new LocalsCache<User | null>(async () => {
+const requestUser = new LocalsCache<User | null>("user", async () => {
   const session = await getSession();
   if (!session) return null;
   return session.user;
@@ -44,7 +44,7 @@ export async function requireOperator(): Promise<Operator> {
   throw e.requireSignIn(getRequestEvent().url.pathname);
 }
 
-const requestAdmin = new LocalsCache<AdminUser | null>(async () => {
+const requestAdmin = new LocalsCache<AdminUser | null>("admin", async () => {
   const user = await getUser();
   if (!user) return null;
   return await AdminUser.fromUser(user);

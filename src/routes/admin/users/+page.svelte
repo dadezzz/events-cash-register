@@ -72,7 +72,7 @@
         <TableBodyCell>{user.data.username}</TableBodyCell>
 
         <TableBodyCell>
-          <FormatDuration duration={Duration.fromMilliseconds(Date.now() - user.data.createdAt.getTime())} levels={1} /> fa
+          <FormatDuration duration={Duration.fromMilliseconds(Date.now() - user.data.createdAt.getTime())} /> fa
         </TableBodyCell>
 
         <TableBodyCell>{privileges}</TableBodyCell>

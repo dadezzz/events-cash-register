@@ -1,3 +1,4 @@
+import { logger } from "#lib/server/logger/request.ts";
 import { getRequestEvent } from "$app/server";
 
 /**
@@ -12,16 +13,19 @@ import { getRequestEvent } from "$app/server";
  */
 export class LocalsCache<T> {
   private readonly key = Symbol();
+  private readonly name: string;
   private readonly getCallback: () => Promise<T> | T;
 
   /**
    * Creates a new `LocalsCache`.
    *
+   * @param name - Used to identify the cache in logs.
    * @param getCallback - A function that produces the value to cache. This
    *   function is only called on the first access; subsequent calls to
    *   {@link get} return the cached value.
    */
-  constructor(getCallback: () => Promise<T> | T) {
+  constructor(name: string, getCallback: () => Promise<T> | T) {
+    this.name = name;
     this.getCallback = getCallback;
   }
 
@@ -37,6 +41,8 @@ export class LocalsCache<T> {
     if (!Object.hasOwn(locals, this.key)) {
       // @ts-expect-error Symbol works here.
       locals[this.key] = await this.getCallback();
+    } else {
+      logger.debug({ message: "locals cache hit", cacheName: this.name });
     }
 
     // @ts-expect-error Symbol works here.

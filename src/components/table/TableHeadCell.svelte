@@ -4,7 +4,7 @@
   import { createPaginationUrl, invertSortDirection, type PaginationOptions } from "#lib/pagination.ts";
   import { page } from "$app/state";
 
-  type Props<C extends string> = {
+  type Props = {
     pagination?: {
       options: PaginationOptions<C>;
       columnName: C;
@@ -12,7 +12,7 @@
     children: Snippet;
   };
 
-  const { pagination, children }: Props<C> = $props();
+  const { pagination, children }: Props = $props();
 </script>
 
 <th>

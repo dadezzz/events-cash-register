@@ -13,7 +13,7 @@ const db = drizzle({
   logger: {
     logQuery: (query, _params) => {
       if (DATABASE_LOG_QUERIES) {
-        logger.debug({ query });
+        logger.debug({ message: "database query", query });
       }
     },
   },

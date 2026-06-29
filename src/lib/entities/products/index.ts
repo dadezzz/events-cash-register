@@ -1,12 +1,12 @@
-import { asc, desc, eq, not } from "drizzle-orm";
+import { asc, desc, eq, isNull } from "drizzle-orm";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import type { PaginationOptions } from "#lib/pagination.ts";
 import { db, s } from "#lib/server/database/index.ts";
 import { ADMIN_PRODUCTS_PAGE_SIZE } from "$app/env/public";
 import { ProductBatch } from "./batch.ts";
 import type { ProductData } from "./data.ts";
+import type { ProductId } from "./id.ts";
 import type { PaginationSortColumn } from "./pagination.ts";
-import type { ProductId } from "./utils.ts";
 
 export class Product {
   id: ProductId;
@@ -24,28 +24,28 @@ export class Product {
     return product ? new Product(product.id) : null;
   }
 
-  static async create(data: Omit<ProductData, "createdAt" | "id">): Promise<Product> {
+  static async create(data: Omit<ProductData, "createdAt" | "id" | "deletedAt">): Promise<Product> {
     const product = await db.insert(s.product).values(data).returning({ id: s.product.id }).then(getFirstOrThrow);
     return new Product(product.id);
   }
 
-  async update(data: Omit<ProductData, "createdAt" | "id">): Promise<void> {
+  async update(data: Omit<ProductData, "createdAt" | "id" | "deletedAt">): Promise<void> {
     await db.update(s.product).set(data).where(eq(s.product.id, this.id));
   }
 
   async delete(): Promise<void> {
-    await db.update(s.product).set({ deleted: true }).where(eq(s.product.id, this.id));
+    await db.update(s.product).set({ deletedAt: new Date() }).where(eq(s.product.id, this.id));
   }
 
   static async countAll(): Promise<number> {
-    return await db.$count(s.product, not(s.product.deleted));
+    return await db.$count(s.product, isNull(s.product.deletedAt));
   }
 
   static async getAll(options: PaginationOptions<PaginationSortColumn>): Promise<ProductBatch> {
     const products = await db
       .select({ id: s.product.id })
       .from(s.product)
-      .where(not(s.product.deleted))
+      .where(isNull(s.product.deletedAt))
       .orderBy(
         options.sortDirection === "desc" ? desc(s.product[options.sortColumn]) : asc(s.product[options.sortColumn]),
       )

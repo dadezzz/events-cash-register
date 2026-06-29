@@ -1,5 +1,6 @@
 import { invalid } from "@sveltejs/kit";
 import { requireAdmin } from "#lib/auth/index.server.ts";
+import { e } from "#lib/error.ts";
 import { logger } from "#lib/server/logger/request.ts";
 import { form } from "$app/server";
 import { addUserFormSchema, deleteUserFormSchema, updateUserFormSchema } from "./_schemas.ts";
@@ -22,7 +23,7 @@ export const deleteUserForm = form(deleteUserFormSchema, async (data) => {
   const user = await admin.getUser(data.id);
 
   if (!user) {
-    return;
+    throw e.error404();
   }
 
   await user.delete();
@@ -35,7 +36,7 @@ export const updateUserForm = form(updateUserFormSchema, async (data, issue) => 
   const user = await admin.getUser(data.id);
 
   if (!user) {
-    return;
+    throw e.error404();
   }
 
   const userProfile = await user.getProfile();

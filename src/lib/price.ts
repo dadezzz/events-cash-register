@@ -4,12 +4,11 @@
  * We don't need to handle other currencies since we won't be selling outside of
  * the EU.
  *
- * @param price Decimal number representing the price in millesimals of euros.
+ * @param price Decimal number representing the price in euros.
  * @returns The price converted to a string.
  */
 export function priceToString(price: number): string {
-  // Divide the final price  by 1000 and then split euros from cents.
-  const priceParts = (price / 1000).toString().split(".");
+  const priceParts = price.toString().split(".");
 
   // Euros are always defined, (at least 0).
   const euros = priceParts[0];
