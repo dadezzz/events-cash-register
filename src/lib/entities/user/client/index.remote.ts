@@ -1,8 +1,8 @@
 import { requireAdmin } from "#lib/auth/index.server.ts";
 import { e } from "#lib/error.ts";
-import { paginationSchema } from "#routes/admin/users/_schemas.ts";
 import { query } from "$app/server";
 import { userIdSchema } from "../id.ts";
+import { paginationSchema } from "../pagination.ts";
 
 export const getAllAdmin = query(paginationSchema, async (options) => {
   const admin = await requireAdmin();

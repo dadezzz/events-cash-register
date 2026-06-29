@@ -35,25 +35,6 @@ cp .env.example .env
 pnpm build
 ```
 
-## Linting & Formatting
-
-```bash
-# Check formatting
-pnpm format:check
-
-# Fix formatting
-pnpm format:fix
-
-# Check linting
-pnpm lint:check
-
-# Fix linting
-pnpm lint:fix
-
-# Type checking
-pnpm check
-```
-
 ## Project Structure
 
 ```
@@ -68,12 +49,10 @@ src/
 ├── lib/             # Shared library code
 │   ├── auth/        # Authentication logic
 │   ├── entities/    # Domain entities (user, product, session)
-│   ├── server/      # Server-side utilities (database, logging, etc.)
-│   └── utils/       # General utilities
+│   └── server/      # Server-side utilities (database, logging, etc.)
 └── routes/          # SvelteKit routes
     ├── admin/       # Admin panel (products, users)
-    ├── auth/        # Authentication pages
-    └── ...
+    └── auth/        # Authentication pages
 ```
 
 ## License

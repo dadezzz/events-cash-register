@@ -1,7 +1,5 @@
 import * as v from "valibot";
 import { userIdSchema } from "#lib/entities/user/id.ts";
-import { paginationSortColumns } from "#lib/entities/user/pagination.ts";
-import { paginationSchemaFactory } from "#lib/pagination.ts";
 
 export const addUserFormSchema = v.object({
   name: v.pipe(v.string(), v.nonEmpty("Input richiesto")),
@@ -21,5 +19,3 @@ export const updateUserFormSchema = v.object({
   _password: v.string(),
   username: v.pipe(v.string(), v.nonEmpty("Input richiesto")),
 });
-
-export const paginationSchema = paginationSchemaFactory(paginationSortColumns);

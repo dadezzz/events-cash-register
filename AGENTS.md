@@ -59,7 +59,6 @@ import { randomUUID } from "node:crypto";
 - Use `sqliteTable` from `drizzle-orm/sqlite-core`
 - Use custom type wrappers for IDs (e.g., `$type<UserId>()`)
 - Migrations go in `migrations/` directory
-- Run migrations with `pnpm drizzle migrate`
 
 ### Forms & Validation
 
@@ -74,38 +73,28 @@ import { randomUUID } from "node:crypto";
 - Index files re-export components for cleaner imports
 - Private components (internal to a route) go in `_components/` directories
 
-### Error Handling
-
-- Use the `#lib/error.ts` utility for error handling
-- Server errors are logged via `#lib/server/logger/`
-
-### Testing
-
-- Tests use Vitest
-- Run with: `pnpm test`
-
-## CI/CD
-
-- CI runs on push to `main` via Forgejo workflows
-- Workflows are in `.forgejo/workflows/`:
-  - `build-ci.yaml` — Build CI container image
-  - `check-formatter.yaml` — Check formatting
-  - `check-linter.yaml` — Run linter
-  - `check-syntax.yaml` — TypeScript syntax check
-  - `check-commitizen.yaml` — Commit message validation
-  - `release.yaml` — Semantic release
-- Renovate handles dependency updates
-
-## Database Schema
-
-```
-user (id, name, username, passwordHash, createdAt)
-product (id, name, price, available, createdAt)
-session (id, hashedSecret, userId, createdAt, renovatedAt, lastUsedAt, userAgent, ip)
-userPrivilege (userId, privilege)
-rateLimiterToken (token, expiresAt)
-```
-
 ## Environment Variables
 
-See `.env.example` for all available variables. Never commit `.env` files.
+See `.env.example` and `src/env.ts` for all available variables.
+
+## Package.json scripts
+
+```bash
+# Check formatting
+pnpm format:check
+
+# Fix formatting
+pnpm format:fix
+
+# Check linting
+pnpm lint:check
+
+# Fix linting
+pnpm lint:fix
+
+# Type checking
+pnpm check
+
+# Run tests with vitest
+pnpm test
+```

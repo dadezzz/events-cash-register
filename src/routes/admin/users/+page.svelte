@@ -1,21 +1,22 @@
 <script lang="ts">
   import { PlusIcon } from "phosphor-svelte";
-  import { A, Button } from "#components/controls/index.ts";
+  import { Button } from "#components/controls/index.ts";
   import { Dialog } from "#components/dialog/index.ts";
   import Form from "#components/form/Form.svelte";
   import { PasswordInput, TextInput } from "#components/form/input/index.ts";
   import { FormatDuration } from "#components/format/index.ts";
-  import Pagination from "#components/Pagination.svelte";
+  import Pagination from "#components/navigation/Pagination.svelte";
+  import { Table, TableBodyCell, TableBodyRow, TableHeadCell, TableHeadRow } from "#components/table/index.ts";
   import { Duration } from "#lib/duration.ts";
   import { User } from "#lib/entities/user/client/index.ts";
-  import type { PaginationSortColumn } from "#lib/entities/user/pagination.ts";
-  import { createUrlForPagination, getCurrentPaginationOptions, invertSortDirection } from "#lib/pagination.ts";
+  import { paginationSchema } from "#lib/entities/user/pagination.ts";
+  import { getCurrentPaginationOptions } from "#lib/pagination.ts";
   import { ADMIN_USERS_PAGE_SIZE } from "$app/env/public";
   import { page } from "$app/state";
   import DeleteUserButton from "./_components/DeleteUserButton.svelte";
   import UpdateUserButton from "./_components/UpdateUserButton.svelte";
   import { addUserForm } from "./_forms.remote.ts";
-  import { addUserFormSchema, paginationSchema } from "./_schemas.ts";
+  import { addUserFormSchema } from "./_schemas.ts";
 
   const paginationOptions = $derived(getCurrentPaginationOptions(paginationSchema, page.url));
   const users = $derived(await User.getAllAdmin(paginationOptions));
@@ -51,46 +52,38 @@
   {/snippet}
 </Dialog>
 
-{#snippet sortableTH(column: PaginationSortColumn, label: string)}
-  <th>
-    <A
-      href={paginationOptions.sortColumn === column
-        ? createUrlForPagination(page.url, { sortDirection: invertSortDirection(paginationOptions.sortDirection) }).href
-        : createUrlForPagination<PaginationSortColumn>(page.url, { sortColumn: column }).href}
-    >
-      {label}
-    </A>
-  </th>
-{/snippet}
+<Table>
+  {#snippet head()}
+    <TableHeadRow>
+      <TableHeadCell pagination={{ options: paginationOptions, columnName: "name" }}>Nome</TableHeadCell>
+      <TableHeadCell pagination={{ options: paginationOptions, columnName: "username" }}>Nome utente</TableHeadCell>
+      <TableHeadCell pagination={{ options: paginationOptions, columnName: "createdAt" }}>Creato</TableHeadCell>
+      <TableHeadCell>Permessi</TableHeadCell>
+      <TableHeadCell>Azioni</TableHeadCell>
+    </TableHeadRow>
+  {/snippet}
 
-<table>
-  <thead>
-    <tr>
-      {@render sortableTH("name", "Nome")}
-      {@render sortableTH("username", "Nome utente")}
-      {@render sortableTH("createdAt", "Creazione")}
-      <th>Permessi</th>
-      <th>Azioni</th>
-    </tr>
-  </thead>
-  <tbody>
+  {#snippet body()}
     {#each users as user (user.data.id)}
       {@const privileges = await user.getPrivilegesAdmin()}
 
-      <tr>
-        <td>{user.data.name}</td>
-        <td>{user.data.username}</td>
-        <td>
+      <TableBodyRow>
+        <TableBodyCell>{user.data.name}</TableBodyCell>
+        <TableBodyCell>{user.data.username}</TableBodyCell>
+
+        <TableBodyCell>
           <FormatDuration duration={Duration.fromMilliseconds(Date.now() - user.data.createdAt.getTime())} levels={1} /> fa
-        </td>
-        <td>{privileges}</td>
-        <td>
+        </TableBodyCell>
+
+        <TableBodyCell>{privileges}</TableBodyCell>
+
+        <TableBodyCell>
           <UpdateUserButton {user} />
           <DeleteUserButton {user} />
-        </td>
-      </tr>
+        </TableBodyCell>
+      </TableBodyRow>
     {/each}
-  </tbody>
-</table>
+  {/snippet}
+</Table>
 
 <Pagination {paginationOptions} pageSize={ADMIN_USERS_PAGE_SIZE} itemsCount={usersCount} />

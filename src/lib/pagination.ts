@@ -48,14 +48,15 @@ const SORT_DIRECTION_PARAM_NAME = "sd";
  * - `sc` – sort column
  * - `sd` – sort direction (`asc` or `desc`)
  *
- * Only the properties present in `options` will be set on the URL.
+ * Only the properties present in `options` will be set on the new URL. The rest
+ * are copied from the current URL.
  *
  * @typeParam V - The union type of valid sort column values.
  * @param currentUrl - The base URL to clone and modify.
  * @param options - Partial pagination options to merge into the URL.
  * @returns A new URL with the specified pagination parameters.
  */
-export function createUrlForPagination<V extends string>(currentUrl: URL, options: Partial<PaginationOptions<V>>) {
+export function createPaginationUrl<V extends string>(currentUrl: URL, options: Partial<PaginationOptions<V>>) {
   const newUrl = new URL(currentUrl);
 
   if (options.page) {

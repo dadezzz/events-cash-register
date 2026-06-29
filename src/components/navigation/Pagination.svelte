@@ -1,10 +1,10 @@
 <script lang="ts">
   import { Pagination } from "bits-ui";
   import { CaretLeftIcon, CaretRightIcon } from "phosphor-svelte";
-  import { createUrlForPagination, type PaginationOptions } from "#lib/pagination.ts";
+  import { Button } from "#components/controls/index.ts";
+  import { createPaginationUrl, type PaginationOptions } from "#lib/pagination.ts";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { Button } from "./controls";
 
   interface Props {
     paginationOptions: PaginationOptions<string>;
@@ -22,8 +22,8 @@
     page={paginationOptions.page}
     perPage={pageSize}
     class="flex items-center gap-1 font-semibold text-slate-600"
-    onPageChange={async (newPage) => {
-      await goto(createUrlForPagination(page.url, { page: newPage }));
+    onPageChange={async (pageNumber) => {
+      await goto(createPaginationUrl(page.url, { page: pageNumber }));
     }}
   >
     {#snippet children({ pages, currentPage })}

@@ -16,19 +16,6 @@
       "matchFileNames": [".devcontainer/**", ".forgejo/**", "ci.Dockerfile"],
       "matchUpdateTypes": ["!major"]
     },
-    // Rebuild the dockerfile when a build dependency changes.
-    {
-      "automerge": true,
-      "matchFileNames": ["packages/website/Dockerfile"],
-      "matchUpdateTypes": ["!major"],
-      "semanticCommitType": "fix"
-    },
-    // Like above but for major versions.
-    {
-      "matchFileNames": ["packages/website/Dockerfile"],
-      "matchUpdateTypes": ["major"],
-      "semanticCommitType": "feat"
-    },
     // Formatters and linters get automerged.
     {
       "automerge": true,
