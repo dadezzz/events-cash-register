@@ -8,10 +8,12 @@ export default sqliteTable("user", {
     .$type<UserId>()
     .primaryKey()
     .$default(() => randomUUID() as UserId),
+
   name: text().notNull(),
-  username: text().unique().notNull(),
-  // If password is null, then user has been deleted.
-  passwordHash: text(),
+  username: text().notNull().unique(),
+  passwordHash: text().notNull(),
+
+  deletedAt: timestamp(),
   createdAt: timestamp()
     .notNull()
     .$default(() => new Date()),

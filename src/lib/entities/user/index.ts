@@ -1,12 +1,16 @@
 import * as argon2 from "@node-rs/argon2";
-import { and, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull } from "drizzle-orm";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { SessionBatch } from "#lib/entities/session/batch.ts";
 import { NewSession } from "#lib/entities/session/index.ts";
 import { type SessionId, sqlSessionNotExpired } from "#lib/entities/session/utils.ts";
+import type { PaginationOptions } from "#lib/pagination.ts";
 import { db, s } from "#lib/server/database/index.ts";
+import { ADMIN_USERS_PAGE_SIZE } from "$app/env/public";
+import { UserBatch } from "./batch.ts";
 import { sqlDataColumns, type UserData } from "./data.ts";
 import type { UserId, UserPrivilege } from "./id.ts";
+import type { PaginationSortColumn } from "./pagination.ts";
 
 export class User {
   readonly id: UserId;
@@ -22,11 +26,59 @@ export class User {
       .where(eq(s.user.username, username))
       .then(getFirstOptional);
 
-    if (!user?.passwordHash || !(await argon2.verify(user.passwordHash, password))) {
+    if (!user || !(await argon2.verify(user.passwordHash, password))) {
       return null;
     }
 
     return new User(user.id);
+  }
+
+  static async fromUsername(username: string): Promise<User | null> {
+    const user = await db
+      .select({ id: s.user.id })
+      .from(s.user)
+      .where(eq(s.user.username, username))
+      .then(getFirstOptional);
+
+    return user ? new User(user.id) : null;
+  }
+
+  static async fromId(id: UserId): Promise<User | null> {
+    const user = await db.select({ id: s.user.id }).from(s.user).where(eq(s.user.id, id)).then(getFirstOptional);
+
+    return user ? new User(user.id) : null;
+  }
+
+  static async fromIds(ids: UserId[]): Promise<UserBatch> {
+    const users = await db.select({ id: s.user.id }).from(s.user).where(inArray(s.user.id, ids));
+    return new UserBatch(users.map((u) => u.id));
+  }
+
+  static async create(profile: { name: string; username: string; password: string }): Promise<User> {
+    const user = await db
+      .insert(s.user)
+      .values({ ...profile, passwordHash: await argon2.hash(profile.password) })
+      .returning({ id: s.user.id })
+      .then(getFirstOrThrow);
+
+    return new User(user.id);
+  }
+
+  static async getAll(options: PaginationOptions<PaginationSortColumn>): Promise<UserBatch> {
+    const users = await db
+      .select({ id: s.user.id })
+      .from(s.user)
+      .where(isNull(s.user.deletedAt))
+      .orderBy(options.sortDirection === "desc" ? desc(s.user[options.sortColumn]) : asc(s.user[options.sortColumn]))
+      .limit(ADMIN_USERS_PAGE_SIZE)
+      .offset((options.page - 1) * ADMIN_USERS_PAGE_SIZE);
+
+    return new UserBatch(users.map((u) => u.id));
+  }
+
+  static async countAll(): Promise<number> {
+    // Consider only non-deleted users.
+    return await db.$count(s.user, isNull(s.user.deletedAt));
   }
 
   async createSession(): Promise<NewSession> {
@@ -44,6 +96,17 @@ export class User {
 
   async deleteAllSessions(): Promise<void> {
     await db.delete(s.session).where(eq(s.session.userId, this.id));
+  }
+
+  async getSessions(): Promise<SessionBatch> {
+    const ids = await db
+      .select({ id: s.session.id })
+      .from(s.session)
+      .where(and(sqlSessionNotExpired, eq(s.session.userId, this.id)))
+      .orderBy(desc(s.session.createdAt))
+      .then((r) => r.map((s) => s.id));
+
+    return new SessionBatch(ids);
   }
 
   async getProfile(): Promise<UserData> {
@@ -85,18 +148,7 @@ export class User {
   async delete(): Promise<void> {
     await db.transaction(async (tx) => {
       await tx.delete(s.session).where(eq(s.session.userId, this.id));
-      await tx.update(s.user).set({ passwordHash: null }).where(eq(s.user.id, this.id));
+      await tx.update(s.user).set({ deletedAt: new Date() }).where(eq(s.user.id, this.id));
     });
-  }
-
-  async getSessions(): Promise<SessionBatch> {
-    const ids = await db
-      .select({ id: s.session.id })
-      .from(s.session)
-      .where(and(sqlSessionNotExpired, eq(s.session.userId, this.id)))
-      .orderBy(desc(s.session.createdAt))
-      .then((r) => r.map((s) => s.id));
-
-    return new SessionBatch(ids);
   }
 }

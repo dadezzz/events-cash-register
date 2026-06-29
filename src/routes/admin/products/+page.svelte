@@ -7,6 +7,7 @@
   import { FormatDuration, FormatPrice } from "#components/format/index.ts";
   import Pagination from "#components/navigation/Pagination.svelte";
   import { Table, TableBodyCell, TableBodyRow, TableHeadCell, TableHeadRow } from "#components/table/index.ts";
+  import { requireAdmin } from "#lib/auth/index.remote.ts";
   import { Duration } from "#lib/duration.ts";
   import { Product } from "#lib/entities/products/client/index.ts";
   import { paginationSchema } from "#lib/entities/products/pagination.ts";
@@ -17,6 +18,8 @@
   import UpdateProductButton from "./_components/UpdateProductButton.svelte";
   import { addProductForm } from "./_forms.remote.ts";
   import { addProductFormSchema } from "./_schemas.ts";
+
+  await requireAdmin();
 
   const paginationOptions = $derived(getCurrentPaginationOptions(paginationSchema, page.url));
   const products = $derived(await Product.getAll(paginationOptions));

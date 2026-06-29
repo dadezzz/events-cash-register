@@ -9,11 +9,11 @@ export default sqliteTable("product", {
     .primaryKey()
     .$default(() => randomUUID() as ProductId),
 
-  name: text().notNull().unique(),
+  name: text().notNull(),
   price: int().notNull(),
   available: boolean().notNull(),
-  deletedAt: timestamp(),
 
+  deletedAt: timestamp(),
   createdAt: timestamp()
     .notNull()
     .$default(() => new Date()),

@@ -1,7 +1,6 @@
 import { Session } from "#lib/entities/session/index.ts";
 import { AdminUser } from "#lib/entities/user/admin.ts";
 import type { User } from "#lib/entities/user/index.ts";
-import { Operator } from "#lib/entities/user/operator.ts";
 import { e } from "#lib/error.ts";
 import { LocalsCache } from "#lib/server/locals-cache.ts";
 import { getRequestEvent } from "$app/server";
@@ -25,22 +24,6 @@ export async function getUser(): Promise<User | null> {
 export async function requireUser(): Promise<User> {
   const user = await getUser();
   if (user) return user;
-  throw e.requireSignIn(getRequestEvent().url.pathname);
-}
-
-export async function getOperator(): Promise<Operator | null> {
-  const user = await getUser();
-
-  if (user) {
-    return new Operator(user);
-  }
-
-  return null;
-}
-
-export async function requireOperator(): Promise<Operator> {
-  const operator = await getOperator();
-  if (operator) return operator;
   throw e.requireSignIn(getRequestEvent().url.pathname);
 }
 
