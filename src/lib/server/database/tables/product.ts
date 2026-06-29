@@ -12,6 +12,9 @@ export default sqliteTable("product", {
   name: text().notNull().unique(),
   price: int().notNull(),
   available: boolean().notNull(),
+  deleted: boolean()
+    .notNull()
+    .$default(() => false),
 
   createdAt: timestamp()
     .notNull()
