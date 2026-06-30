@@ -14,6 +14,7 @@
 
   const { user }: Props = $props();
 
+  const form = $derived(updateUserForm.for(user.data.id).preflight(updateUserFormSchema));
   let dialogOpen = $state(false);
 </script>
 
@@ -28,19 +29,15 @@
       <h2>Modifica utente</h2>
 
       <Form
-        form={updateUserForm.preflight(updateUserFormSchema)}
+        {form}
         onresult={() => {
           dialogOpen = false;
         }}
       >
-        <HiddenInput field={updateUserForm.fields.id} value={user.data.id} />
-        <TextInput field={updateUserForm.fields.name} label="Nome" value={user.data.name} />
-        <TextInput
-          field={updateUserForm.fields.username}
-          label="Nome utente (usato per l'accesso)"
-          value={user.data.username}
-        />
-        <PasswordInput field={updateUserForm.fields._password} label="Password" />
+        <HiddenInput field={form.fields.id} value={user.data.id} />
+        <TextInput field={form.fields.name} label="Nome" value={user.data.name} />
+        <TextInput field={form.fields.username} label="Nome utente (usato per l'accesso)" value={user.data.username} />
+        <PasswordInput field={form.fields._password} label="Password" />
 
         <Button type="submit">Modifica</Button>
       </Form>

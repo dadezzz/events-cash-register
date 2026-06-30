@@ -55,7 +55,10 @@ export class Product {
   }
 
   async delete(): Promise<void> {
-    await db.update(s.product).set({ deletedAt: new Date() }).where(eq(s.product.id, this.id));
+    await db.transaction(async (tx) => {
+      await tx.update(s.productOption).set({ deletedAt: new Date() }).where(eq(s.productOption.productId, this.id));
+      await tx.update(s.product).set({ deletedAt: new Date() }).where(eq(s.product.id, this.id));
+    });
   }
 
   async addOption(name: string, data: ProductOptionDBData): Promise<void> {

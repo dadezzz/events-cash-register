@@ -1,9 +1,4 @@
 <script lang="ts">
-  import { PlusIcon } from "phosphor-svelte";
-  import { Button } from "#components/controls/index.ts";
-  import { Dialog } from "#components/dialog/index.ts";
-  import Form from "#components/form/Form.svelte";
-  import { PasswordInput, TextInput } from "#components/form/input/index.ts";
   import { FormatDuration } from "#components/format/index.ts";
   import Pagination from "#components/navigation/Pagination.svelte";
   import { Table, TableBodyCell, TableBodyRow, TableHeadCell, TableHeadRow } from "#components/table/index.ts";
@@ -13,44 +8,16 @@
   import { getCurrentPaginationOptions } from "#lib/pagination.ts";
   import { ADMIN_USERS_PAGE_SIZE } from "$app/env/public";
   import { page } from "$app/state";
-  import DeleteUserButton from "./_components/DeleteUserButton.svelte";
-  import UpdateUserButton from "./_components/UpdateUserButton.svelte";
-  import { addUserForm } from "./_forms.remote.ts";
-  import { addUserFormSchema } from "./_schemas.ts";
+  import AddUserDialog from "./_components/AddUserDialog.svelte";
+  import DeleteUserDialog from "./_components/DeleteUserDialog.svelte";
+  import UpdateUserDialog from "./_components/UpdateUserDialog.svelte";
 
   const paginationOptions = $derived(getCurrentPaginationOptions(paginationSchema, page.url));
   const users = $derived(await User.getAllAdmin(paginationOptions));
   const usersCount = $derived(await User.countAllAdmin());
-
-  let addUserDialogOpen = $state(false);
 </script>
 
-<Dialog bind:open={addUserDialogOpen}>
-  {#snippet trigger({ props })}
-    <Button type="button" {...props} class="font-bold bg-black text-white flex items-center gap-2 p-1 px-3 rounded-md">
-      <PlusIcon class="size-5" />
-      <span>Nuovo</span>
-    </Button>
-  {/snippet}
-  {#snippet content({ props })}
-    <div {...props} class="fixed top-1/2 bg-white left-1/2 z-50 -translate-1/2">
-      <h2>Aggiungi utente</h2>
-
-      <Form
-        form={addUserForm.preflight(addUserFormSchema)}
-        onresult={() => {
-          addUserDialogOpen = false;
-        }}
-      >
-        <TextInput field={addUserForm.fields.name} label="Nome" />
-        <TextInput field={addUserForm.fields.username} label="Nome utente (usato per l'accesso)" />
-        <PasswordInput field={addUserForm.fields._password} label="Password" />
-
-        <Button type="submit">Crea</Button>
-      </Form>
-    </div>
-  {/snippet}
-</Dialog>
+<AddUserDialog />
 
 <Table>
   {#snippet head()}
@@ -78,8 +45,8 @@
         <TableBodyCell>{privileges}</TableBodyCell>
 
         <TableBodyCell>
-          <UpdateUserButton {user} />
-          <DeleteUserButton {user} />
+          <UpdateUserDialog {user} />
+          <DeleteUserDialog {user} />
         </TableBodyCell>
       </TableBodyRow>
     {/each}

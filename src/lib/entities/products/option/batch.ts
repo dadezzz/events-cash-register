@@ -5,8 +5,7 @@ import { db, s } from "#lib/server/database/index.ts";
 import { ProductOption as ProductOptionClient } from "./client.ts";
 import { sqlDataColumns } from "./data.ts";
 import type { ProductOptionId } from "./id.ts";
-import type { ProductOptionValue } from "./index.ts";
-import { productOptionBooleanValueSchema, productOptionChoiceValueSchema } from "./schema.ts";
+import { type ProductOptionValue, productOptionBooleanValueSchema, productOptionChoiceValueSchema } from "./index.ts";
 
 export class ProductOptionBatch extends Batch<ProductOptionId> {
   async getPrices(

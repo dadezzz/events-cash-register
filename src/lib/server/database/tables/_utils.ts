@@ -11,3 +11,9 @@ export const boolean = customType<{ data: boolean }>({
   fromDriver: (t) => t === 1,
   toDriver: (b) => (b ? 1 : 0),
 });
+
+export const json = customType<{ data: unknown }>({
+  dataType: () => "text",
+  fromDriver: (t) => JSON.parse(t as string),
+  toDriver: (d) => JSON.stringify(d),
+});

@@ -7,3 +7,9 @@ export function getFirstOrThrow<T>(t: T[]): T {
   if (!t0) throw new Error("first array element is not defined");
   return t0;
 }
+
+export function* iteratorToNumber(start: number, end: number) {
+  for (let i = start; i < end; i++) {
+    yield i;
+  }
+}
