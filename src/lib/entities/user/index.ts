@@ -9,8 +9,10 @@ import { db, s } from "#lib/server/database/index.ts";
 import { ADMIN_USERS_PAGE_SIZE } from "$app/env/public";
 import { UserBatch } from "./batch.ts";
 import { sqlDataColumns, type UserData } from "./data.ts";
-import type { UserId, UserPrivilege } from "./id.ts";
+import type { UserId } from "./id.ts";
 import type { PaginationSortColumn } from "./pagination.ts";
+
+export type UserPrivilege = "ADMIN";
 
 export class User {
   readonly id: UserId;
@@ -77,7 +79,6 @@ export class User {
   }
 
   static async countAll(): Promise<number> {
-    // Consider only non-deleted users.
     return await db.$count(s.user, isNull(s.user.deletedAt));
   }
 

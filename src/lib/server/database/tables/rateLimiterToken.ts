@@ -1,5 +1,5 @@
 import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { timestamp } from "./utils.ts";
+import { timestamp } from "./_utils.ts";
 
 const columns = {
   // Each rate limiter should use a different bucketGroup, then for each client

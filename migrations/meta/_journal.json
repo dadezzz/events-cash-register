@@ -5,43 +5,15 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1782396469386,
-      "tag": "0000_ordinary_firestar",
+      "when": 1782753613225,
+      "tag": "0000_tired_wolf_cub",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "6",
-      "when": 1782398721068,
-      "tag": "0001_pink_young_avengers",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1782406436275,
-      "tag": "0002_modern_silver_samurai",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1782409212536,
-      "tag": "0003_glamorous_reaper",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1782659267470,
-      "tag": "0004_clean_sandman",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "6",
-      "when": 1782733051839,
-      "tag": "0005_wakeful_wilson_fisk",
+      "when": 1782815831835,
+      "tag": "0001_flippant_klaw",
       "breakpoints": true
     }
   ]

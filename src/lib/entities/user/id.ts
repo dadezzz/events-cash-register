@@ -8,5 +8,3 @@ export const userIdSchema = v.pipe(
   v.uuid(),
   v.transform((i) => i as UserId),
 );
-
-export type UserPrivilege = "ADMIN";

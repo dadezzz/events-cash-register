@@ -1,3 +1,5 @@
+import * as v from "valibot";
+
 /**
  * Converts the price amount to a euros string where cents are always 2 digits.
  *
@@ -18,3 +20,5 @@ export function priceToString(price: number): string {
 
   return `${euros}.${cents}`;
 }
+
+export const priceSchema = v.pipe(v.number("Input richiesto"), v.minValue(0.0, "Il prezzo non può essere negativo"));

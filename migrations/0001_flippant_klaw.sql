@@ -1,0 +1,1 @@
+CREATE INDEX `productOption_productId` ON `productOption` (`productId`);

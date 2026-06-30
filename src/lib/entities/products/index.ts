@@ -1,4 +1,4 @@
-import { asc, desc, eq, isNull } from "drizzle-orm";
+import { and, asc, desc, eq, isNull } from "drizzle-orm";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import type { PaginationOptions } from "#lib/pagination.ts";
 import { db, s } from "#lib/server/database/index.ts";
@@ -6,6 +6,9 @@ import { ADMIN_PRODUCTS_PAGE_SIZE } from "$app/env/public";
 import { ProductBatch } from "./batch.ts";
 import type { ProductData } from "./data.ts";
 import type { ProductId } from "./id.ts";
+import { ProductOptionBatch } from "./option/batch.ts";
+import type { ProductOptionId } from "./option/id.ts";
+import type { ProductOptionDBData } from "./option/index.ts";
 import type { PaginationSortColumn } from "./pagination.ts";
 
 export class Product {
@@ -29,14 +32,6 @@ export class Product {
     return new Product(product.id);
   }
 
-  async update(data: Omit<ProductData, "createdAt" | "id" | "deletedAt">): Promise<void> {
-    await db.update(s.product).set(data).where(eq(s.product.id, this.id));
-  }
-
-  async delete(): Promise<void> {
-    await db.update(s.product).set({ deletedAt: new Date() }).where(eq(s.product.id, this.id));
-  }
-
   static async countAll(): Promise<number> {
     return await db.$count(s.product, isNull(s.product.deletedAt));
   }
@@ -53,5 +48,33 @@ export class Product {
       .offset((options.page - 1) * ADMIN_PRODUCTS_PAGE_SIZE);
 
     return new ProductBatch(products.map((p) => p.id));
+  }
+
+  async update(data: Omit<ProductData, "createdAt" | "id" | "deletedAt">): Promise<void> {
+    await db.update(s.product).set(data).where(eq(s.product.id, this.id));
+  }
+
+  async delete(): Promise<void> {
+    await db.update(s.product).set({ deletedAt: new Date() }).where(eq(s.product.id, this.id));
+  }
+
+  async addOption(name: string, data: ProductOptionDBData): Promise<void> {
+    await db.insert(s.productOption).values({ productId: this.id, name, data });
+  }
+
+  async getOptions(): Promise<ProductOptionBatch> {
+    const options = await db
+      .select({ id: s.productOption.id })
+      .from(s.productOption)
+      .where(and(eq(s.productOption.productId, this.id), isNull(s.productOption.deletedAt)));
+
+    return new ProductOptionBatch(options.map((o) => o.id));
+  }
+
+  async deleteOption(id: ProductOptionId): Promise<void> {
+    await db
+      .update(s.productOption)
+      .set({ deletedAt: new Date() })
+      .where(and(eq(s.productOption.productId, this.id), eq(s.productOption.id, id)));
   }
 }
