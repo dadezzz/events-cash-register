@@ -1,7 +1,28 @@
 {
+  "type": "module",
+  "imports": {
+    "#assets/*": "./src/assets/*",
+    "#components/*": "./src/components/*",
+    "#lib/*": "./src/lib/*",
+    "#routes/*": "./src/routes/*"
+  },
+  "scripts": {
+    "build": "svelte-kit sync && vite build",
+    "check": "svelte-kit sync && svelte-check --tsconfig tsconfig.json",
+    "clean": "rm -rf ./dist ./node_modules ./.svelte-kit",
+    "dev": "svelte-kit sync && vite dev",
+    "drizzle": "drizzle-kit",
+    "format:check": "biome format && prettier --check .",
+    "format:fix": "biome format --fix && prettier --write .",
+    "lint:check": "biome check",
+    "lint:fix": "biome check --fix",
+    "setup": "if [ ! -f .env ]; then cp .env.example .env ; fi",
+    "test": "vitest run"
+  },
   "dependencies": {
     "@libsql/client": "0.17.4",
     "@node-rs/argon2": "2.0.2",
+    "@workspace/cups": "workspace:*",
     "drizzle-orm": "0.45.2",
     "valibot": "1.4.1"
   },
@@ -24,24 +45,5 @@
     "typescript": "6.0.3",
     "vite": "8.1.0",
     "vitest": "4.1.9"
-  },
-  "imports": {
-    "#assets/*": "./src/assets/*",
-    "#components/*": "./src/components/*",
-    "#lib/*": "./src/lib/*",
-    "#routes/*": "./src/routes/*"
-  },
-  "scripts": {
-    "build": "svelte-kit sync && vite build",
-    "check": "svelte-kit sync && svelte-check --tsconfig tsconfig.json",
-    "clean": "rm -rf ./dist ./node_modules ./.svelte-kit",
-    "dev": "svelte-kit sync && vite dev",
-    "drizzle": "drizzle-kit",
-    "format:check": "biome format && prettier --check .",
-    "format:fix": "biome format --fix && prettier --write .",
-    "lint:check": "biome check",
-    "lint:fix": "biome check --fix",
-    "test": "vitest run"
-  },
-  "type": "module"
+  }
 }

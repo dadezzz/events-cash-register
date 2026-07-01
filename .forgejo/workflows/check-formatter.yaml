@@ -5,7 +5,7 @@ concurrency:
 jobs:
   check:
     container:
-      image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:422ed21e1f2a4a194e3b179c0ac231d7dba88b1da8d77d380f64af5fbed000ca
+      image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:6789317d94593eaa5f4e3d1db05a83ef859b7dbaa27a8550241da2ee2819c0b2
       volumes:
         - forgejo-runner-cache-pnpm:/usr/local/pnpm/store
     name: Checks with formatters
@@ -18,7 +18,9 @@ jobs:
       - name: Install dependencies with pnpm
         run: pnpm install
       - name: Run formatter
-        run: pnpm run format:check
+        run: |
+          pnpm run -r --no-sort --aggregate-output setup
+          pnpm run -r --no-sort --aggregate-output format:check
 
 name: check-formatter.yaml
 

@@ -32,20 +32,17 @@ pnpm install
 cp .env.example .env
 
 # Build the project.
-pnpm build
+pnpm run -r --aggregate-output build
 ```
 
 ## Project Structure
 
 ```
+migrations/          # Database migration files
+cups/                # NAPI bindings to libcups 2
 src/
 ├── assets/          # Static assets (images, icons)
 ├── components/      # Reusable Svelte components
-│   ├── controls/    # Button, Link, etc.
-│   ├── dialog/      # Modal dialogs
-│   ├── form/        # Form components with validation
-│   ├── format/      # Date, duration, price formatters
-│   └── navigation/  # Navigation, breadcrumbs, progress bars
 ├── lib/             # Shared library code
 │   ├── auth/        # Authentication logic
 │   ├── entities/    # Domain entities (user, product, session)

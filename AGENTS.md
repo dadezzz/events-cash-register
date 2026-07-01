@@ -79,22 +79,25 @@ See `.env.example` and `src/env.ts` for all available variables.
 
 ## Package.json scripts
 
+This project uses a pnpm workspace (root + `cups/`). When running scripts that
+apply to all workspaces, use `pnpm run -r` (or `pnpm -r`):
+
 ```bash
-# Check formatting
-pnpm format:check
+# Check formatting across all workspaces
+pnpm run -r format:check
 
-# Fix formatting
-pnpm format:fix
+# Fix formatting across all workspaces
+pnpm run -r format:fix
 
-# Check linting
-pnpm lint:check
+# Check linting across all workspaces
+pnpm run -r lint:check
 
-# Fix linting
-pnpm lint:fix
+# Fix linting across all workspaces
+pnpm run -r lint:fix
 
-# Type checking
+# Type checking (only root package)
 pnpm check
 
-# Run tests with vitest
+# Run tests with vitest (only root package)
 pnpm test
 ```

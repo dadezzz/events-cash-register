@@ -5,7 +5,7 @@ concurrency:
 jobs:
   check:
     container:
-      image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:422ed21e1f2a4a194e3b179c0ac231d7dba88b1da8d77d380f64af5fbed000ca
+      image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:6789317d94593eaa5f4e3d1db05a83ef859b7dbaa27a8550241da2ee2819c0b2
       volumes:
         - forgejo-runner-cache-pnpm:/usr/local/pnpm/store
     name: Check that project builds
@@ -17,10 +17,10 @@ jobs:
           git checkout --quiet ${{ forge.sha }};
       - name: Install dependencies with pnpm
         run: pnpm install
-      - name: Copy .env.example to .env
-        run: cp .env.example .env
       - name: Build the website
-        run: pnpm run build
+        run: |
+          pnpm run -r --no-sort --aggregate-output setup
+          pnpm run -r --aggregate-output build
 
 name: check-build.yaml
 
