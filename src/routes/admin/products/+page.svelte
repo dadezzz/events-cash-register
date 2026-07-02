@@ -46,7 +46,7 @@
         <TableBodyCell>{options.length}</TableBodyCell>
 
         <TableBodyCell>
-          <FormatDuration duration={Duration.fromMilliseconds(Date.now() - product.data.createdAt.getTime())} />
+          <FormatDuration duration={Duration.fromDate(product.data.createdAt)} />
           fa
         </TableBodyCell>
 

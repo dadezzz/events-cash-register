@@ -39,7 +39,7 @@
         <TableBodyCell>{user.data.username}</TableBodyCell>
 
         <TableBodyCell>
-          <FormatDuration duration={Duration.fromMilliseconds(Date.now() - user.data.createdAt.getTime())} />
+          <FormatDuration duration={Duration.fromDate(user.data.createdAt)} />
           fa
         </TableBodyCell>
 
