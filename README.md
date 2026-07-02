@@ -22,17 +22,20 @@ A web-based cash register application for event management, built with
 
 Prerequisites:
 
-- Node.js 20+
-- pnpm
+- clang++ or g++ (c++23 compiler)
+- cups-dev (cups/cups.h for development) or cups-libs (libcups.so.2 for
+  production)
+- meson (c++ build system)
+- ninja (c++ build system)
+- node.js (js server runtime)
+- pnpm (js package manager)
 
 ```bash
 pnpm install
 
-# Copy the example environment file and configure it.
-cp .env.example .env
-
 # Build the project.
-pnpm run -r --aggregate-output build
+pnpm run -r --no-sort setup
+pnpm run -r build
 ```
 
 ## Project Structure

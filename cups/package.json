@@ -2,14 +2,15 @@
   "name": "@workspace/cups",
   "type": "module",
   "exports": {
-    ".": "./src/binding.ts"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "setup": "meson setup build",
     "build": "meson compile -C build",
     "format:check": "ninja -C build clang-format-check",
     "format:fix": "ninja -C build clang-format",
-    "lint:check": "ninja -C build clang-tidy"
+    "lint:check": "ninja -C build clang-tidy",
+    "lint:fix": "ninja -C build clang-tidy-fix"
   },
   "dependencies": {
     "node-addon-api": "8.9.0"

@@ -1,2 +1,8 @@
-BasedOnStyle: Chromium
+BasedOnStyle: Google
 IncludeBlocks: Regroup
+BinPackArguments: false
+# PackArguments:
+#   BinPack: UseBreakAfter
+BinPackParameters: false
+# PackParameters:
+#   BinPack: UseBreakAfter

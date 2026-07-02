@@ -80,20 +80,20 @@ See `.env.example` and `src/env.ts` for all available variables.
 ## Package.json scripts
 
 This project uses a pnpm workspace (root + `cups/`). When running scripts that
-apply to all workspaces, use `pnpm run -r` (or `pnpm -r`):
+apply to all workspaces, use `pnpm run -r`:
 
 ```bash
 # Check formatting across all workspaces
-pnpm run -r format:check
+pnpm run -r --no-sort format:check
 
 # Fix formatting across all workspaces
-pnpm run -r format:fix
+pnpm run -r --no-sort format:fix
 
 # Check linting across all workspaces
-pnpm run -r lint:check
+pnpm run -r --no-sort lint:check
 
 # Fix linting across all workspaces
-pnpm run -r lint:fix
+pnpm run -r --no-sort lint:fix
 
 # Type checking (only root package)
 pnpm check

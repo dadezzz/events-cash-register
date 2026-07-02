@@ -1,14 +1,21 @@
-#include <cups/cups.h>
+// Libcups v2 docs:
+// https://www.cups.org/doc/cupspm.html
+// Libcups v3 docs (it's similar and they have dark mode):
+// https://openprinting.github.io/cups/libcups/cupspm.html
+// node-addon-api docs:
+// https://github.com/nodejs/node-addon-api/tree/main/doc
+
 #include <napi.h>
 
-Napi::String helloWorld(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
-  return Napi::String::New(env, "world");
-}
+#include "cups-get-dests.h"
+#include "http-connect-uri.h"
 
 Napi::Object init(Napi::Env env, Napi::Object exports) {
-  exports.Set("helloWorld", Napi::Function::New(env, helloWorld));
+  exports.Set("httpConnectUri",
+              Napi::Function::New(env, httpConnectUriWrapper));
+  exports.Set("cupsGetDests", Napi::Function::New(env, cupsGetDestsWrapper));
+
   return exports;
 }
 
-NODE_API_MODULE(addon, init)
+NODE_API_MODULE(cups, init)

@@ -1,8 +1,15 @@
 import { createRequire } from "node:module";
+import type { CupsConnectionData, CupsPrinterData } from "./index.ts";
 
 const require = createRequire(import.meta.url);
-const cups = require("../build/cups.node");
+const lib = require("../build/cups.node");
 
-export function helloWorld(): string {
-  return cups.helloWorld();
+export function httpConnectUri(url: string): Promise<CupsConnectionData> {
+  return lib.httpConnectUri(url);
+}
+
+export function cupsGetDests(
+  connection: CupsConnectionData,
+): Promise<{ name: string; default: boolean; data: CupsPrinterData }[]> {
+  return lib.cupsGetDests(connection);
 }

@@ -1,8 +1,12 @@
 .env
-.svelte-kit/
+# Created at the root of the repo when pnpm store-dir is not defined.
 .pnpm-store/
+.svelte-kit/
+# Clangd index folder.
+/cups/.cache/
+build/
+# Database folder, so we don't have to re-create it every time.
 data/**
 !data/.gitkeep
 dist/
 node_modules/
-/cups/build/
