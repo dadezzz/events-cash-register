@@ -21,9 +21,7 @@
 
 {#snippet wrappedEntryUI(entry: Entry<T>)}
   <li>
-    <A href={entry.href} class="group focus:outline-none">
-      {@render entryUI(entry)}
-    </A>
+    <A href={entry.href} class="group focus:outline-none">{@render entryUI(entry)}</A>
   </li>
 {/snippet}
 

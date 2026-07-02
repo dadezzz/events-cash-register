@@ -18,7 +18,8 @@
         {...inputProps}
         {...field.as("text")}
         class="rounded-md border border-slate-300 px-3 py-2 outline-red-300 hover:border-red-500 focus:outline-3"
-        {...rest}></textarea>
+        {...rest}
+      ></textarea>
 
       <FieldErrors {...errorProps} />
     </div>

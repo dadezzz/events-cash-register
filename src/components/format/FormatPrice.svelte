@@ -11,7 +11,8 @@
 
 <span {...rest} class={["text-nowrap select-all", rest.class]}>
   {#if price !== null}
-    {priceToString(price)} €
+    {priceToString(price)}
+    €
   {:else}
     -- €
   {/if}

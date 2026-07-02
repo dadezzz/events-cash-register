@@ -2,19 +2,10 @@
   "$schema": "https://json.schemastore.org/prettierrc.json",
   "overrides": [
     {
-      "files": ["*.svelte", "*.md"],
+      "files": ["*.md"],
       "options": {
         "proseWrap": "always"
       }
-    },
-    {
-      "files": ["*.svelte"],
-
-      "options": {
-        "parser": "svelte",
-        "printWidth": 120
-      }
     }
-  ],
-  "plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"]
+  ]
 }

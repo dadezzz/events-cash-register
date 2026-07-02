@@ -12,6 +12,7 @@
 <Field {field}>
   {#snippet children({ errorProps, inputProps, labelProps })}
     <div class="flex flex-col gap-2">
+      <!-- biome-ignore lint/a11y/noLabelWithoutControl: For attribute is set by labelprops :| -->
       <label
         {...labelProps}
         class="group flex w-fit items-center gap-2 text-sm text-slate-500 transition-colors data-[invalid=true]:text-red-800"

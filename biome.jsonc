@@ -24,7 +24,7 @@
   "html": {
     "experimentalFullSupportEnabled": true,
     "formatter": {
-      "enabled": false,
+      "enabled": true,
       "indentScriptAndStyle": true,
       "selfCloseVoidElements": "always"
     }
@@ -45,30 +45,6 @@
       }
     }
   },
-
-  "overrides": [
-    {
-      "includes": ["**/*.svelte"],
-      "linter": {
-        "rules": {
-          "correctness": {
-            "noUnusedFunctionParameters": "off"
-          }
-        }
-      }
-    },
-
-    {
-      "includes": ["./src/app.html"],
-      "linter": {
-        "rules": {
-          "a11y": {
-            "useValidLang": "off"
-          }
-        }
-      }
-    }
-  ],
 
   // We need to set every ignored file in the root .gititgnore or extend this
   // configuration with a biome.jsonc file inside every package.

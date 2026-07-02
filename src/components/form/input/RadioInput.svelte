@@ -42,6 +42,7 @@
     <input id="{id}-values-{entry.value}" {...field.as("radio", entry.value)} class="sr-only" />
 
     <!-- To style children use the prefix group-has-[input:checked]/radio: -->
+    <!-- biome-ignore lint/a11y/noLabelWithoutControl: There is a for attribute :| -->
     <label for="{id}-values-{entry.value}">
       {@render entryUI({ checked: field.value() === entry.value, label: entry.label })}
     </label>
