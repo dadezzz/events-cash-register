@@ -3,7 +3,7 @@ FROM docker.io/library/node:26.4.0-alpine@sha256:725aeba2364a9b16beae49e180d83bd
 RUN apk add --no-cache cups-dev curl g++ clang-extra-tools git meson
 
 # renovate: datasource=npm depName=pnpm versioning=npm
-ENV PNPM_VERSION="11.9.0"
+ENV PNPM_VERSION="11.10.0"
 
 RUN --mount=type=cache,sharing=locked,target=/root/.npm npm install -g "pnpm@$PNPM_VERSION"
 
