@@ -3,7 +3,7 @@ import { priceSchema } from "#lib/price.ts";
 
 export const productOptionChoiceMinEntries = 2;
 
-export const productOptionDBDataSchema = v.variant(
+export const productOptionDataColumnSchema = v.variant(
   "type",
   [
     v.object({
@@ -26,7 +26,7 @@ export const productOptionDBDataSchema = v.variant(
   "Scegliere una tipologia di opzione",
 );
 
-export type ProductOptionDBData = v.InferOutput<typeof productOptionDBDataSchema>;
+export type ProductOptionDataColumn = v.InferOutput<typeof productOptionDataColumnSchema>;
 
 export const productOptionBooleanValueSchema = v.boolean();
 

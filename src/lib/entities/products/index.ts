@@ -8,7 +8,7 @@ import type { ProductData } from "./data.ts";
 import type { ProductId } from "./id.ts";
 import { ProductOptionBatch } from "./option/batch.ts";
 import type { ProductOptionId } from "./option/id.ts";
-import type { ProductOptionDBData } from "./option/index.ts";
+import type { ProductOptionDataColumn } from "./option/index.ts";
 import type { PaginationSortColumn } from "./pagination.ts";
 
 export class Product {
@@ -61,7 +61,7 @@ export class Product {
     });
   }
 
-  async addOption(name: string, data: ProductOptionDBData): Promise<void> {
+  async addOption(name: string, data: ProductOptionDataColumn): Promise<void> {
     await db.insert(s.productOption).values({ productId: this.id, name, data });
   }
 

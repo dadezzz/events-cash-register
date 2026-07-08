@@ -2,7 +2,9 @@ import { and, eq, inArray } from "drizzle-orm";
 import type { User } from "#lib/entities/user/index.ts";
 import { Batch, BatchRows } from "#lib/server/batch.ts";
 import { db, s } from "#lib/server/database/index.ts";
-import { type SessionData, type SessionId, sqlDataColumns, sqlSessionNotExpired } from "./utils.ts";
+import { type SessionData, sqlDataColumns } from "./data.ts";
+import type { SessionId } from "./id.ts";
+import { sqlSessionNotExpired } from "./utils.ts";
 
 /** Allows to perform batch operations on an arbitrary set of sessions. */
 export class SessionBatch extends Batch<SessionId> {

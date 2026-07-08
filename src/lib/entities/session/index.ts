@@ -6,7 +6,8 @@ import { generateRandomString } from "#lib/server/random.ts";
 import { deleteCookie, getCookie, setCookie } from "#lib/server/request/cookie.ts";
 import { getRequestClientIp, getRequestHeader, getRequestHeadersHash } from "#lib/server/request/index.ts";
 import { SESSION_COOKIE_NAME, SESSION_EXPIRE_AFTER, SESSION_RENOVATE_AFTER } from "$app/env/private";
-import { headersToHash, type SessionId, type SessionIdHash, sqlSessionNotExpired } from "./utils.ts";
+import { headersToHash, type SessionId, type SessionIdHash } from "./id.ts";
+import { sqlSessionNotExpired } from "./utils.ts";
 
 export class Session {
   readonly id: SessionId;

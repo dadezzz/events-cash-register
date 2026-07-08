@@ -31,7 +31,7 @@ export async function initCreateAdmin() {
     await admin.addPrivilege("ADMIN");
 
     const logger = new Logger();
-    logger.info("found 0 users in the system");
+    logger.warn("found 0 users in the system");
     logger.info({
       message: "created new default admin user",
       username: INITIAL_ADMIN_USERNAME,

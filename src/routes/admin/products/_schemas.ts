@@ -1,7 +1,7 @@
 import * as v from "valibot";
 import { productIdSchema } from "#lib/entities/products/id.ts";
 import { productOptionIdSchema } from "#lib/entities/products/option/id.ts";
-import { productOptionDBDataSchema } from "#lib/entities/products/option/index.ts";
+import { productOptionDataColumnSchema } from "#lib/entities/products/option/index.ts";
 import { priceSchema } from "#lib/price.ts";
 
 export const addProductFormSchema = v.object({
@@ -13,7 +13,7 @@ export const addProductFormSchema = v.object({
     v.array(
       v.object({
         name: v.pipe(v.string(), v.nonEmpty("Input richiesto")),
-        data: productOptionDBDataSchema,
+        data: productOptionDataColumnSchema,
       }),
     ),
   ),
@@ -33,7 +33,7 @@ export const updateProductFormSchema = v.object({
 export const addProductOptionFormSchema = v.object({
   productId: productIdSchema,
   name: v.pipe(v.string(), v.nonEmpty("Input richiesto")),
-  data: productOptionDBDataSchema,
+  data: productOptionDataColumnSchema,
 });
 
 export const deleteProductOptionFormSchema = v.object({

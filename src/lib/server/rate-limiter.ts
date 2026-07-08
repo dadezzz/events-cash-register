@@ -69,7 +69,7 @@ export class RateLimiter {
     }
 
     const logger = new Logger();
-    logger.info({ message: "initialized logger", bucketGroup: this.bucketGroup });
+    logger.info({ message: "initialized rate-limiter", bucketGroup: this.bucketGroup });
   }
 
   /**
