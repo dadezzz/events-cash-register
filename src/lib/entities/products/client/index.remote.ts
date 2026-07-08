@@ -1,6 +1,6 @@
 import { requireUser } from "#lib/auth/index.server.ts";
-import { e } from "#lib/error.ts";
 import { query } from "$app/server";
+import { ProductBatch } from "../batch.ts";
 import { productIdSchema } from "../id.ts";
 import { Product } from "../index.ts";
 import { paginationSchema } from "../pagination.ts";
@@ -17,16 +17,10 @@ export const getAll = query(paginationSchema, async (options) => {
   return batch.ids.map((id) => clients.get(id)).filter((c) => c !== null);
 });
 
-export const getOptions = query(productIdSchema, async (id) => {
+export const getOptions = query.batch(productIdSchema, async (ids) => {
   await requireUser();
+  const batch = await ProductBatch.fromIds(ids);
+  const options = await batch.getOptions();
 
-  const product = await Product.fromId(id);
-
-  if (!product) {
-    throw e.error404();
-  }
-
-  const batch = await product.getOptions();
-  const clients = await batch.getClients();
-  return clients.values().toArray();
+  return (id) => options.get(id) ?? [];
 });
