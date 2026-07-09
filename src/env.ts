@@ -61,6 +61,10 @@ export const variables = defineEnvVars({
     description: "Path to folder containing migrations sql files",
   },
 
+  CUPS_URL: {
+    description: "Url of the CUPS server",
+  },
+
   ADMIN_USERS_PAGE_SIZE: {
     description: "User entries per page in admin dashboard",
     schema: integerSchema,

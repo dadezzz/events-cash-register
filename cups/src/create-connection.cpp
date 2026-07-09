@@ -6,15 +6,15 @@
 
 #include <array>
 
-class HttpConnectUriWorker : public Napi::AsyncWorker {
+class CreateConnectionWorker : public Napi::AsyncWorker {
  private:
   const Napi::Promise::Deferred deferred;
-  const std::string uri;
-  http_t* connection = nullptr;
+  const std::string url;
+  http_t* connection;
 
  public:
-  HttpConnectUriWorker(Napi::Env env, Napi::String url)
-      : Napi::AsyncWorker(env), deferred(env), uri(url.Utf8Value()) {}
+  CreateConnectionWorker(Napi::Env env, Napi::String url)
+      : Napi::AsyncWorker(env), deferred(env), url(url.Utf8Value()) {}
 
   Napi::Promise getDeferred() { return this->deferred.Promise(); }
 
@@ -29,20 +29,20 @@ class HttpConnectUriWorker : public Napi::AsyncWorker {
 
     int port;
 
-    const auto status = httpSeparateURI(HTTP_URI_CODING_HOSTNAME,
-                                        this->uri.c_str(),
-                                        schemeBuf.data(),
-                                        schemeBuf.size(),
-                                        usernameBuf.data(),
-                                        usernameBuf.size(),
-                                        hostBuf.data(),
-                                        hostBuf.size(),
-                                        &port,
-                                        resourceBuf.data(),
-                                        resourceBuf.size());
+    auto status = httpSeparateURI(HTTP_URI_CODING_HOSTNAME,
+                                  this->url.c_str(),
+                                  schemeBuf.data(),
+                                  schemeBuf.size(),
+                                  usernameBuf.data(),
+                                  usernameBuf.size(),
+                                  hostBuf.data(),
+                                  hostBuf.size(),
+                                  &port,
+                                  resourceBuf.data(),
+                                  resourceBuf.size());
 
     if (status != HTTP_URI_STATUS_OK) {
-      this->SetError(std::string("failed to parse uri: ") +
+      this->SetError(std::string("failed to parse url: ") +
                      httpURIStatusString(status));
       return;
     }
@@ -56,7 +56,7 @@ class HttpConnectUriWorker : public Napi::AsyncWorker {
                                     5000,
                                     nullptr);
 
-    if (cupsLastError() != 0) {
+    if (this->connection == nullptr || cupsLastError() != 0) {
       this->SetError(std::string("failed to connect: ") +
                      cupsLastErrorString());
       return;
@@ -77,11 +77,11 @@ class HttpConnectUriWorker : public Napi::AsyncWorker {
   }
 };
 
-Napi::Promise httpConnectUriWrapper(const Napi::CallbackInfo& info) {
+Napi::Promise createConnectionWrapper(const Napi::CallbackInfo& info) {
   auto env = info.Env();
   auto url = info[0].As<Napi::String>();
 
-  auto* worker = new HttpConnectUriWorker(env, url);
+  auto* worker = new CreateConnectionWorker(env, url);
   worker->Queue();
   return worker->getDeferred();
 }

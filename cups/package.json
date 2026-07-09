@@ -4,13 +4,18 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "files": [
+    "src/**.ts",
+    "build/cups.node"
+  ],
   "scripts": {
-    "setup": "meson setup build",
     "build": "meson compile -C build",
+    "clean": "rm -rf .cache/ build/ node_modules/",
     "format:check": "ninja -C build clang-format-check",
     "format:fix": "ninja -C build clang-format",
     "lint:check": "ninja -C build clang-tidy",
-    "lint:fix": "ninja -C build clang-tidy-fix"
+    "lint:fix": "ninja -C build clang-tidy-fix",
+    "setup": "meson setup build"
   },
   "dependencies": {
     "node-addon-api": "8.9.0"

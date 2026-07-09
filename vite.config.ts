@@ -14,4 +14,10 @@ export default defineConfig({
     }),
     tailwindcss(),
   ],
+  build: {
+    rolldownOptions: {
+      // NAPI modules don't work well with bundling.
+      external: ["@workspace/cups"],
+    },
+  },
 });
