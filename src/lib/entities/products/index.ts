@@ -6,7 +6,6 @@ import { ADMIN_PRODUCTS_PAGE_SIZE } from "$app/env/public";
 import { ProductBatch } from "./batch.ts";
 import type { ProductData } from "./data.ts";
 import type { ProductId } from "./id.ts";
-import { ProductOptionBatch } from "./option/batch.ts";
 import type { ProductOptionId } from "./option/id.ts";
 import type { ProductOptionDataColumn } from "./option/index.ts";
 import type { PaginationSortColumn } from "./pagination.ts";
@@ -63,15 +62,6 @@ export class Product {
 
   async addOption(name: string, data: ProductOptionDataColumn): Promise<void> {
     await db.insert(s.productOption).values({ productId: this.id, name, data });
-  }
-
-  async getOptions(): Promise<ProductOptionBatch> {
-    const options = await db
-      .select({ id: s.productOption.id })
-      .from(s.productOption)
-      .where(and(eq(s.productOption.productId, this.id), isNull(s.productOption.deletedAt)));
-
-    return new ProductOptionBatch(options.map((o) => o.id));
   }
 
   async deleteOption(id: ProductOptionId): Promise<void> {

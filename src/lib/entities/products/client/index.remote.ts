@@ -3,6 +3,7 @@ import { query } from "$app/server";
 import { ProductBatch } from "../batch.ts";
 import { productIdSchema } from "../id.ts";
 import { Product } from "../index.ts";
+import { ProductOption as ProductOptionClient } from "../option/client.ts";
 import { paginationSchema } from "../pagination.ts";
 
 export const countAll = query(async () => {
@@ -19,8 +20,8 @@ export const getAll = query(paginationSchema, async (options) => {
 
 export const getOptions = query.batch(productIdSchema, async (ids) => {
   await requireUser();
-  const batch = await ProductBatch.fromIds(ids);
+  const batch = new ProductBatch(ids);
   const options = await batch.getOptions();
 
-  return (id) => options.get(id) ?? [];
+  return (id) => options.get(id)?.map((d) => new ProductOptionClient(d)) ?? [];
 });
