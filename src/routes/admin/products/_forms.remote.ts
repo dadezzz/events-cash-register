@@ -23,8 +23,8 @@ export const addProductForm = form(addProductFormSchema, async (data) => {
 
 export const deleteProductForm = form(deleteProductFormSchema, async (data) => {
   await requireAdmin();
-  const product = await Product.fromId(data.id);
 
+  const product = await Product.fromId(data.id);
   if (!product) {
     throw e.error404();
   }
@@ -35,8 +35,8 @@ export const deleteProductForm = form(deleteProductFormSchema, async (data) => {
 
 export const updateProductForm = form(updateProductFormSchema, async (data) => {
   await requireAdmin();
-  const product = await Product.fromId(data.id);
 
+  const product = await Product.fromId(data.id);
   if (!product) {
     throw e.error404();
   }
@@ -49,7 +49,6 @@ export const addProductOptionForm = form(addProductOptionFormSchema, async (data
   await requireAdmin();
 
   const product = await Product.fromId(data.productId);
-
   if (!product) {
     throw e.error404();
   }
@@ -62,7 +61,6 @@ export const deleteProductOptionForm = form(deleteProductOptionFormSchema, async
   await requireAdmin();
 
   const product = await Product.fromId(data.productId);
-
   if (!product) {
     throw e.error404();
   }

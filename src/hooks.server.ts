@@ -3,6 +3,8 @@ import { sequence } from "@sveltejs/kit/hooks";
 import { getSession } from "#lib/auth/index.server.ts";
 import { initPrinters } from "#lib/entities/printer/index.ts";
 import { initCreateAdmin } from "#lib/entities/user/admin.ts";
+import { initCleanRateLimiterTableJob } from "#lib/server/cron/clean-rate-limiter-table.ts";
+import { initCleanSessionTableJob } from "#lib/server/cron/clean-session-table.ts";
 import { initMigrateDatabase } from "#lib/server/database/index.ts";
 import { logError } from "#lib/server/logger/error.ts";
 import { Logger } from "#lib/server/logger/index.ts";
@@ -43,5 +45,8 @@ export const init: ServerInit = async () => {
     await initMigrateDatabase();
     await initCreateAdmin();
     await initPrinters();
+
+    initCleanRateLimiterTableJob();
+    initCleanSessionTableJob();
   }
 };

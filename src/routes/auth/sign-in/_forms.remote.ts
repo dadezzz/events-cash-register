@@ -2,6 +2,7 @@ import { error, invalid } from "@sveltejs/kit";
 import { Duration } from "#lib/duration.ts";
 import { User } from "#lib/entities/user/index.ts";
 import { getRedirectParam, redirect } from "#lib/redirect.ts";
+import { logger } from "#lib/server/logger/request.ts";
 import { RateLimiter } from "#lib/server/rate-limiter.ts";
 import { getRequestClientIp } from "#lib/server/request/index.ts";
 import { form, getRequestEvent } from "$app/server";
@@ -25,5 +26,7 @@ export const signInForm = form(signInFormSchema, async (data, issue) => {
   }
 
   await user.createSessionCookie();
+
+  logger.info("user signed in with password");
   redirect(getRedirectParam(getRequestEvent().url));
 });

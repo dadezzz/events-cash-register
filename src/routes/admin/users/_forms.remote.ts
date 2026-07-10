@@ -21,8 +21,8 @@ export const addUserForm = form(addUserFormSchema, async (data, issue) => {
 
 export const deleteUserForm = form(deleteUserFormSchema, async (data) => {
   await requireAdmin();
-  const user = await User.fromId(data.id);
 
+  const user = await User.fromId(data.id);
   if (!user) {
     throw e.error404();
   }
@@ -34,8 +34,8 @@ export const deleteUserForm = form(deleteUserFormSchema, async (data) => {
 
 export const updateUserForm = form(updateUserFormSchema, async (data, issue) => {
   await requireAdmin();
-  const user = await User.fromId(data.id);
 
+  const user = await User.fromId(data.id);
   if (!user) {
     throw e.error404();
   }

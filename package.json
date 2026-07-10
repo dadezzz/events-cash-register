@@ -23,6 +23,7 @@
     "@libsql/client": "0.17.4",
     "@node-rs/argon2": "2.0.2",
     "@workspace/cups": "workspace:*",
+    "croner": "10.0.1",
     "drizzle-orm": "0.45.2",
     "valibot": "1.4.2"
   },
