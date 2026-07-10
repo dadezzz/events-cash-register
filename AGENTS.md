@@ -6,8 +6,8 @@ project.
 ## Project Overview
 
 **Events Cash Register** is a SvelteKit application for managing event cash
-register operations. It supports product management, user management with
-role-based access, and session tracking.
+register operations. It supports product management (with options), user
+management with role-based access, printer management, and session tracking.
 
 ## Key Technologies
 

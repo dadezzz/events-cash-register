@@ -5,10 +5,12 @@ A web-based cash register application for event management, built with
 
 ## Features
 
-- Product management
+- Product management (with options)
 - User management with role-based access
+- Printer management
 - Secure authentication with session management
 - Session tracking and reporting
+- Automated cleanup via cron jobs
 
 ## Tech Stack
 
@@ -48,11 +50,11 @@ src/
 ├── components/      # Reusable Svelte components
 ├── lib/             # Shared library code
 │   ├── auth/        # Authentication logic
-│   ├── entities/    # Domain entities (user, product, session)
-│   └── server/      # Server-side utilities (database, logging, etc.)
+│   ├── entities/    # Domain entities (user, product, printer, session)
+│   └── server/      # Server-side utilities (database, logging, cron, etc.)
 └── routes/          # SvelteKit routes
-    ├── admin/       # Admin panel (products, users)
-    └── auth/        # Authentication pages
+    ├── admin/       # Admin panel (products, users, printers)
+    └── auth/        # Authentication (sign-in)
 ```
 
 ## License
