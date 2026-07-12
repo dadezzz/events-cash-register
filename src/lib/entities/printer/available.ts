@@ -1,4 +1,4 @@
 import type { CupsPrinter } from "@workspace/cups";
-import type { Printer } from "./index.ts";
+import type { PrinterId } from "./id.ts";
 
-export const availablePrinters: { cups: CupsPrinter; db: Printer }[] = [];
+export const availablePrinters = new Map<PrinterId, CupsPrinter>();

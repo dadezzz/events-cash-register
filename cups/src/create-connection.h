@@ -3,6 +3,6 @@
 
 #include <napi.h>
 
-Napi::Promise createConnectionWrapper(const Napi::CallbackInfo& info);
+Napi::Promise createConnection(const Napi::CallbackInfo& info);
 
 #endif

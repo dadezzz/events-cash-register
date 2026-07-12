@@ -1,4 +1,5 @@
 import * as binding from "./binding.ts";
+import type { JobCreationAttributesSelected } from "./utils.ts";
 
 export type CupsConnectionData = unknown & { __brand: "CupsConnectionData" };
 export type CupsPrinterData = unknown & { __brand: "CupsPrinterData" };
@@ -62,9 +63,19 @@ export class CupsConnection {
     return this.data.get(cs);
   }
 
-  async getPrinters(): Promise<CupsPrinter[]> {
+  async getPdfPrinters(): Promise<CupsPrinter[]> {
     const printersData = await this.connect((c) => binding.getDests(c));
-    return await Promise.all(printersData.map((pd) => CupsPrinter.create(this, pd.name, pd.data)));
+
+    const printers = await Promise.all(printersData.map((pd) => CupsPrinter.create(this, pd.name, pd.data)));
+    const pdfPrinters = [];
+
+    for (const p of printers) {
+      if (await p.supportsMimeType("application/pdf")) {
+        pdfPrinters.push(p);
+      }
+    }
+
+    return pdfPrinters;
   }
 }
 
@@ -90,15 +101,35 @@ export class CupsPrinter {
 
   async supportsMimeType(mimeType: string) {
     return this.connection.connect((c) =>
-      Promise.resolve(binding.destSupportsMimeType(c, this.data, this.info, mimeType)),
+      Promise.resolve(binding.destCheckMimeTypeSupport(c, this.data, this.info, mimeType)),
     );
   }
 
   async getJobCreationAttributes() {
-    return await this.connection.connect((c) =>
+    const attributes = await this.connection.connect((c) =>
       Promise.resolve(binding.destGetJobCreationAttributes(c, this.data, this.info)),
     );
+
+    return attributes.filter((a) => {
+      switch (a.type) {
+        case "string":
+          return a.constraints.entries.length > 0;
+        case "number":
+          return true;
+        default:
+          return false;
+      }
+    });
   }
 
-  sendJob() {}
+  async sendJob(
+    title: string,
+    options: JobCreationAttributesSelected,
+    documentMimeType: string,
+    documentBuffer: Uint8Array,
+  ) {
+    return await this.connection.connect((c) =>
+      binding.destSendJob(c, this.data, this.info, title, options, documentMimeType, documentBuffer),
+    );
+  }
 }

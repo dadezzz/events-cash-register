@@ -81,6 +81,9 @@ importers:
       node-addon-api:
         specifier: 8.9.0
         version: 8.9.0
+      valibot:
+        specifier: 1.4.2
+        version: 1.4.2(typescript@6.0.3)
     devDependencies:
       '@types/node':
         specifier: 26.1.1

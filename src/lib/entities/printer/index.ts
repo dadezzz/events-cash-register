@@ -1,23 +1,22 @@
+import type { JobCreationAttributesAvailable, JobCreationAttributesSelected } from "@workspace/cups/utils";
 import { eq } from "drizzle-orm";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { cups } from "#lib/server/cups.ts";
 import { db, s } from "#lib/server/database/index.ts";
-import { Logger } from "#lib/server/logger/index.ts";
 import { availablePrinters } from "./available.ts";
 import { PrinterBatch } from "./batch.ts";
-import { type PrinterSettingData, sqlSettingDataColumns } from "./data.ts";
 import type { PrinterId } from "./id.ts";
-
-export interface PrinterSettingDataColumn {
-  valueTag: number;
-  value: unknown;
-}
 
 export class Printer {
   readonly id: PrinterId;
 
   constructor(id: PrinterId) {
     this.id = id;
+  }
+
+  static async create(name: string) {
+    const printer = await db.insert(s.printer).values({ name }).returning({ id: s.printer.id }).then(getFirstOrThrow);
+    return new Printer(printer.id);
   }
 
   static async fromId(id: PrinterId): Promise<Printer | null> {
@@ -34,55 +33,55 @@ export class Printer {
     return new PrinterBatch(printers.map((p) => p.id));
   }
 
-  static async create(name: string): Promise<Printer> {
-    const printer = await db.insert(s.printer).values({ name }).returning({ id: s.printer.id }).then(getFirstOrThrow);
-    return new Printer(printer.id);
-  }
-
   static async updateAvailable(): Promise<void> {
+    availablePrinters.clear();
     const memorizedPrinters = await db.select({ id: s.printer.id, name: s.printer.name }).from(s.printer);
-    const cupsPrinters = await cups.getPrinters();
+    const cupsPrinters = await cups.getPdfPrinters();
 
-    for (const p of cupsPrinters) {
-      let printer = memorizedPrinters.find((mp) => mp.name === p.name);
+    for (const cupsPrinter of cupsPrinters) {
+      const printerId = memorizedPrinters.find((mp) => mp.name === cupsPrinter.name)?.id;
 
-      if (!printer) {
-        const newPrinter = await Printer.create(p.name);
-        printer = { id: newPrinter.id, name: p.name };
+      let printer: Printer;
+      if (printerId) {
+        printer = new Printer(printerId);
+      } else {
+        printer = await Printer.create(cupsPrinter.name);
       }
 
-      availablePrinters.push({ cups: p, db: new Printer(printer.id) });
+      const settings = await cupsPrinter.getJobCreationAttributes();
+      await printer.updateAvailableSettings(settings);
+      availablePrinters.set(printer.id, cupsPrinter);
     }
   }
 
-  async updateSettings(settings: { name: string; data: PrinterSettingDataColumn }[]): Promise<void> {
+  async updateAvailableSettings(settings: JobCreationAttributesAvailable): Promise<void> {
     await db.transaction(async (tx) => {
-      await tx.delete(s.printerSetting).where(eq(s.printerSetting.printerId, this.id));
-      await tx.insert(s.printerSetting).values(settings.map((s) => ({ printerId: this.id, ...s })));
+      await tx.delete(s.printerSettingAvailable).where(eq(s.printerSettingAvailable.printerId, this.id));
+      await tx.insert(s.printerSettingAvailable).values(settings.map((se) => ({ printerId: this.id, ...se })));
     });
   }
 
-  async getSettings(): Promise<PrinterSettingData[]> {
-    return await db.select(sqlSettingDataColumns).from(s.printerSetting).where(eq(s.printerSetting.printerId, this.id));
+  async updateSelectedSettings(settings: JobCreationAttributesSelected): Promise<void> {
+    await db.transaction(async (tx) => {
+      await tx.delete(s.printerSettingSelected).where(eq(s.printerSettingSelected.printerId, this.id));
+      await tx.insert(s.printerSettingSelected).values(settings.map((se) => ({ printerId: this.id, ...se })));
+    });
   }
 
-  async print(document: File) {
-    const cupsPrinter = availablePrinters.find((p) => p.db.id === this.id)?.cups;
+  async getSelectedSettings(): Promise<JobCreationAttributesSelected> {
+    return (await db
+      .select({ name: s.printerSettingSelected.name, value: s.printerSettingSelected.value })
+      .from(s.printerSettingSelected)
+      .where(eq(s.printerSettingSelected.printerId, this.id))) as JobCreationAttributesSelected;
+  }
 
+  async print(title: string, pdf: Uint8Array) {
+    const cupsPrinter = availablePrinters.get(this.id);
     if (!cupsPrinter) {
       throw new Error("printer is not available anymore");
     }
 
-    const settings = await this.getSettings();
-
-    // TODO
-    // cupsPrinter.sendJob(settings, file)
+    const settings = await this.getSelectedSettings();
+    await cupsPrinter.sendJob(title, settings, "application/pdf", pdf);
   }
-}
-
-export async function initPrinters(): Promise<void> {
-  await Printer.updateAvailable();
-
-  const logger = new Logger();
-  logger.info(`found ${availablePrinters.length} available printers`);
 }

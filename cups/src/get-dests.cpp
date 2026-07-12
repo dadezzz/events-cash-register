@@ -74,7 +74,7 @@ class GetDestsWorker : public Napi::AsyncWorker {
   }
 };
 
-Napi::Promise getDestsWrapper(const Napi::CallbackInfo& info) {
+Napi::Promise getDests(const Napi::CallbackInfo& info) {
   auto env = info.Env();
   auto connection = info[0].As<Napi::External<http_t>>();
 

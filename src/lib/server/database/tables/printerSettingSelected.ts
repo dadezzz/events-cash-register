@@ -1,6 +1,6 @@
+import type { JobCreationAttributesSelected } from "@workspace/cups/utils";
 import { index, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import type { PrinterId } from "#lib/entities/printer/id.ts";
-import type { PrinterSettingDataColumn } from "#lib/entities/printer/index.ts";
 import { json } from "./_utils.ts";
 import printer from "./printer.ts";
 
@@ -9,11 +9,12 @@ const columns = {
     .$type<PrinterId>()
     .notNull()
     .references(() => printer.id, { onDelete: "cascade", onUpdate: "cascade" }),
+
   name: text().notNull(),
-  data: json().$type<PrinterSettingDataColumn>().notNull(),
+  value: json().$type<JobCreationAttributesSelected[number]["value"]>().notNull(),
 };
 
-export default sqliteTable("printerSetting", columns, (t) => [
+export default sqliteTable("printerSettingSelected", columns, (t) => [
   primaryKey({ columns: [t.printerId, t.name] }),
-  index("printerSetting_printerName").on(t.printerId),
+  index("printerSettingSelected_printerId").on(t.printerId),
 ]);

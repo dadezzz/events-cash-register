@@ -3,6 +3,6 @@
 
 #include <napi.h>
 
-Napi::Promise destGetInfoWrapper(const Napi::CallbackInfo& info);
+Napi::Promise destGetInfo(const Napi::CallbackInfo& info);
 
 #endif

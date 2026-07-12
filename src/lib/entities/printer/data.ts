@@ -7,11 +7,3 @@ export const sqlDataColumns = {
 };
 
 export type PrinterData = InferColumnsDataTypes<typeof sqlDataColumns>;
-
-export const sqlSettingDataColumns = {
-  printerId: s.printerSetting.printerId,
-  name: s.printerSetting.name,
-  data: s.printerSetting.data,
-};
-
-export type PrinterSettingData = InferColumnsDataTypes<typeof sqlSettingDataColumns>;

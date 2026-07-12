@@ -1,8 +1,9 @@
 import { createRequire } from "node:module";
 import type { CupsConnectionData, CupsPrinterData, CupsPrinterInfoData } from "./index.ts";
+import type { JobCreationAttributesAvailable, JobCreationAttributesSelected, JobId } from "./utils.ts";
 
 const require = createRequire(import.meta.url);
-const lib = require("../build/cups.node");
+const lib = require("../../build/cups.node");
 
 export function createConnection(url: string): Promise<CupsConnectionData> {
   return lib.createConnection(url);
@@ -16,19 +17,31 @@ export function destGetInfo(connection: CupsConnectionData, dest: CupsPrinterDat
   return lib.destGetInfo(connection, dest);
 }
 
-export function destSupportsMimeType(
+export function destCheckMimeTypeSupport(
   connection: CupsConnectionData,
   dest: CupsPrinterData,
   info: CupsPrinterInfoData,
   mimeType: string,
 ): boolean {
-  return lib.destSupportsMimeType(connection, dest, info, mimeType);
+  return lib.destCheckMimeTypeSupport(connection, dest, info, mimeType);
 }
 
 export function destGetJobCreationAttributes(
   connection: CupsConnectionData,
   dest: CupsPrinterData,
   info: CupsPrinterInfoData,
-): { name: string; valueTag: number; valueTagStr: string; values: unknown[] }[] {
+): JobCreationAttributesAvailable {
   return lib.destGetJobCreationAttributes(connection, dest, info);
+}
+
+export async function destSendJob(
+  connection: CupsConnectionData,
+  dest: CupsPrinterData,
+  info: CupsPrinterInfoData,
+  title: string,
+  options: JobCreationAttributesSelected,
+  documentMimeType: string,
+  documentBuffer: Uint8Array,
+): Promise<JobId> {
+  return lib.destSendJob(connection, dest, info, title, options, documentMimeType, documentBuffer);
 }

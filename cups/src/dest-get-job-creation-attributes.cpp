@@ -1,116 +1,144 @@
 #include <cups/cups.h>
 #include <cups/ipp.h>
-#include <cups/language.h>
 #include <napi.h>
 
 #include <ranges>
 
-Napi::Array destGetJobCreationAttributesWrapper(
-    const Napi::CallbackInfo& info) {
+Napi::Object parseRangeAttribute(const Napi::Env& env,
+                                 http_t* connection,
+                                 cups_dest_t* dest,
+                                 cups_dinfo_t* dinfo,
+                                 const char* name) {
+  auto* supportedAttr = cupsFindDestSupported(connection, dest, dinfo, name);
+  auto* defaultAttr = cupsFindDestDefault(connection, dest, dinfo, name);
+
+  auto resultObj = Napi::Object::New(env);
+  resultObj.Set("type", Napi::String::New(env, "number"));
+  auto constraintsObj = Napi::Object::New(env);
+
+  if (supportedAttr != nullptr) {
+    // We only get the first range since rarely someone needs to print more
+    // than 1 or 2 copies of a receipt in the same job.
+    int supportedUpper = 1;
+    int supportedLower = ippGetRange(supportedAttr, 0, &supportedUpper);
+    constraintsObj.Set("min", Napi::Number::New(env, supportedLower));
+    constraintsObj.Set("max", Napi::Number::New(env, supportedUpper));
+  } else {
+    constraintsObj.Set("min", Napi::Number::New(env, 1));
+    constraintsObj.Set("max", Napi::Number::New(env, 1));
+  }
+
+  resultObj.Set("constraints", constraintsObj);
+
+  auto defaultInt = defaultAttr != nullptr ? ippGetInteger(defaultAttr, 0) : 1;
+  resultObj.Set("default", Napi::Number::New(env, defaultInt));
+
+  return resultObj;
+}
+
+Napi::Object parseEnumAttribute(const Napi::Env& env,
+                                http_t* connection,
+                                cups_dest_t* dest,
+                                cups_dinfo_t* dinfo,
+                                const char* name) {
+  auto* supportedAttr = cupsFindDestSupported(connection, dest, dinfo, name);
+  auto* defaultAttr = cupsFindDestDefault(connection, dest, dinfo, name);
+
+  auto resultObj = Napi::Object::New(env);
+  resultObj.Set("type", Napi::String::New(env, "string"));
+  auto constraintsObj = Napi::Object::New(env);
+  auto supportedArray = Napi::Array::New(env);
+
+  if (supportedAttr != nullptr) {
+    for (auto i : std::views::iota(0, ippGetCount(supportedAttr))) {
+      const char* v = ippEnumString(name, ippGetInteger(supportedAttr, i));
+      supportedArray.Set(i, Napi::String::New(env, v));
+    }
+  }
+
+  constraintsObj.Set("entries", supportedArray);
+  resultObj.Set("constraints", constraintsObj);
+
+  const char* defaultStr =
+      defaultAttr != nullptr
+          ? ippEnumString(name, ippGetInteger(defaultAttr, 0))
+          : nullptr;
+
+  resultObj.Set(
+      "default",
+      Napi::String::New(env, defaultStr != nullptr ? defaultStr : ""));
+
+  return resultObj;
+}
+
+Napi::Object parseStringAttribute(const Napi::Env& env,
+                                  http_t* connection,
+                                  cups_dest_t* dest,
+                                  cups_dinfo_t* dinfo,
+                                  const char* name) {
+  auto* supportedAttr = cupsFindDestSupported(connection, dest, dinfo, name);
+  auto* defaultAttr = cupsFindDestDefault(connection, dest, dinfo, name);
+
+  auto resultObj = Napi::Object::New(env);
+  resultObj.Set("type", Napi::String::New(env, "string"));
+  auto constraintsObj = Napi::Object::New(env);
+  auto supportedArray = Napi::Array::New(env);
+
+  if (supportedAttr != nullptr) {
+    for (auto i : std::views::iota(0, ippGetCount(supportedAttr))) {
+      const char* e = ippGetString(supportedAttr, i, nullptr);
+      supportedArray.Set(i, Napi::String::New(env, e != nullptr ? e : ""));
+    }
+  }
+
+  constraintsObj.Set("entries", supportedArray);
+  resultObj.Set("constraints", constraintsObj);
+
+  const char* defaultStr =
+      defaultAttr != nullptr ? ippGetString(defaultAttr, 0, nullptr) : nullptr;
+
+  resultObj.Set(
+      "default",
+      Napi::String::New(env, defaultStr != nullptr ? defaultStr : ""));
+
+  return resultObj;
+}
+
+Napi::Array destGetJobCreationAttributes(const Napi::CallbackInfo& info) {
   const auto env = info.Env();
   const auto connectionExt = info[0].As<Napi::External<http_t>>();
   const auto destExt = info[1].As<Napi::External<cups_dest_t>>();
-  const auto destInfoExt = info[2].As<Napi::External<cups_dinfo_t>>();
+  const auto dinfoExt = info[2].As<Napi::External<cups_dinfo_t>>();
   auto* connection = connectionExt.Data();
   auto* dest = destExt.Data();
-  auto* destInfo = destInfoExt.Data();
+  auto* dinfo = dinfoExt.Data();
 
-  auto* jobCreationValues = cupsFindDestSupported(
-      connection, dest, destInfo, "job-creation-attributes");
-
+  auto i = 0;
   auto array = Napi::Array::New(env);
 
-  auto arrayIdx = 0;
-  for (const auto i : std::views::iota(0, ippGetCount(jobCreationValues))) {
-    const auto attrName =
-        std::string(ippGetString(jobCreationValues, i, nullptr));
+  auto copiesObj =
+      parseRangeAttribute(env, connection, dest, dinfo, CUPS_COPIES);
+  copiesObj.Set("name", "copies");
 
-    // Skip these since we don't want the user to configure them.
-    if (attrName.starts_with("job-") || attrName.starts_with("ipp-")) {
-      continue;
-    }
+  array.Set(i++, copiesObj);
 
-    auto obj = Napi::Object::New(env);
-    obj.Set("name", Napi::String::New(env, attrName));
+  auto finishingsObj =
+      parseEnumAttribute(env, connection, dest, dinfo, CUPS_FINISHINGS);
+  finishingsObj.Set("name", "finishings");
 
-    auto* attrValues =
-        cupsFindDestSupported(connection, dest, destInfo, attrName.c_str());
+  array.Set(i++, finishingsObj);
 
-    if (attrValues == nullptr) {
-      continue;
-    }
+  auto printColorModeObj =
+      parseStringAttribute(env, connection, dest, dinfo, CUPS_PRINT_COLOR_MODE);
+  printColorModeObj.Set("name", "printColorMode");
 
-    const auto attrValuesCount = ippGetCount(attrValues);
-    auto values = Napi::Array::New(env, attrValuesCount);
+  array.Set(i++, printColorModeObj);
 
-    const auto valueTag = ippGetValueTag(attrValues);
-    obj.Set("valueTag", Napi::Number::New(env, valueTag));
-    obj.Set("valueTagStr", Napi::String::New(env, ippTagString(valueTag)));
+  auto mediaObj =
+      parseStringAttribute(env, connection, dest, dinfo, CUPS_MEDIA);
+  mediaObj.Set("name", "media");
 
-    for (const auto j : std::views::iota(0, attrValuesCount)) {
-      switch (valueTag) {
-        case IPP_TAG_INTEGER:
-          values.Set(j, Napi::Number::New(env, ippGetInteger(attrValues, j)));
-          break;
-        case IPP_TAG_BOOLEAN:
-          values.Set(
-              j, Napi::Boolean::New(env, ippGetBoolean(attrValues, j) != 0));
-          break;
-        case IPP_TAG_ENUM: {
-          const auto* str =
-              ippEnumString(attrName.c_str(), ippGetInteger(attrValues, j));
-          values.Set(j, Napi::String::New(env, str));
-          break;
-        }
-        case IPP_TAG_RESOLUTION: {
-          int xres;
-          int yres;
-          ipp_res_t units;
-          xres = ippGetResolution(attrValues, j, &yres, &units);
-          auto resObj = Napi::Object::New(env);
-          resObj.Set("xres", Napi::Number::New(env, xres));
-          resObj.Set("yres", Napi::Number::New(env, yres));
-          resObj.Set("units", Napi::Number::New(env, units));
-          values.Set(j, resObj);
-          break;
-        }
-        case IPP_TAG_RANGE: {
-          int upper;
-          int lower;
-          lower = ippGetRange(attrValues, j, &upper);
-          auto rangeObj = Napi::Object::New(env);
-          rangeObj.Set("upper", Napi::Number::New(env, upper));
-          rangeObj.Set("lower", Napi::Number::New(env, lower));
-          values.Set(j, rangeObj);
-          break;
-        }
-        case IPP_TAG_STRING:
-        case IPP_TAG_DATE:
-        case IPP_TAG_TEXTLANG:
-        case IPP_TAG_NAMELANG:
-        case IPP_TAG_TEXT:
-        case IPP_TAG_NAME:
-        case IPP_TAG_KEYWORD:
-        case IPP_TAG_URI:
-        case IPP_TAG_URISCHEME:
-        case IPP_TAG_CHARSET:
-        case IPP_TAG_LANGUAGE:
-        case IPP_TAG_MIMETYPE:
-        case IPP_TAG_MEMBERNAME: {
-          values.Set(
-              j, Napi::String::New(env, ippGetString(attrValues, j, nullptr)));
-          break;
-        }
-        default:
-          break;
-      }
-    }
-
-    obj.Set("values", values);
-
-    array.Set(arrayIdx, obj);
-    arrayIdx += 1;
-  }
+  array.Set(i++, mediaObj);
 
   return array;
 }

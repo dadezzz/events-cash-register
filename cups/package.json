@@ -2,7 +2,8 @@
   "name": "@workspace/cups",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/ts/index.ts",
+    "./utils": "./src/ts/utils.ts"
   },
   "files": [
     "src/**.ts",
@@ -18,7 +19,8 @@
     "setup": "meson setup build"
   },
   "dependencies": {
-    "node-addon-api": "8.9.0"
+    "node-addon-api": "8.9.0",
+    "valibot": "1.4.2"
   },
   "devDependencies": {
     "@types/node": "26.1.1"

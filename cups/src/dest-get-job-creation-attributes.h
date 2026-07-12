@@ -3,6 +3,6 @@
 
 #include <napi.h>
 
-Napi::Array destGetJobCreationAttributesWrapper(const Napi::CallbackInfo& info);
+Napi::Array destGetJobCreationAttributes(const Napi::CallbackInfo& info);
 
 #endif

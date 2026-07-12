@@ -77,7 +77,7 @@ class CreateConnectionWorker : public Napi::AsyncWorker {
   }
 };
 
-Napi::Promise createConnectionWrapper(const Napi::CallbackInfo& info) {
+Napi::Promise createConnection(const Napi::CallbackInfo& info) {
   auto env = info.Env();
   auto url = info[0].As<Napi::String>();
 

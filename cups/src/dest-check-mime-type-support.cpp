@@ -1,7 +1,7 @@
 #include <cups/cups.h>
 #include <napi.h>
 
-Napi::Boolean destSupportsMimeTypeWrapper(const Napi::CallbackInfo& info) {
+Napi::Boolean destCheckMimeTypeSupport(const Napi::CallbackInfo& info) {
   const auto env = info.Env();
   const auto connectionExt = info[0].As<Napi::External<http_t>>();
   const auto destExt = info[1].As<Napi::External<cups_dest_t>>();
