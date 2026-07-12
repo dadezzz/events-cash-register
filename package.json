@@ -33,7 +33,7 @@
     "@sveltejs/enhanced-img": "0.11.0",
     "@sveltejs/kit": "2.69.2",
     "@tailwindcss/vite": "4.3.2",
-    "@types/node": "25.9.4",
+    "@types/node": "25.9.5",
     "bits-ui": "2.18.1",
     "drizzle-kit": "0.31.10",
     "phosphor-svelte": "3.1.0",
