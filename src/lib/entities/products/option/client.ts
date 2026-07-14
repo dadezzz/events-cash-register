@@ -3,7 +3,7 @@ import { Serializable } from "#lib/serializable.ts";
 import type { ProductOptionData } from "./data.ts";
 import { type ProductOptionValue, productOptionBooleanValueSchema, productOptionChoiceValueSchema } from "./index.ts";
 
-export class ProductOption extends Serializable<ProductOptionData> {
+export class ProductOptionClient extends Serializable<ProductOptionData> {
   getPrice(value: ProductOptionValue): number | null {
     switch (this.data.data.type) {
       case "boolean": {

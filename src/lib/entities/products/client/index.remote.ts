@@ -3,7 +3,7 @@ import { e } from "#lib/error.ts";
 import { query } from "$app/server";
 import { ProductBatch } from "../batch.ts";
 import { productIdSchema } from "../id.ts";
-import { ProductOption as ProductOptionClient } from "../option/client.ts";
+import { ProductOptionClient as ProductOptionClient } from "../option/client.ts";
 
 export const fromId = query.batch(productIdSchema, async (ids) => {
   await requireUser();

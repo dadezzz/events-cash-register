@@ -2,7 +2,7 @@ import type { Transport } from "@sveltejs/kit";
 import { PrinterClient } from "#lib/entities/printer/client/index.ts";
 import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
 import { ProductClient } from "#lib/entities/products/client/index.ts";
-import { ProductOption } from "#lib/entities/products/option/client.ts";
+import { ProductOptionClient } from "#lib/entities/products/option/client.ts";
 import { UserClient } from "#lib/entities/user/client/index.ts";
 
 export const transport: Transport = {
@@ -15,8 +15,8 @@ export const transport: Transport = {
     encode: (v) => v instanceof ProductClient && v.serialize(),
   },
   ProductOption: {
-    decode: (v) => ProductOption.deserialize(v),
-    encode: (v) => v instanceof ProductOption && v.serialize(),
+    decode: (v) => ProductOptionClient.deserialize(v),
+    encode: (v) => v instanceof ProductOptionClient && v.serialize(),
   },
   ProductCategoryClient: {
     decode: (v) => ProductCategoryClient.deserialize(v),

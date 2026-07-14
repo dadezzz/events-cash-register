@@ -20,6 +20,7 @@
   const user = $derived(await UserClient.fromSelf());
 
   let sidebarOpen = $state(false);
+
   // SSR safe since sidebar should always be closed on initial rendering.
   // This matches tailwindcss's md breakpoint.
   const isMdWidth = new MediaQuery("(width >= 768px)", false);
@@ -116,7 +117,7 @@
     <header class="flex border-b border-slate-300 p-2 gap-4 items-center">
       <Dialog
         bind:open={() => sidebarOpen && !isMdWidth.current, (v) => {
-            if (!isMdWidth) {
+            if (!isMdWidth.current) {
               sidebarOpen = v;
             }
           }}

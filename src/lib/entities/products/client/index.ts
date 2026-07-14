@@ -2,7 +2,7 @@ import type { RemoteQuery } from "@sveltejs/kit";
 import { Serializable } from "#lib/serializable.ts";
 import type { ProductData } from "../data.ts";
 import type { ProductId } from "../id.ts";
-import type { ProductOption } from "../option/client.ts";
+import type { ProductOptionClient } from "../option/client.ts";
 import * as remote from "./index.remote.ts";
 
 export class ProductClient extends Serializable<ProductData> {
@@ -10,7 +10,7 @@ export class ProductClient extends Serializable<ProductData> {
     return remote.fromId(id);
   }
 
-  getOptions(): RemoteQuery<ProductOption[]> {
+  getOptions(): RemoteQuery<ProductOptionClient[]> {
     return remote.getOptions(this.data.id);
   }
 }
