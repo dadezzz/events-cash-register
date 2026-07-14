@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { requireAuthenticated } from "#lib/auth/index.remote.ts";
+  import PageWithSidebar from "#components/layouts/PageWithSidebar.svelte";
+  import { getUserId } from "#lib/auth/index.remote.ts";
 
-  await requireAuthenticated();
+  await getUserId();
 </script>
+
+<PageWithSidebar>hello</PageWithSidebar>

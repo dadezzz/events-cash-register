@@ -1,11 +1,14 @@
 import { requireAdmin } from "#lib/auth/index.server.ts";
+import { ProductCategory } from "#lib/entities/products/category/index.ts";
 import { Product } from "#lib/entities/products/index.ts";
 import { e } from "#lib/error.ts";
 import { logger } from "#lib/server/logger/request.ts";
 import { form } from "$app/server";
 import {
+  addProductCategoryFormSchema,
   addProductFormSchema,
   addProductOptionFormSchema,
+  deleteProductCategoryFormSchema,
   deleteProductFormSchema,
   deleteProductOptionFormSchema,
   updateProductFormSchema,
@@ -67,4 +70,21 @@ export const deleteProductOptionForm = form(deleteProductOptionFormSchema, async
 
   await product.deleteOption(data.id);
   logger.info({ message: "deleted option from product", productId: product.id });
+});
+
+export const addProductCategoryForm = form(addProductCategoryFormSchema, async (data) => {
+  await requireAdmin();
+
+  await ProductCategory.create(data.name);
+});
+
+export const deleteProductCategoryForm = form(deleteProductCategoryFormSchema, async (data) => {
+  await requireAdmin();
+
+  const category = await ProductCategory.fromId(data.id);
+  if (!category) {
+    throw e.error404();
+  }
+
+  await category.delete();
 });

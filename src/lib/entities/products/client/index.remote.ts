@@ -1,25 +1,22 @@
 import { requireUser } from "#lib/auth/index.server.ts";
+import { e } from "#lib/error.ts";
 import { query } from "$app/server";
 import { ProductBatch } from "../batch.ts";
 import { productIdSchema } from "../id.ts";
-import { Product } from "../index.ts";
 import { ProductOption as ProductOptionClient } from "../option/client.ts";
-import { paginationSchema } from "../pagination.ts";
 
-export const countAll = query(async () => {
+export const fromId = query.batch(productIdSchema, async (ids) => {
   await requireUser();
-  return await Product.countAll();
-});
 
-export const getAll = query(paginationSchema, async (options) => {
-  await requireUser();
-  const batch = await Product.getAll(options);
+  const batch = new ProductBatch(ids);
   const clients = await batch.getClients();
-  return batch.ids.map((id) => clients.get(id)).filter((c) => c !== null);
+
+  return (id) => clients.get(id) ?? e.error404();
 });
 
 export const getOptions = query.batch(productIdSchema, async (ids) => {
   await requireUser();
+
   const batch = new ProductBatch(ids);
   const options = await batch.getOptions();
 

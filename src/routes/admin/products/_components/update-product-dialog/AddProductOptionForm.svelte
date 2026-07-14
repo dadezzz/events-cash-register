@@ -5,12 +5,12 @@
   import { Form } from "#components/form/index.ts";
   import { HiddenInput, NumericInput, RadioInput, TextInput } from "#components/form/input/index.ts";
   import { iteratorToNumber } from "#lib/array.ts";
-  import type { Product } from "#lib/entities/products/client/index.ts";
+  import type { ProductClient } from "#lib/entities/products/client/index.ts";
   import { addProductOptionForm } from "../../_forms.remote.ts";
   import { addProductOptionFormSchema } from "../../_schemas.ts";
 
   interface Props {
-    product: Product;
+    product: ProductClient;
   }
 
   const { product }: Props = $props();

@@ -1,14 +1,14 @@
 <script lang="ts">
   import { PencilIcon } from "phosphor-svelte";
   import { Button } from "#components/controls/index.ts";
-  import { Dialog } from "#components/dialog/index.ts";
-  import type { Product } from "#lib/entities/products/client/index.ts";
+  import Dialog from "#components/Dialog.svelte";
+  import type { ProductClient } from "#lib/entities/products/client/index.ts";
   import AddProductOptionForm from "./AddProductOptionForm.svelte";
   import DeleteProductOptionForm from "./DeleteProductOptionForm.svelte";
   import UpdateProductForm from "./UpdateProductForm.svelte";
 
   interface Props {
-    product: Product;
+    product: ProductClient;
   }
 
   const { product }: Props = $props();
@@ -25,7 +25,7 @@
   {#snippet content({ props })}
     {@const options = await product.getOptions()}
 
-    <div {...props} class="bg-white fixed z-50 top-1/2 left-1/2 -translate-1/2">
+    <div {...props} class="bg-white dialog-centered">
       <h2>Modifica prodotto</h2>
 
       <UpdateProductForm {product} />

@@ -1,12 +1,12 @@
 import { jobCreationAttributeSchema } from "@workspace/cups/utils";
 import * as v from "valibot";
-import { Printer } from "#lib/entities/printer/client/index.ts";
+import { PrinterClient } from "#lib/entities/printer/client/index.ts";
 import { printerIdSchema } from "#lib/entities/printer/id.ts";
 
 export const updateSettingsFormSchema = v.lazyAsync(async (input) => {
   const printerId = v.parse(printerIdSchema, (input as { printerId: string }).printerId);
 
-  const printer = await Printer.fromId(printerId);
+  const printer = await PrinterClient.fromId(printerId);
   const settings = await printer.getSettingsAvailable();
 
   return v.object({

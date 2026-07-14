@@ -40,7 +40,7 @@ export const updateUserForm = form(updateUserFormSchema, async (data, issue) => 
     throw e.error404();
   }
 
-  const userProfile = await user.getProfile();
+  const userProfile = await user.getData();
 
   if (data.username !== userProfile.username && (await User.fromUsername(data.username))) {
     invalid(issue.username("Esiste già un altro utente con questo nome"));

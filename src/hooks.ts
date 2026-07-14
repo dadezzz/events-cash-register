@@ -1,24 +1,29 @@
 import type { Transport } from "@sveltejs/kit";
-import { Printer } from "#lib/entities/printer/client/index.ts";
-import { Product } from "#lib/entities/products/client/index.ts";
+import { PrinterClient } from "#lib/entities/printer/client/index.ts";
+import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
+import { ProductClient } from "#lib/entities/products/client/index.ts";
 import { ProductOption } from "#lib/entities/products/option/client.ts";
-import { User } from "#lib/entities/user/client/index.ts";
+import { UserClient } from "#lib/entities/user/client/index.ts";
 
 export const transport: Transport = {
-  User: {
-    decode: (v) => User.deserialize(v),
-    encode: (v) => v instanceof User && v.serialize(),
+  UserClient: {
+    decode: (v) => UserClient.deserialize(v),
+    encode: (v) => v instanceof UserClient && v.serialize(),
   },
-  Product: {
-    decode: (v) => Product.deserialize(v),
-    encode: (v) => v instanceof Product && v.serialize(),
+  ProductClient: {
+    decode: (v) => ProductClient.deserialize(v),
+    encode: (v) => v instanceof ProductClient && v.serialize(),
   },
   ProductOption: {
     decode: (v) => ProductOption.deserialize(v),
     encode: (v) => v instanceof ProductOption && v.serialize(),
   },
+  ProductCategoryClient: {
+    decode: (v) => ProductCategoryClient.deserialize(v),
+    encode: (v) => v instanceof ProductCategoryClient && v.serialize(),
+  },
   Printer: {
-    decode: (v) => Printer.deserialize(v),
-    encode: (v) => v instanceof Printer && v.serialize(),
+    decode: (v) => PrinterClient.deserialize(v),
+    encode: (v) => v instanceof PrinterClient && v.serialize(),
   },
 };

@@ -1,15 +1,15 @@
 <script lang="ts">
   import { PencilIcon } from "phosphor-svelte";
   import { Button } from "#components/controls/index.ts";
-  import { Dialog } from "#components/dialog/index.ts";
+  import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput, PasswordInput, TextInput } from "#components/form/input/index.ts";
-  import type { User } from "#lib/entities/user/client/index.ts";
+  import type { UserClient } from "#lib/entities/user/client/index.ts";
   import { updateUserForm } from "../_forms.remote.ts";
   import { updateUserFormSchema } from "../_schemas.ts";
 
   interface Props {
-    user: User;
+    user: UserClient;
   }
 
   const { user }: Props = $props();
@@ -25,7 +25,7 @@
     </Button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="bg-white fixed z-50 top-1/2 left-1/2 -translate-1/2">
+    <div {...props} class="bg-white dialog-centered">
       <h2>Modifica utente</h2>
 
       <Form

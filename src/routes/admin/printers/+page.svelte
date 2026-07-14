@@ -1,12 +1,20 @@
 <script lang="ts">
-  import { Printer } from "#lib/entities/printer/client/index.ts";
-  import PrinterForm from "./_components/PrinterForm.svelte";
-
-  const printers = $derived(await Printer.getAll());
+  import PageWithSidebar from "#components/layouts/PageWithSidebar.svelte";
+  import PrintersList from "./_components/PrintersList.svelte";
 </script>
 
-<ul>
-  {#each printers as printer (printer.data.id)}
-    <li><PrinterForm {printer} /></li>
-  {/each}
-</ul>
+<PageWithSidebar>
+  <div class="flex h-full">
+    <div class="w-full p-2">
+      <h2 class="font-bold flex mb-2">Stampanti</h2>
+
+      <PrintersList />
+    </div>
+
+    <div class="md:block border-l border-slate-300 hidden w-full p-2">
+      <h2 class="font-bold">Opzioni</h2>
+
+      <div class="flex h-full items-center justify-center">Seleziona una stampante</div>
+    </div>
+  </div>
+</PageWithSidebar>

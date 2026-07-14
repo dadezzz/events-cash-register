@@ -1,10 +1,13 @@
 <script lang="ts">
+  import PageWithSidebar from "#components/layouts/PageWithSidebar.svelte";
   import { requireAdmin } from "#lib/auth/index.remote.ts";
 
   await requireAdmin();
 </script>
 
-<!--
+<PageWithSidebar>
+  hello
+  <!--
 - productsLoop:
     - needs to have 1 or more lines as child
 - productOptionsLoop:
@@ -30,3 +33,4 @@
     - time
 - image?
 -->
+</PageWithSidebar>

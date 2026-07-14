@@ -1,62 +1,43 @@
 <script lang="ts">
-  import { FormatDuration, FormatPrice } from "#components/format/index.ts";
-  import Pagination from "#components/navigation/Pagination.svelte";
-  import { Table, TableBodyCell, TableBodyRow, TableHeadCell, TableHeadRow } from "#components/table/index.ts";
+  import { PlusIcon } from "phosphor-svelte";
+  import PageWithSidebar from "#components/layouts/PageWithSidebar.svelte";
   import { requireAdmin } from "#lib/auth/index.remote.ts";
-  import { Duration } from "#lib/duration.ts";
-  import { Product } from "#lib/entities/products/client/index.ts";
-  import { paginationSchema } from "#lib/entities/products/pagination.ts";
-  import { getCurrentPaginationOptions } from "#lib/pagination.ts";
-  import { ADMIN_PRODUCTS_PAGE_SIZE } from "$app/env/public";
-  import { page } from "$app/state";
-  import AddProductDialog from "./_components/add-product-dialog/AddProductDialog.svelte";
-  import DeleteProductDialog from "./_components/DeleteProductDialog.svelte";
-  import UpdateProductDialog from "./_components/update-product-dialog/UpdateProductDialog.svelte";
+  import AddCategoryDialog from "./_components/add-category-dialog/AddCategoryDialog.svelte";
+  import CategoriesList from "./_components/lists/CategoriesList.svelte";
 
   await requireAdmin();
-
-  const paginationOptions = $derived(getCurrentPaginationOptions(paginationSchema, page.url));
-  const products = $derived(await Product.getAll(paginationOptions));
-  const productsCount = $derived(await Product.countAll());
 </script>
 
-<AddProductDialog />
+<PageWithSidebar>
+  <div class="flex h-full">
+    <div class="w-full p-2">
+      <div class="font-bold flex mb-2">
+        <h2>Categorie</h2>
 
-<Table>
-  {#snippet head()}
-    <TableHeadRow>
-      <TableHeadCell pagination={{ options: paginationOptions, columnName: "name" }}>Nome</TableHeadCell>
-      <TableHeadCell pagination={{ options: paginationOptions, columnName: "price" }}>Prezzo</TableHeadCell>
-      <TableHeadCell>In vendita</TableHeadCell>
-      <TableHeadCell>Opzioni</TableHeadCell>
-      <TableHeadCell pagination={{ options: paginationOptions, columnName: "createdAt" }}>Creato</TableHeadCell>
-      <TableHeadCell>Azioni</TableHeadCell>
-    </TableHeadRow>
-  {/snippet}
+        <div class="ml-auto">
+          <AddCategoryDialog>
+            <PlusIcon class="size-4" />
+          </AddCategoryDialog>
+        </div>
+      </div>
 
-  {#snippet body()}
-    {#each products as product (product.data.id)}
-      {@const options = await product.getOptions()}
+      <CategoriesList />
+    </div>
 
-      <TableBodyRow>
-        <TableBodyCell>{product.data.name}</TableBodyCell>
-        <TableBodyCell><FormatPrice price={product.data.price} /></TableBodyCell>
-        <TableBodyCell>{product.data.available}</TableBodyCell>
+    <div class="md:block border-l border-slate-300 hidden w-full p-2">
+      <h2 class="font-bold">Prodotti</h2>
 
-        <TableBodyCell>{options.length}</TableBodyCell>
+      <div class="flex h-full items-center justify-center">
+        <p>Seleziona una categoria</p>
+      </div>
+    </div>
 
-        <TableBodyCell>
-          <FormatDuration duration={Duration.fromDate(product.data.createdAt)} />
-          fa
-        </TableBodyCell>
+    <div class="md:block border-l border-slate-300 hidden w-full p-2">
+      <h2 class="font-bold">Opzioni</h2>
 
-        <TableBodyCell>
-          <UpdateProductDialog {product} />
-          <DeleteProductDialog {product} />
-        </TableBodyCell>
-      </TableBodyRow>
-    {/each}
-  {/snippet}
-</Table>
-
-<Pagination {paginationOptions} pageSize={ADMIN_PRODUCTS_PAGE_SIZE} itemsCount={productsCount} />
+      <div class="flex h-full items-center justify-center">
+        <p>Seleziona un prodotto</p>
+      </div>
+    </div>
+  </div>
+</PageWithSidebar>

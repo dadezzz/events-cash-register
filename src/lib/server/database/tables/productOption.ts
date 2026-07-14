@@ -19,8 +19,8 @@ const columns = {
 
   name: text().notNull(),
   data: json().$type<ProductOptionDataColumn>().notNull(),
-  deletedAt: timestamp(),
 
+  deletedAt: timestamp(),
   createdAt: timestamp()
     .notNull()
     .$default(() => new Date()),

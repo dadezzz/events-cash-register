@@ -7,12 +7,12 @@ import * as remote from "./index.remote.ts";
 
 type PrinterDataClient = PrinterData & { available: boolean };
 
-export class Printer extends Serializable<PrinterDataClient> {
-  static getAll(): RemoteQuery<Printer[]> {
+export class PrinterClient extends Serializable<PrinterDataClient> {
+  static getAll(): RemoteQuery<PrinterClient[]> {
     return remote.getAll();
   }
 
-  static fromId(id: PrinterId): RemoteQuery<Printer> {
+  static fromId(id: PrinterId): RemoteQuery<PrinterClient> {
     return remote.fromId(id);
   }
 

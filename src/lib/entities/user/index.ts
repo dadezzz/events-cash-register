@@ -111,7 +111,7 @@ export class User {
     return new SessionBatch(ids);
   }
 
-  async getProfile(): Promise<UserData> {
+  async getData(): Promise<UserData> {
     return await db.select(sqlDataColumns).from(s.user).where(eq(s.user.id, this.id)).then(getFirstOrThrow);
   }
 

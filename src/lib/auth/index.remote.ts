@@ -1,18 +1,18 @@
 import { query } from "$app/server";
 import * as server from "./index.server.ts";
 
-export const isAuthenticated = query(async () => {
+export const getUserId = query(async () => {
   const user = await server.getUser();
-  return user !== null;
+  return user?.id ?? null;
 });
 
-export const requireAuthenticated = query(async () => {
+export const requireUser = query(async () => {
   await server.requireUser();
 });
 
-export const isAdmin = query(async () => {
+export const getAdminUserId = query(async () => {
   const admin = await server.getAdmin();
-  return admin !== null;
+  return admin?.user.id ?? null;
 });
 
 export const requireAdmin = query(async () => {

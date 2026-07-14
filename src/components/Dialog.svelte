@@ -4,7 +4,7 @@
 
   interface Props {
     open?: boolean;
-    trigger: Snippet<[{ props: Record<string, unknown> }]>;
+    trigger?: Snippet<[{ props: Record<string, unknown> }]>;
     content: Snippet<[{ props: Record<string, unknown> }]>;
   }
 
@@ -12,7 +12,9 @@
 </script>
 
 <Dialog.Root bind:open>
-  <Dialog.Trigger child={trigger} />
+  {#if trigger}
+    <Dialog.Trigger child={trigger} />
+  {/if}
 
   <Dialog.Portal>
     <Dialog.Overlay class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs" />

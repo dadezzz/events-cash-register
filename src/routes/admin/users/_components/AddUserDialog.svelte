@@ -1,7 +1,7 @@
 <script lang="ts">
   import { PlusIcon } from "phosphor-svelte";
   import { Button } from "#components/controls/index.ts";
-  import { Dialog } from "#components/dialog/index.ts";
+  import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { PasswordInput, TextInput } from "#components/form/input/index.ts";
   import { addUserForm } from "../_forms.remote.ts";
@@ -19,7 +19,7 @@
     </Button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="fixed top-1/2 bg-white left-1/2 z-50 -translate-1/2">
+    <div {...props} class="bg-white dialog-centered">
       <h2>Aggiungi utente</h2>
 
       <Form

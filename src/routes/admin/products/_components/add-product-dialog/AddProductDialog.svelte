@@ -1,22 +1,28 @@
 <script lang="ts">
-  import { PlusIcon } from "phosphor-svelte";
+  import type { Snippet } from "svelte";
   import { Button } from "#components/controls/index.ts";
-  import { Dialog } from "#components/dialog/index.ts";
+  import Dialog from "#components/Dialog.svelte";
+  import type { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import AddProductForm from "./AddProductForm.svelte";
+
+  interface Props {
+    category: ProductCategoryClient;
+    children: Snippet;
+  }
+
+  const { category, children }: Props = $props();
 
   let dialogOpen = $state(false);
 </script>
 
 <Dialog bind:open={dialogOpen}>
   {#snippet trigger({ props })}
-    <Button type="button" {...props} class="font-bold bg-black text-white flex items-center gap-2 p-1 px-3 rounded-md">
-      <PlusIcon class="size-5" />
-      <span>Nuovo</span>
-    </Button>
+    <Button type="button" {...props} {children} />
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="fixed top-1/2 left-1/2 -translate-1/2 bg-white z-50">
+    <div {...props} class="bg-white dialog-centered">
       <AddProductForm
+        {category}
         onresult={() => {
           dialogOpen = false;
         }}

@@ -2,12 +2,12 @@
   import { Button } from "#components/controls/index.ts";
   import { Form } from "#components/form/index.ts";
   import { CheckboxInput, HiddenInput, NumericInput, TextInput } from "#components/form/input/index.ts";
-  import type { Product } from "#lib/entities/products/client/index.ts";
+  import type { ProductClient } from "#lib/entities/products/client/index.ts";
   import { updateProductForm } from "../../_forms.remote.ts";
   import { updateProductFormSchema } from "../../_schemas.ts";
 
   interface Props {
-    product: Product;
+    product: ProductClient;
   }
 
   const { product }: Props = $props();

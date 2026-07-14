@@ -1,7 +1,7 @@
 import { and, inArray, isNull } from "drizzle-orm";
 import { Batch, BatchRows } from "#lib/server/batch.ts";
 import { db, s } from "#lib/server/database/index.ts";
-import { Product as ProductClient } from "./client/index.ts";
+import { ProductClient } from "./client/index.ts";
 import { sqlDataColumns } from "./data.ts";
 import type { ProductId } from "./id.ts";
 import type { ProductOptionData } from "./option/data.ts";

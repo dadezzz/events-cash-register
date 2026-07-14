@@ -7,6 +7,7 @@ export const sqlDataColumns = {
   price: s.product.price,
   available: s.product.available,
   createdAt: s.product.createdAt,
+  categoryId: s.product.categoryId,
 };
 
 export type ProductData = InferColumnsDataTypes<typeof sqlDataColumns>;

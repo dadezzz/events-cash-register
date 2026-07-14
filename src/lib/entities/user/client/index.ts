@@ -7,8 +7,8 @@ import type { UserPrivilege } from "../index.ts";
 import type { PaginationSortColumn } from "../pagination.ts";
 import * as remote from "./index.remote.ts";
 
-export class User extends Serializable<UserData> {
-  static getAllAdmin(options: PaginationOptions<PaginationSortColumn>): RemoteQuery<User[]> {
+export class UserClient extends Serializable<UserData> {
+  static getAllAdmin(options: PaginationOptions<PaginationSortColumn>): RemoteQuery<UserClient[]> {
     return remote.getAllAdmin(options);
   }
 
@@ -16,8 +16,12 @@ export class User extends Serializable<UserData> {
     return remote.countAllAdmin();
   }
 
-  static getUserAdmin(id: UserId): RemoteQuery<User> {
-    return remote.getUserAdmin(id);
+  static fromIdAdmin(id: UserId): RemoteQuery<UserClient> {
+    return remote.fromIdAdmin(id);
+  }
+
+  static async fromSelf(): Promise<UserClient | null> {
+    return remote.fromSelf();
   }
 
   getPrivilegesAdmin(): RemoteQuery<UserPrivilege[]> {

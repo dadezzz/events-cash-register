@@ -3,12 +3,12 @@
   import { Button } from "#components/controls/index.ts";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
-  import type { Product } from "#lib/entities/products/client/index.ts";
+  import type { ProductClient } from "#lib/entities/products/client/index.ts";
   import type { ProductOption } from "#lib/entities/products/option/client.ts";
   import { deleteProductOptionForm } from "../../_forms.remote.ts";
 
   interface Props {
-    product: Product;
+    product: ProductClient;
     option: ProductOption;
   }
 

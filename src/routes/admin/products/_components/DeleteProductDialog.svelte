@@ -1,14 +1,14 @@
 <script lang="ts">
   import { TrashIcon } from "phosphor-svelte";
   import { Button } from "#components/controls/index.ts";
-  import { Dialog, DialogClose } from "#components/dialog/index.ts";
+  import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
-  import type { Product } from "#lib/entities/products/client/index.ts";
+  import type { ProductClient } from "#lib/entities/products/client/index.ts";
   import { deleteProductForm } from "../_forms.remote.ts";
 
   interface Props {
-    product: Product;
+    product: ProductClient;
   }
 
   const { product }: Props = $props();
@@ -24,7 +24,7 @@
     </Button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="bg-white fixed z-50 top-1/2 left-1/2 -translate-1/2">
+    <div {...props} class="bg-white dialog-centered">
       <h2>Elimina prodotto</h2>
 
       <p>Conferma di voler eliminare il prodotto {product.data.name}</p>
@@ -37,7 +37,13 @@
       >
         <HiddenInput field={form.fields.id} value={product.data.id} />
 
-        <DialogClose type="button">Annulla</DialogClose>
+        <Button
+          type="button"
+          onclick={() => {
+            dialogOpen = false;
+          }}
+          >Annulla</Button
+        >
         <Button type="submit">Conferma</Button>
       </Form>
     </div>

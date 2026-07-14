@@ -2,6 +2,7 @@ import printer from "./printer.ts";
 import printerSettingAvailable from "./printerSettingAvailable.ts";
 import printerSettingSelected from "./printerSettingSelected.ts";
 import product from "./product.ts";
+import productCategory from "./productCategory.ts";
 import productOption from "./productOption.ts";
 import rateLimiterToken from "./rateLimiterToken.ts";
 import session from "./session.ts";
@@ -13,6 +14,7 @@ export {
   printerSettingAvailable,
   printerSettingSelected,
   product,
+  productCategory,
   productOption,
   rateLimiterToken,
   session,
