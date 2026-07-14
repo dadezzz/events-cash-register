@@ -20,6 +20,12 @@ const integerSchema = v.pipe(
   v.transform((i) => Number.parseInt(i, 10)),
 );
 
+const booleanSchema = v.pipe(
+  v.string(),
+  v.picklist(["true", "false"]),
+  v.transform((i) => i === "true"),
+);
+
 export const variables = defineEnvVars({
   DOMAIN: {
     description: "DNS domain of the application",
@@ -86,5 +92,11 @@ export const variables = defineEnvVars({
   },
   INITIAL_ADMIN_USERNAME: {
     description: "Username for the initial admin user",
+  },
+
+  ENABLE_CRON: {
+    description: "Whether to enable cron jobs",
+    schema: booleanSchema,
+    static: true,
   },
 });

@@ -10,6 +10,7 @@ import { logError } from "#lib/server/logger/error.ts";
 import { Logger } from "#lib/server/logger/index.ts";
 import { logger } from "#lib/server/logger/request.ts";
 import { building } from "$app/env";
+import { ENABLE_CRON } from "$app/env/private";
 
 export const handle = sequence(
   // Initialize RequestLogger.
@@ -45,8 +46,10 @@ export const init: ServerInit = async () => {
     await initMigrateDatabase();
     await initCreateAdmin();
 
-    initCleanRateLimiterTableJob();
-    initCleanSessionTableJob();
-    initUpdateAvailablePrintersJob();
+    if (ENABLE_CRON) {
+      initCleanRateLimiterTableJob();
+      initCleanSessionTableJob();
+      initUpdateAvailablePrintersJob();
+    }
   }
 };
