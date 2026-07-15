@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { index, int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import type { ProductCategoryId } from "#lib/entities/products/category/id.ts";
 import type { ProductId } from "#lib/entities/products/id.ts";
 import { boolean, timestamp } from "./_utils.ts";
@@ -17,7 +17,7 @@ const columns = {
     .references(() => productCategory.id, { onDelete: "cascade", onUpdate: "cascade" }),
 
   name: text().notNull(),
-  price: int().notNull(),
+  price: real().notNull(),
   available: boolean().notNull(),
 
   deletedAt: timestamp(),

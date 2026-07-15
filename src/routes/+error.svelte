@@ -4,19 +4,17 @@
 </script>
 
 <svelte:head>
-  <title>Error {page.status}</title>
+  <title>Errore {page.status}</title>
 </svelte:head>
 
 <!--
   Add vertical margin. If the screen is still high enough then show the error on
   the center of the page.
 -->
-<div class="my-24 flex grow items-center">
-  <main class="mx-4 flex w-full flex-col items-center gap-4">
-    <h1 class="text-9xl">{page.status}</h1>
+<div class="flex flex-col gap-2 justify-center h-full items-center">
+  <h1 class="text-9xl">{page.status}</h1>
 
-    {page.error?.message ?? "Errore interno al server"}
+  {page.error?.message ?? "Errore interno al server"}
 
-    <A class="text-red-600 hover:underline focus:underline" href="/">Ritorna alla pagina home</A>
-  </main>
+  <A class="text-red-600 hover:underline focus:underline" href="/">Ritorna alla pagina home</A>
 </div>

@@ -33,7 +33,7 @@
       label: v.getDescription(e.entries.type),
     }))}
   >
-    {#snippet entryUI({  label })}
+    {#snippet entryUI({ label })}
       <div class="flex items-center gap-2">
         <div
           class="size-4 rounded-full border border-slate-300 flex items-center justify-center group-has-[input:checked]/radio:border-red-400"

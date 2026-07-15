@@ -1,6 +1,7 @@
 import * as v from "valibot";
 import { ProductClient } from "#lib/entities/products/client/index.ts";
 import { productIdSchema } from "#lib/entities/products/id.ts";
+import { priceSchema } from "#lib/price.ts";
 
 export const addProductToOrderSchema = v.lazyAsync(async (input) => {
   const { productId } = v.parse(v.object({ productId: productIdSchema }), input);
@@ -25,4 +26,8 @@ export const addProductToOrderSchema = v.lazyAsync(async (input) => {
       ),
     ),
   });
+});
+
+export const createOrderSchema = v.object({
+  discount: priceSchema,
 });

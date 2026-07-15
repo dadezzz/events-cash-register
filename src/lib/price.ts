@@ -21,4 +21,5 @@ export function priceToString(price: number): string {
   return `${euros}.${cents}`;
 }
 
-export const priceSchema = v.pipe(v.number("Input richiesto"), v.minValue(0.0, "Il prezzo non può essere negativo"));
+export const priceSchema = v.pipe(v.number("Input richiesto"));
+export const pricePositiveSchema = v.pipe(priceSchema, v.minValue(0.0, "Il prezzo non può essere negativo"));

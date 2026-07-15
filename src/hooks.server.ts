@@ -1,6 +1,7 @@
 import type { HandleServerError, HandleValidationError, ServerInit } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 import { getSession } from "#lib/auth/index.server.ts";
+import { initOrderState } from "#lib/entities/cart/order/index.ts";
 import { initCreateAdmin } from "#lib/entities/user/admin.ts";
 import { initCleanRateLimiterTableJob } from "#lib/server/cron/clean-rate-limiter-table.ts";
 import { initCleanSessionTableJob } from "#lib/server/cron/clean-session-table.ts";
@@ -45,6 +46,7 @@ export const init: ServerInit = async () => {
   if (!building) {
     await initMigrateDatabase();
     await initCreateAdmin();
+    await initOrderState();
 
     if (ENABLE_CRON) {
       initCleanRateLimiterTableJob();

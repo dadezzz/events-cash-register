@@ -35,6 +35,10 @@ export class Cart {
     return new Cart(cart.id);
   }
 
+  async countItems(): Promise<number> {
+    return await db.$count(s.cartItem, eq(s.cartItem.cartId, this.id));
+  }
+
   async addItem(
     product: Product,
     values: { productOptionId: ProductOptionId; value: ProductOptionValue }[],
