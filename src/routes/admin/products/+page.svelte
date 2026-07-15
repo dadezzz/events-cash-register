@@ -3,7 +3,7 @@
   import PageWithSidebar from "#components/layouts/PageWithSidebar.svelte";
   import { requireAdmin } from "#lib/auth/index.remote.ts";
   import AddCategoryDialog from "./_components/add-category-dialog/AddCategoryDialog.svelte";
-  import CategoriesList from "./_components/lists/CategoriesList.svelte";
+  import CategoriesList from "./_components/CategoriesList.svelte";
 
   await requireAdmin();
 </script>
@@ -11,14 +11,11 @@
 <PageWithSidebar>
   <div class="flex h-full">
     <div class="flex list-column">
-      <div class="font-bold flex mb-2">
+      <div class="font-bold flex justify-between mb-2">
         <h2>Categorie</h2>
-
-        <div class="ml-auto">
-          <AddCategoryDialog>
-            <PlusIcon class="size-4" />
-          </AddCategoryDialog>
-        </div>
+        <AddCategoryDialog>
+          <PlusIcon class="size-4" />
+        </AddCategoryDialog>
       </div>
 
       <CategoriesList />

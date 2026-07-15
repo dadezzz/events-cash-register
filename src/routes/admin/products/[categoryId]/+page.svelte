@@ -6,9 +6,9 @@
   import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import type { ProductCategoryId } from "#lib/entities/products/category/id.ts";
   import AddCategoryDialog from "../_components/add-category-dialog/AddCategoryDialog.svelte";
-  import AddProductDialog from "../_components/add-product-dialog/AddProductDialog.svelte";
-  import CategoriesList from "../_components/lists/CategoriesList.svelte";
-  import ProductsList from "../_components/lists/ProductsList.svelte";
+  import CategoriesList from "../_components/CategoriesList.svelte";
+  import AddProductDialog from "./_components/add-product-dialog/AddProductDialog.svelte";
+  import ProductsList from "./_components/ProductsList.svelte";
   import type { PageProps } from "./$types";
 
   await requireAdmin();

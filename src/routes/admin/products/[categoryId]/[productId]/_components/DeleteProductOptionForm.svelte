@@ -4,8 +4,8 @@
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
   import type { ProductClient } from "#lib/entities/products/client/index.ts";
-  import type { ProductOptionClient } from "#lib/entities/products/option/client.ts";
-  import { deleteProductOptionForm } from "../../_forms.remote.ts";
+  import type { ProductOptionClient } from "#lib/entities/products/option/client/index.ts";
+  import { deleteProductOptionForm } from "../_forms.remote.ts";
 
   interface Props {
     product: ProductClient;

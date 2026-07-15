@@ -6,6 +6,7 @@
   import { requireUser } from "#lib/auth/index.remote.ts";
   import { CartClient } from "#lib/entities/cart/client/index.ts";
   import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
+  import { ProductOptionClient } from "#lib/entities/products/option/client/index.ts";
   import ProductOptionInput from "./_components/ProductOptionInput.svelte";
   import { addProductToOrderForm } from "./_forms.remote.ts";
   import { addProductToOrderSchema } from "./_schemas.ts";
@@ -53,8 +54,6 @@
             <HiddenInput field={f.fields.productId} value={product.data.id} />
 
             {#each options as option, i (option.data.id)}
-              {option.data.name}
-
               <HiddenInput field={f.fields.options[i].productOptionId} value={option.data.id} />
               <ProductOptionInput field={f.fields.options[i].value} {option} />
             {/each}
@@ -75,8 +74,18 @@
       <ul>
         {#each cartItems as cartItem (cartItem.data.id)}
           {@const product = await cartItem.getProduct()}
+          {@const values = await cartItem.getValues()}
 
-          <li>{product.data.name}</li>
+          <li>
+            {product.data.name}
+
+            <ul class="ml-2">
+              {#each values as value (value.productOptionId)}
+                {@const productOption =await ProductOptionClient.fromId(value.productOptionId)}
+                <li>{productOption.data.name} - {value.value}</li>
+              {/each}
+            </ul>
+          </li>
         {/each}
       </ul>
     </div>

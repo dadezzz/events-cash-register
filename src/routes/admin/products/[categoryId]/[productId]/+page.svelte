@@ -8,10 +8,11 @@
   import { ProductClient } from "#lib/entities/products/client/index.ts";
   import type { ProductId } from "#lib/entities/products/id.ts";
   import AddCategoryDialog from "../../_components/add-category-dialog/AddCategoryDialog.svelte";
-  import AddProductDialog from "../../_components/add-product-dialog/AddProductDialog.svelte";
-  import CategoriesList from "../../_components/lists/CategoriesList.svelte";
-  import ProductOptionsList from "../../_components/lists/ProductOptionsList.svelte";
-  import ProductsList from "../../_components/lists/ProductsList.svelte";
+  import CategoriesList from "../../_components/CategoriesList.svelte";
+  import AddProductDialog from "../_components/add-product-dialog/AddProductDialog.svelte";
+  import ProductsList from "../_components/ProductsList.svelte";
+  import AddProductOptionDialog from "./_components/add-product-option-dialog/AddProductOptionDialog.svelte";
+  import ProductOptionsList from "./_components/ProductOptionsList.svelte";
   import type { PageProps } from "./$types";
 
   await requireAdmin();
@@ -58,9 +59,9 @@
         </h2>
 
         <div class="ml-auto">
-          <!-- <AddProductOptionDialog>
-        <PlusIcon class="size-4" />
-        </AddProductOptionDialog> -->
+          <AddProductOptionDialog {product}>
+            <PlusIcon class="size-4" />
+          </AddProductOptionDialog>
         </div>
       </div>
 

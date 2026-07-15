@@ -32,3 +32,12 @@ export const getProduct = query.batch(cartItemIdSchema, async (ids) => {
     return productClient;
   };
 });
+
+export const getValues = query.batch(cartItemIdSchema, async (ids) => {
+  const user = await requireUser();
+
+  const batch = await CartItemBatch.forUser(user, ids);
+  const values = await batch.getValues();
+
+  return (id) => values.get(id) ?? [];
+});

@@ -11,15 +11,16 @@
 
   interface Props {
     product: ProductClient;
+    onresult: () => void;
   }
 
-  const { product }: Props = $props();
+  const { product, onresult }: Props = $props();
 
   const form = $derived(addProductOptionForm.for(product.data.id).preflight(addProductOptionFormSchema));
   let entriesToAdd = $state(2);
 </script>
 
-<Form {form}>
+<Form {form} {onresult}>
   <HiddenInput field={form.fields.productId} value={product.data.id} />
 
   <TextInput field={form.fields.name} label="Nome" />
@@ -32,9 +33,14 @@
       label: v.getDescription(e.entries.type),
     }))}
   >
-    {#snippet entryUI({ checked, label })}
-      <div class="group-has-[input:checked]/radio:bg-red-400">
-        {checked ? "true" : "false"}
+    {#snippet entryUI({  label })}
+      <div class="flex items-center gap-2">
+        <div
+          class="size-4 rounded-full border border-slate-300 flex items-center justify-center group-has-[input:checked]/radio:border-red-400"
+        >
+          <div class="group-has-[input:checked]/radio:bg-red-400 size-2 rounded-full"></div>
+        </div>
+
         {label}
       </div>
     {/snippet}

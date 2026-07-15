@@ -5,6 +5,7 @@ import type { ProductOptionId } from "#lib/entities/products/option/id.ts";
 import type { ProductOptionValue } from "#lib/entities/products/option/index.ts";
 import type { User } from "#lib/entities/user/index.ts";
 import { db, s } from "#lib/server/database/index.ts";
+import type { CartItemId } from "./cart-item/id.ts";
 import type { CartId } from "./id.ts";
 
 export class Cart {
@@ -48,6 +49,22 @@ export class Cart {
       if (values.length > 0) {
         await tx.insert(s.cartItemValue).values(values.map((v) => ({ cartItemId: cartItem.id, ...v })));
       }
+    });
+  }
+
+  async deleteItem(cartItemId: CartItemId): Promise<void> {
+    await db.transaction(async (tx) => {
+      const order = await tx
+        .select({ id: s.order.cartId })
+        .from(s.order)
+        .where(eq(s.order.cartId, this.id))
+        .then(getFirstOptional);
+
+      if (order) {
+        throw new Error("can't delete items for already created orders");
+      }
+
+      tx.delete(s.cartItem).where(and(eq(s.cartItem.cartId, this.id), eq(s.cartItem.id, cartItemId)));
     });
   }
 }

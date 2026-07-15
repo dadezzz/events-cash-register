@@ -4,7 +4,7 @@ import { CartClient } from "#lib/entities/cart/client/index.ts";
 import { PrinterClient } from "#lib/entities/printer/client/index.ts";
 import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
 import { ProductClient } from "#lib/entities/products/client/index.ts";
-import { ProductOptionClient } from "#lib/entities/products/option/client.ts";
+import { ProductOptionClient } from "#lib/entities/products/option/client/index.ts";
 import { UserClient } from "#lib/entities/user/client/index.ts";
 
 export const transport: Transport = {
