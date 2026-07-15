@@ -9,7 +9,7 @@ import type { ProductOptionDataColumn } from "./option/index.ts";
 export class Product {
   id: ProductId;
 
-  private constructor(id: ProductId) {
+  constructor(id: ProductId) {
     this.id = id;
   }
 

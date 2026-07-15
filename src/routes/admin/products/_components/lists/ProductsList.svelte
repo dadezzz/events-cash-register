@@ -17,7 +17,7 @@
   {#each products as product, i (product.data.id)}
     <li class="flex justify-between border-t last:border-b border-slate-200 py-2">
       <A href="/admin/products/{category.data.id}/{product.data.id}" class="flex gap-2">
-        <span class="text-slate-400">{i+1}</span>
+        <span class="text-slate-400">{i + 1}</span>
         <span>{product.data.name}</span>
       </A>
 

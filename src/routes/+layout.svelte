@@ -14,6 +14,6 @@
 <NavigationProgressBar id={progressBarId} bind:progress={progressBarProgress} />
 <NavigationDimmer />
 
-<div aria-busy={progressBarProgress !== 0} aria-describedby={progressBarId} class="contents">
+<div aria-busy={progressBarProgress !== 0} aria-describedby={progressBarId} class="h-screen bg-default text-default">
   {@render children()}
 </div>

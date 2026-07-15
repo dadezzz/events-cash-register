@@ -28,12 +28,4 @@ export const productOptionDataColumnSchema = v.variant(
 
 export type ProductOptionDataColumn = v.InferOutput<typeof productOptionDataColumnSchema>;
 
-export const productOptionBooleanValueSchema = v.boolean();
-
-export function productOptionChoiceValueSchema(values: string[]) {
-  return v.picklist(values);
-}
-
-export type ProductOptionValue =
-  | v.InferOutput<typeof productOptionBooleanValueSchema>
-  | v.InferOutput<ReturnType<typeof productOptionChoiceValueSchema>>;
+export type ProductOptionValue = boolean | string;

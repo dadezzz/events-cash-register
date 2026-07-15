@@ -4,8 +4,7 @@ import { db, s } from "#lib/server/database/index.ts";
 import { ProductClient } from "./client/index.ts";
 import { sqlDataColumns } from "./data.ts";
 import type { ProductId } from "./id.ts";
-import type { ProductOptionData } from "./option/data.ts";
-import { sqlDataColumns as sqlOptionDataColumns } from "./option/data.ts";
+import { ProductOptionBatch } from "./option/batch.ts";
 
 export class ProductBatch extends Batch<ProductId> {
   async getClients(): Promise<BatchRows<ProductId, ProductClient>> {
@@ -13,18 +12,12 @@ export class ProductBatch extends Batch<ProductId> {
     return new BatchRows(rows.map((r) => [r.id, new ProductClient(r)]));
   }
 
-  async getOptions(): Promise<BatchRows<ProductId, ProductOptionData[]>> {
+  async getOptions(): Promise<ProductOptionBatch> {
     const rows = await db
-      .select(sqlOptionDataColumns)
+      .select({ id: s.productOption.id })
       .from(s.productOption)
       .where(and(inArray(s.productOption.productId, this.ids), isNull(s.productOption.deletedAt)));
 
-    const rows2: Record<ProductId, ProductOptionData[]> = {};
-    for (const r of rows) {
-      rows2[r.productId] ??= [];
-      rows2[r.productId].push(r);
-    }
-
-    return new BatchRows(rows2);
+    return new ProductOptionBatch(rows.map((r) => r.id));
   }
 }

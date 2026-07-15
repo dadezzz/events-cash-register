@@ -16,7 +16,7 @@
   {#each options as option, i (option.data.id)}
     <li class="flex justify-between border-t last:border-b border-slate-200 py-2">
       <div class="flex gap-2">
-        <span class="text-slate-400">{i+1}</span>
+        <span class="text-slate-400">{i + 1}</span>
         <span>{option.data.name}</span>
       </div>
 

@@ -25,8 +25,6 @@
         <Popover.Content class="bg-white z-40 border-slate-100 border rounded-md shadow p-4">
           <Popover.Arrow class="text-slate-100 " />
 
-          <p>Modify order</p>
-          <p>Edit</p>
           <p>Delete</p>
         </Popover.Content>
       </Popover.Root>

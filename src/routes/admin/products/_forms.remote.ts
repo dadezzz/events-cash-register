@@ -17,11 +17,7 @@ import {
 export const addProductForm = form(addProductFormSchema, async (data) => {
   await requireAdmin();
 
-  const product = await Product.create(data);
-
-  for (const option of data.options ?? []) {
-    product.addOption(option.name, option.data);
-  }
+  await Product.create(data);
 });
 
 export const deleteProductForm = form(deleteProductFormSchema, async (data) => {

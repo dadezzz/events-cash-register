@@ -44,8 +44,9 @@
           onclick={() => {
             dialogOpen = false;
           }}
-          >Annulla</Button
         >
+          Annulla
+        </Button>
         <Button type="submit">Conferma</Button>
       </Form>
     </div>

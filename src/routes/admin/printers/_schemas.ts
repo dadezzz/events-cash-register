@@ -4,7 +4,7 @@ import { PrinterClient } from "#lib/entities/printer/client/index.ts";
 import { printerIdSchema } from "#lib/entities/printer/id.ts";
 
 export const updateSettingsFormSchema = v.lazyAsync(async (input) => {
-  const printerId = v.parse(printerIdSchema, (input as { printerId: string }).printerId);
+  const { printerId } = v.parse(v.object({ printerId: printerIdSchema }), input);
 
   const printer = await PrinterClient.fromId(printerId);
   const settings = await printer.getSettingsAvailable();

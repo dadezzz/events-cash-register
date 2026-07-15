@@ -9,6 +9,9 @@ project.
 register operations. It supports product management (with options), user
 management with role-based access, printer management, and session tracking.
 
+This project uses a pnpm workspace (root + `cups/`). When running scripts that
+apply to all workspaces, use `pnpm run -r`:
+
 ## Key Technologies
 
 - **Framework:** SvelteKit 2 with Svelte 5 (using the new runes and compiler
@@ -58,7 +61,8 @@ import { randomUUID } from "node:crypto";
 - Tables are defined in `src/lib/server/database/tables/`
 - Use `sqliteTable` from `drizzle-orm/sqlite-core`
 - Use custom type wrappers for IDs (e.g., `$type<UserId>()`)
-- Migrations go in `migrations/` directory
+- Migrations go in `migrations/` directory (there are sql files that define the
+  migration and snapshots files of drizzle that you should ignore)>
 
 ### Forms & Validation
 
@@ -77,27 +81,8 @@ import { randomUUID } from "node:crypto";
 
 See `.env.example` and `src/env.ts` for all available variables.
 
-## Package.json scripts
+## CI
 
-This project uses a pnpm workspace (root + `cups/`). When running scripts that
-apply to all workspaces, use `pnpm run -r`:
-
-```bash
-# Check formatting across all workspaces
-pnpm run -r --no-sort format:check
-
-# Fix formatting across all workspaces
-pnpm run -r --no-sort format:fix
-
-# Check linting across all workspaces
-pnpm run -r --no-sort lint:check
-
-# Fix linting across all workspaces
-pnpm run -r --no-sort lint:fix
-
-# Type checking (only root package)
-pnpm check
-
-# Run tests with vitest (only root package)
-pnpm test
-```
+All pull requests must pass required checks found in the `.forgejo/workflows`
+folder. The checks run the following pnpm scripts `format:check`, `lint:check`,
+`check`, `build`, `test`.

@@ -10,7 +10,7 @@
 
 <PageWithSidebar>
   <div class="flex h-full">
-    <div class="w-full p-2">
+    <div class="flex list-column">
       <div class="font-bold flex mb-2">
         <h2>Categorie</h2>
 
@@ -24,20 +24,28 @@
       <CategoriesList />
     </div>
 
-    <div class="md:block border-l border-slate-300 hidden w-full p-2">
+    <div class="md:flex hidden list-column">
       <h2 class="font-bold">Prodotti</h2>
 
-      <div class="flex h-full items-center justify-center">
+      <div class="flex grow items-center justify-center">
         <p>Seleziona una categoria</p>
       </div>
     </div>
 
-    <div class="md:block border-l border-slate-300 hidden w-full p-2">
+    <div class="md:flex hidden list-column">
       <h2 class="font-bold">Opzioni</h2>
 
-      <div class="flex h-full items-center justify-center">
+      <div class="flex grow items-center justify-center">
         <p>Seleziona un prodotto</p>
       </div>
     </div>
   </div>
 </PageWithSidebar>
+
+<style>
+  @reference "#assets/tailwind.css";
+
+  .list-column {
+    @apply w-full flex-col border-slate-300 p-2 not-first:border-l;
+  }
+</style>

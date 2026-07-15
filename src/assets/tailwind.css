@@ -3,3 +3,11 @@
 @utility dialog-centered {
   @apply fixed z-50 top-1/2 left-1/2 -translate-1/2;
 }
+
+@utility bg-default {
+  @apply bg-slate-50 dark:bg-slate-900;
+}
+
+@utility text-default {
+  @apply text-slate-900 dark:text-slate-100;
+}

@@ -10,15 +10,6 @@ export const addProductFormSchema = v.object({
   categoryId: productCategoryIdSchema,
   price: priceSchema,
   available: v.optional(v.boolean(), false),
-
-  options: v.optional(
-    v.array(
-      v.object({
-        name: v.pipe(v.string(), v.nonEmpty("Input richiesto")),
-        data: productOptionDataColumnSchema,
-      }),
-    ),
-  ),
 });
 
 export const deleteProductFormSchema = v.object({

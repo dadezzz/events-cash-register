@@ -13,13 +13,13 @@
 
 <PageWithSidebar>
   <div class="flex h-full">
-    <div class="w-full p-2 hidden md:block mb-2 border-r border-slate-300">
+    <div class="md:flex list-column">
       <h2 class="font-bold flex mb-2">Stampanti</h2>
 
       <PrintersList />
     </div>
 
-    <div class="w-full p-2">
+    <div class="flex list-column">
       <h2 class="font-bold">Opzioni</h2>
 
       <div class="max-w-md my-2">
@@ -28,3 +28,11 @@
     </div>
   </div>
 </PageWithSidebar>
+
+<style>
+  @reference "#assets/tailwind.css";
+
+  .list-column {
+    @apply w-full flex-col border-slate-300 p-2 not-first:border-l;
+  }
+</style>

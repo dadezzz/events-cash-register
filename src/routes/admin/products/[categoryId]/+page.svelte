@@ -20,7 +20,7 @@
 
 <PageWithSidebar>
   <div class="flex h-full">
-    <div class="border-r hidden md:block border-slate-300 w-full p-2">
+    <div class="md:flex hidden list-column">
       <div class="flex font-bold justify-between mb-2">
         <h2>Categorie</h2>
         <AddCategoryDialog>
@@ -31,7 +31,7 @@
       <CategoriesList />
     </div>
 
-    <div class=" w-full p-2">
+    <div class="list-column">
       <div class="font-bold flex mb-2 items-center gap-2">
         <A href="/admin/products">
           <ArrowLeftIcon class="size-4 md:hidden" />
@@ -52,12 +52,20 @@
       <ProductsList {category} />
     </div>
 
-    <div class="md:block border-l border-slate-300 hidden w-full p-2">
+    <div class="md:flex hidden list-column">
       <h2 class="font-bold">Opzioni</h2>
 
-      <div class="flex h-full items-center justify-center">
+      <div class="flex grow items-center justify-center">
         <p>Seleziona un prodotto</p>
       </div>
     </div>
   </div>
 </PageWithSidebar>
+
+<style>
+  @reference "#assets/tailwind.css";
+
+  .list-column {
+    @apply w-full flex-col border-slate-300 p-2 not-first:border-l;
+  }
+</style>

@@ -45,8 +45,8 @@
         // @ts-expect-error: Bad types :/
         field={form.fields.settings[i].sValue}
         label={settingLabels[setting.name]}
-        entries={setting.constraints.entries.map((e) => ({ value: e, label: e, }))}
-        value={selectedValue?.value as string ?? setting.default}
+        entries={setting.constraints.entries.map((e) => ({ value: e, label: e }))}
+        value={(selectedValue?.value as string) ?? setting.default}
       />
     {/if}
   {/each}

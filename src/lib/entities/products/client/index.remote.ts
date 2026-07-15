@@ -3,7 +3,6 @@ import { e } from "#lib/error.ts";
 import { query } from "$app/server";
 import { ProductBatch } from "../batch.ts";
 import { productIdSchema } from "../id.ts";
-import { ProductOptionClient as ProductOptionClient } from "../option/client.ts";
 
 export const fromId = query.batch(productIdSchema, async (ids) => {
   await requireUser();
@@ -18,7 +17,12 @@ export const getOptions = query.batch(productIdSchema, async (ids) => {
   await requireUser();
 
   const batch = new ProductBatch(ids);
-  const options = await batch.getOptions();
+  const optionsBatch = await batch.getOptions();
+  const clients = await optionsBatch.getClients();
 
-  return (id) => options.get(id)?.map((d) => new ProductOptionClient(d)) ?? [];
+  return (id) =>
+    clients
+      .values()
+      .filter((c) => c.data.productId === id)
+      .toArray();
 });

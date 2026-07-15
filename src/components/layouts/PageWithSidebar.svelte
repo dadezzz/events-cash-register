@@ -53,7 +53,7 @@
 {/snippet}
 
 {#snippet sidebarContent()}
-  <div class="sticky bg-white flex flex-col h-full top-0 overflow-y-auto p-2">
+  <div class="sticky flex flex-col h-full top-0 overflow-y-auto p-2">
     <div class="w-full items-end flex flex-col mb-2">
       <Button
         type="button"
@@ -106,24 +106,24 @@
   </div>
 {/snippet}
 
-<div class="flex md:flex-row flex-col">
+<div class="flex h-full">
   {#if sidebarOpen && isMdWidth.current}
     <div class="border-r border-slate-300">
       {@render sidebarContent()}
     </div>
   {/if}
 
-  <main class="h-screen w-full">
+  <div class="w-full flex flex-col">
     <header class="flex border-b border-slate-300 p-2 gap-4 items-center">
       <Dialog
-        bind:open={() => sidebarOpen && !isMdWidth.current, (v) => {
-            if (!isMdWidth.current) {
-              sidebarOpen = v;
-            }
+        bind:open={() => {
+            return sidebarOpen && !isMdWidth.current;
+          }, (v) => {
+            if (!isMdWidth.current) sidebarOpen = v;
           }}
       >
         {#snippet content({ props })}
-          <div {...props} class="fixed inset-y-0 z-50">
+          <div {...props} class="fixed inset-y-0 z-50 bg-default">
             {@render sidebarContent()}
           </div>
         {/snippet}
@@ -142,6 +142,8 @@
       <p>Other header stuff that occupies some space</p>
     </header>
 
-    {@render children()}
-  </main>
+    <main class="grow">
+      {@render children()}
+    </main>
+  </div>
 </div>
