@@ -10,15 +10,21 @@
 <Header />
 
 <div class="flex min-h-0 grow flex-col md:flex-row">
-  <div class="page-section p-1">
+  <div class="page-section">
+    <h2 class="font-semibold p-2">Categorie</h2>
+
     <CategoriesList />
   </div>
 
-  <div class="page-section w-full h-full flex items-center justify-center">
-    <p class="dark:text-mist-400 text-mist-600">Seleziona una categoria</p>
+  <div class="page-section w-full">
+    <h2 class="font-semibold p-2">Prodotti</h2>
+
+    <div class="flex items-center justify-center h-full">
+      <p class="dark:text-mist-400 text-mist-600">Seleziona una categoria</p>
+    </div>
   </div>
 
-  <div class="page-section shrink-0 overflow-y-auto">
+  <div class="page-section shrink-0 overflow-y-auto p-2">
     <OrderList />
   </div>
 </div>

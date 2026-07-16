@@ -24,8 +24,6 @@
   let showRightArrow = $state(false);
 </script>
 
-<h2 class="font-semibold p-1">Categorie</h2>
-
 <div class="relative">
   {#if showLeftArrow}
     <div class="scroll-button-wrapper left-0 bg-linear-to-r pr-4">

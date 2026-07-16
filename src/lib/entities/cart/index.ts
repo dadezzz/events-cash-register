@@ -93,11 +93,11 @@ export class Cart {
 
     let total = 0;
     for (const cartItemId of cartItemsBatch.ids) {
-      const values = cartItemValues.get(cartItemId);
+      const values = cartItemValues.get(cartItemId) ?? [];
       const productId = cartItemProducts.get(cartItemId)?.id;
       const productPrice = productId ? productPrices.get(productId) : null;
 
-      if (!values || values.some((v) => v.price === null) || productPrice === null) {
+      if (values.some((v) => v.price === null) || productPrice === null) {
         return null;
       }
 

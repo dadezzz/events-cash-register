@@ -16,13 +16,13 @@
 
   // SSR safe since sidebar should always be closed on initial rendering.
   // This matches tailwindcss's md breakpoint.
-  const isMdWidth = new MediaQuery("(width >= 768px)", false);
+  const greatherThanTWLG = new MediaQuery("(width >= 1024px)", false);
 
   setSidebarContext(context);
 
   // Close sidebar on mobile navigation.
   afterNavigate(() => {
-    if (!isMdWidth.current) {
+    if (!greatherThanTWLG.current) {
       context.open = false;
     }
   });
@@ -30,19 +30,13 @@
 
 <!-- Inherit the height from parent. -->
 <div class="flex h-full">
-  {#if context.open && isMdWidth.current}
-    <aside transition:slide={{ axis: "x" }}>
-      {@render sbContent()}
-    </aside>
-  {/if}
-
-  <Dialog
-    bind:open={() => !isMdWidth.current && context.open, (v) => {
-        if (!isMdWidth.current) context.open = v;
-      }}
-  >
+  <Dialog bind:open={context.open} useOverlay={!greatherThanTWLG.current} usePortal={!greatherThanTWLG.current}>
     {#snippet content({ props })}
-      <aside {...props} class="fixed inset-y-0 z-50 bg-default text-default" transition:slide={{ axis: "x" }}>
+      <aside
+        {...props}
+        class={[greatherThanTWLG.current ? "" : "fixed inset-y-0 z-50 bg-default text-default"]}
+        transition:slide={{ axis: "x" }}
+      >
         {@render sbContent()}
       </aside>
     {/snippet}

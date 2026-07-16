@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { RemoteFormField } from "@sveltejs/kit";
+  import { scale } from "svelte/transition";
   import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { CheckboxInput, HiddenInput, RadioInput } from "#components/form/input/index.ts";
@@ -32,7 +33,7 @@
       <button {...props} type="button" class="dialog-button">Configura</button>
     {/snippet}
     {#snippet content({ props })}
-      <div {...props} class="dialog-default">
+      <div {...props} class="dialog-default" transition:scale>
         <h3>Configura prodotto da aggiungere</h3>
 
         <Form
@@ -91,6 +92,6 @@
   @reference "#assets/tailwind.css";
 
   .dialog-button {
-    @apply rounded-md border dark:bg-mist-800 dark:border-mist-600 dark:text-mist-300 py-1 w-full px-2 focus:outline-2 outline-emerald-default;
+    @apply outline-emerald-default w-full rounded-md border border-mist-400 bg-mist-200 px-2 py-1 text-mist-700 focus:outline-2 dark:border-mist-600 dark:bg-mist-800 dark:text-mist-300;
   }
 </style>
