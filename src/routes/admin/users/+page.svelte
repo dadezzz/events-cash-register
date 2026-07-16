@@ -1,6 +1,6 @@
 <script lang="ts">
   import { FormatDuration } from "#components/format/index.ts";
-  import PageWithSidebar from "#components/layouts/PageWithSidebar.svelte";
+  import Header from "#components/Header.svelte";
   import Pagination from "#components/navigation/Pagination.svelte";
   import { Table, TableBodyCell, TableBodyRow, TableHeadCell, TableHeadRow } from "#components/table/index.ts";
   import { Duration } from "#lib/duration.ts";
@@ -18,43 +18,43 @@
   const usersCount = $derived(await UserClient.countAllAdmin());
 </script>
 
-<PageWithSidebar>
-  <AddUserDialog />
+<Header />
 
-  <Table>
-    {#snippet head()}
-      <TableHeadRow>
-        <TableHeadCell pagination={{ options: paginationOptions, columnName: "name" }}>Nome</TableHeadCell>
-        <TableHeadCell pagination={{ options: paginationOptions, columnName: "username" }}>Nome utente</TableHeadCell>
-        <TableHeadCell pagination={{ options: paginationOptions, columnName: "createdAt" }}>Creato</TableHeadCell>
-        <TableHeadCell>Permessi</TableHeadCell>
-        <TableHeadCell>Azioni</TableHeadCell>
-      </TableHeadRow>
-    {/snippet}
+<AddUserDialog />
 
-    {#snippet body()}
-      {#each users as user (user.data.id)}
-        {@const privileges = await user.getPrivilegesAdmin()}
+<Table>
+  {#snippet head()}
+    <TableHeadRow>
+      <TableHeadCell pagination={{ options: paginationOptions, columnName: "name" }}>Nome</TableHeadCell>
+      <TableHeadCell pagination={{ options: paginationOptions, columnName: "username" }}>Nome utente</TableHeadCell>
+      <TableHeadCell pagination={{ options: paginationOptions, columnName: "createdAt" }}>Creato</TableHeadCell>
+      <TableHeadCell>Permessi</TableHeadCell>
+      <TableHeadCell>Azioni</TableHeadCell>
+    </TableHeadRow>
+  {/snippet}
 
-        <TableBodyRow>
-          <TableBodyCell>{user.data.name}</TableBodyCell>
-          <TableBodyCell>{user.data.username}</TableBodyCell>
+  {#snippet body()}
+    {#each users as user (user.data.id)}
+      {@const privileges = await user.getPrivilegesAdmin()}
 
-          <TableBodyCell>
-            <FormatDuration duration={Duration.fromDate(user.data.createdAt)} />
-            fa
-          </TableBodyCell>
+      <TableBodyRow>
+        <TableBodyCell>{user.data.name}</TableBodyCell>
+        <TableBodyCell>{user.data.username}</TableBodyCell>
 
-          <TableBodyCell>{privileges}</TableBodyCell>
+        <TableBodyCell>
+          <FormatDuration duration={Duration.fromDate(user.data.createdAt)} />
+          fa
+        </TableBodyCell>
 
-          <TableBodyCell>
-            <UpdateUserDialog {user} />
-            <DeleteUserDialog {user} />
-          </TableBodyCell>
-        </TableBodyRow>
-      {/each}
-    {/snippet}
-  </Table>
+        <TableBodyCell>{privileges}</TableBodyCell>
 
-  <Pagination {paginationOptions} pageSize={ADMIN_USERS_PAGE_SIZE} itemsCount={usersCount} />
-</PageWithSidebar>
+        <TableBodyCell>
+          <UpdateUserDialog {user} />
+          <DeleteUserDialog {user} />
+        </TableBodyCell>
+      </TableBodyRow>
+    {/each}
+  {/snippet}
+</Table>
+
+<Pagination {paginationOptions} pageSize={ADMIN_USERS_PAGE_SIZE} itemsCount={usersCount} />

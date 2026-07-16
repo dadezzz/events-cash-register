@@ -1,6 +1,5 @@
 <script lang="ts">
   import { PencilIcon } from "phosphor-svelte";
-  import { Button } from "#components/controls/index.ts";
   import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput, PasswordInput, TextInput } from "#components/form/input/index.ts";
@@ -20,12 +19,12 @@
 
 <Dialog bind:open={dialogOpen}>
   {#snippet trigger({ props })}
-    <Button type="button" {...props} aria-label="Modifica">
+    <button type="button" {...props} aria-label="Modifica">
       <PencilIcon class="size-5" />
-    </Button>
+    </button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="bg-white dialog-centered">
+    <div {...props} class="dialog-default">
       <h2>Modifica utente</h2>
 
       <Form
@@ -39,7 +38,7 @@
         <TextInput field={form.fields.username} label="Nome utente (usato per l'accesso)" value={user.data.username} />
         <PasswordInput field={form.fields._password} label="Password" />
 
-        <Button type="submit">Modifica</Button>
+        <button type="submit">Modifica</button>
       </Form>
     </div>
   {/snippet}

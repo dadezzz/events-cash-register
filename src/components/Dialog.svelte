@@ -17,7 +17,7 @@
   {/if}
 
   <Dialog.Portal>
-    <Dialog.Overlay class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs" />
+    <Dialog.Overlay class="fixed inset-0 z-50 bg-mist-950/60 backdrop-blur-xs" />
 
     <Dialog.Content
       forceMount

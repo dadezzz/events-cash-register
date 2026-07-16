@@ -4,6 +4,7 @@
   import type { InputProps } from ".";
   import Field from "./Field.svelte";
   import FieldErrors from "./FieldErrors.svelte";
+  import FieldLabel from "./FieldLabel.svelte";
 
   type Props = HTMLInputAttributes & InputProps<boolean>;
   const { field, label, ...rest }: Props = $props();
@@ -11,22 +12,27 @@
 
 <Field {field}>
   {#snippet children({ errorProps, inputProps, labelProps })}
-    <div class="flex flex-col gap-2">
-      <!-- biome-ignore lint/a11y/noLabelWithoutControl: For attribute is set by labelprops :| -->
-      <label
-        {...labelProps}
-        class="group flex w-fit items-center gap-2 text-sm text-slate-500 transition-colors data-[invalid=true]:text-red-800"
-      >
-        <input {...inputProps} {...field.as("checkbox")} class="peer sr-only" {...rest} />
+    <div class="flex flex-col gap-2 group">
+      <input {...inputProps} {...field.as("checkbox")} class="sr-only" {...rest} />
 
-        <div
-          class="flex size-5 items-center justify-center rounded-md border border-slate-300 p-0.5 outline-red-300 transition-colors group-hover:outline-3 group-has-[input:checked]:bg-red-600 group-has-[input:focus]:outline-3"
-        >
-          <CheckIcon class="size-5 text-white not-group-has-[input:checked]:hidden" weight="bold" />
+      <FieldLabel {...labelProps}>
+        <div class="flex items-center gap-2">
+          <div
+            class="flex size-5 items-center justify-center rounded-md border border-mist-strong p-0.5 outline-emerald-default transition-colors group-hover:outline-2 group-has-[input:checked]:bg-emerald-700 dark:group-has-[input:checked]:bg-emerald-300 group-has-[input:focus]:outline-2"
+          >
+            <CheckIcon
+              class="size-5 text-mist-100 dark:text-mist-900 not-group-has-[input:checked]:hidden"
+              weight="bold"
+            />
+          </div>
+
+          {#if typeof label === "string"}
+            {label}
+          {:else}
+            {@render label()}
+          {/if}
         </div>
-
-        {label}
-      </label>
+      </FieldLabel>
 
       <FieldErrors {...errorProps} />
     </div>

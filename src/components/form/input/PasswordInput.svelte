@@ -1,7 +1,6 @@
 <script lang="ts">
   import { EyeIcon, EyeSlashIcon } from "phosphor-svelte";
   import type { HTMLInputAttributes } from "svelte/elements";
-  import { Button } from "#components/controls/index.ts";
   import type { InputProps } from ".";
   import Field from "./Field.svelte";
   import FieldErrors from "./FieldErrors.svelte";
@@ -20,7 +19,7 @@
       <FieldLabel {...labelProps}>{label}</FieldLabel>
 
       <div
-        class="flex gap-3 overflow-hidden rounded-md border border-slate-300 outline-red-300 transition-colors focus-within:outline-3 hover:border-red-500"
+        class="flex gap-3 overflow-hidden rounded-md border border-mist-strong outline-emerald-default transition-colors focus-within:outline-2 hover:border-emerald-strong"
       >
         <input
           {...inputProps}
@@ -29,9 +28,9 @@
           {...rest}
         />
 
-        <Button
+        <button
           type="button"
-          class="rounded-none px-3 py-2 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600 focus:bg-red-50 focus:text-red-600 focus:outline-none"
+          class="px-3 py-2 text-mist-400 dark:text-mist-600 transition-colors hover:bg-emerald-50 dark:hover:bg-emerald-950 hover:text-emerald-600 dark:hover:text-emerald-400 focus:bg-emerald-50 dark:focus:bg-emerald-950 focus:text-emerald-600 dark:focus:text-emerald-400 focus:outline-none"
           onclick={() => (showPassword = !showPassword)}
           aria-label="Show password"
           aria-pressed={showPassword}
@@ -41,7 +40,7 @@
           {:else}
             <EyeSlashIcon class="size-5" />
           {/if}
-        </Button>
+        </button>
       </div>
 
       <FieldErrors {...errorProps} />

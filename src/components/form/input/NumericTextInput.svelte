@@ -25,7 +25,7 @@
         {...inputProps}
         {...field.as("text")}
         inputmode="numeric"
-        class="rounded-md border border-slate-300 px-3 py-2 outline-red-300 transition-colors hover:border-red-500 focus:outline-3"
+        class="rounded-md border border-mist-strong px-3 py-2 outline-emerald-default hover:border-emerald-strong focus:outline-2"
         oninput={(e) => {
           e.currentTarget.value = field.value()?.trim() ?? "";
         }}

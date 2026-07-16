@@ -1,6 +1,5 @@
 <script lang="ts">
   import { TrashIcon } from "phosphor-svelte";
-  import { Button } from "#components/controls/index.ts";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
   import type { ProductClient } from "#lib/entities/products/client/index.ts";
@@ -21,7 +20,7 @@
   <HiddenInput field={form.fields.productId} value={product.data.id} />
   <HiddenInput field={form.fields.id} value={option.data.id} />
 
-  <Button type="submit" aria-label="Elimina">
+  <button type="submit" aria-label="Elimina">
     <TrashIcon class="size-5" />
-  </Button>
+  </button>
 </Form>

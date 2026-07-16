@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Button } from "#components/controls/index.ts";
   import { Form } from "#components/form/index.ts";
   import { ComboBoxInput, HiddenInput, NumericInput } from "#components/form/input/index.ts";
   import type { PrinterClient } from "#lib/entities/printer/client/index.ts";
@@ -51,5 +50,5 @@
     {/if}
   {/each}
 
-  <Button type="submit">Salva</Button>
+  <button type="submit">Salva</button>
 </Form>

@@ -1,7 +1,6 @@
 <script lang="ts">
   import { Popover } from "bits-ui";
   import { CaretUpDownIcon, CheckIcon } from "phosphor-svelte";
-  import { Button } from "#components/controls/index.ts";
   import type { InputProps } from ".";
   import Field from "./Field.svelte";
   import FieldErrors from "./FieldErrors.svelte";
@@ -50,7 +49,7 @@
 
       <Popover.Root bind:open={suggestionsOpen}>
         <div
-          class="flex gap-3 overflow-hidden rounded-md border border-slate-300 outline-red-300 transition-colors focus-within:outline-3 hover:border-red-500"
+          class="flex gap-3 overflow-hidden rounded-md border border-mist-strong outline-emerald-default transition-colors focus-within:outline-2 hover:border-emerald-strong"
         >
           <input
             {...inputProps}
@@ -130,7 +129,7 @@
           <Popover.Trigger
             aria-label="Open the list of options"
             tabindex={-1}
-            class="rounded-none px-3 py-2 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600 focus:bg-red-50 focus:text-red-600 focus:outline-none"
+            class="px-3 py-2 text-mist-400 dark:text-mist-600 transition-colors hover:bg-emerald-50 dark:hover:bg-emerald-950 hover:text-emerald-600 dark:hover:text-emerald-400 focus:bg-emerald-50 dark:focus:bg-emerald-950 focus:text-emerald-600 dark:focus:text-emerald-400 focus:outline-none"
             onclick={() => {
               // Keep focus on the input node. Entry selection is handled through
               // pressing the up and down arrow keys.
@@ -144,7 +143,7 @@
         </div>
 
         <Popover.Content
-          class="group m-4 max-h-96 overflow-y-auto rounded-md border border-slate-200 bg-white p-2 text-sm shadow-lg"
+          class="group max-h-96 overflow-y-auto p-2 text-sm popover-default"
           customAnchor={comboboxInput}
           onOpenAutoFocus={(e) => {
             e.preventDefault();
@@ -153,10 +152,10 @@
           <ul id="{id}-list">
             {#each suggestions as entry (entry.value)}
               <li id="{id}-option-{entry.value}">
-                <Button
+                <button
                   type="button"
                   data-selected={suggestions[suggestionsIndex].value === entry.value}
-                  class="flex w-full cursor-pointer items-center justify-between gap-8 rounded-md border border-transparent p-2 transition-colors hover:border-slate-300 hover:bg-slate-100 focus:border-slate-300 focus:bg-slate-100 focus:outline-none not-group-focus-within:not-group-hover:data-[selected=true]:border-slate-300 not-group-focus-within:not-group-hover:data-[selected=true]:bg-slate-100"
+                  class="flex w-full cursor-pointer items-center justify-between gap-8 rounded-md p-2 transition-colors focus:outline-none hover:bg-mist-200 dark:hover:bg-mist-800 focus:bg-mist-200 dark:focus:bg-mist-800 not-group-focus-within:not-group-hover:data-[selected=true]:bg-mist-100 dark:not-group-focus-within:not-group-hover:data-[selected=true]:bg-mist-900"
                   onclick={() => {
                     field.set(entry.value);
 
@@ -173,10 +172,10 @@
                     data-selected={suggestions[suggestionsIndex].value === entry.value}
                     class="size-4 opacity-0 transition-opacity data-[selected=true]:opacity-100"
                   />
-                </Button>
+                </button>
               </li>
             {:else}
-              <span class="text-slate-600">No entries found.</span>
+              <span class="text-mist-600 dark:text-mist-400">No entries found.</span>
             {/each}
           </ul>
         </Popover.Content>

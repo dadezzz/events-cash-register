@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Button } from "#components/controls/index.ts";
   import { Form } from "#components/form/index.ts";
   import { CheckboxInput, HiddenInput, NumericInput, TextInput } from "#components/form/input/index.ts";
   import type { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
@@ -23,5 +22,5 @@
   <NumericInput field={form.fields.price} label="Prezzo" />
   <CheckboxInput field={form.fields.available} label="In vendita" checked={true} />
 
-  <Button type="submit">Crea</Button>
+  <button type="submit">Crea</button>
 </Form>

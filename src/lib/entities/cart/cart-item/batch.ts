@@ -1,5 +1,6 @@
 import { and, eq, exists, inArray } from "drizzle-orm";
 import { Product } from "#lib/entities/products/index.ts";
+import { calculateProductOptionPrice } from "#lib/entities/products/option/index.ts";
 import type { User } from "#lib/entities/user/index.ts";
 import { Batch, BatchRows } from "#lib/server/batch.ts";
 import { db, s } from "#lib/server/database/index.ts";
@@ -40,15 +41,19 @@ export class CartItemBatch extends Batch<CartItemId> {
     const rows = await db
       .select({
         cartItemId: s.cartItemValue.cartItemId,
-        productOptionId: s.cartItemValue.productOptionId,
+        optionId: s.cartItemValue.productOptionId,
+        optionData: s.productOption.data,
         value: s.cartItemValue.value,
       })
       .from(s.cartItemValue)
+      .innerJoin(s.productOption, eq(s.productOption.id, s.cartItemValue.productOptionId))
       .where(inArray(s.cartItemValue.cartItemId, this.ids));
 
     const rows2 = new Map<CartItemId, CartItemValue[]>();
-    for (const { cartItemId, ...cartItemValue } of rows) {
-      rows2.getOrInsert(cartItemId, []).push(cartItemValue);
+    for (const { cartItemId, optionData, ...cartItemValue } of rows) {
+      rows2
+        .getOrInsert(cartItemId, [])
+        .push({ ...cartItemValue, price: calculateProductOptionPrice(optionData, cartItemValue.value) });
     }
 
     return new BatchRows(rows2);

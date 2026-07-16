@@ -1,6 +1,5 @@
 <script lang="ts">
   import { CaretRightIcon, HouseIcon } from "phosphor-svelte";
-  import { A } from "#components/controls/index.ts";
   import Navigation from "./Navigation.svelte";
 
   interface Props {
@@ -24,13 +23,13 @@
   {/snippet}
   {#snippet entriesUI({ entries, wrappedEntryUI })}
     <li>
-      <A
+      <a
         aria-label="Ritorna alla pagina Home"
         href="/"
         class="block rounded-full border border-transparent p-2 outline-yellow-200 hover:border-yellow-300 hover:bg-yellow-50 focus:outline-2"
       >
         <HouseIcon class="size-4" />
-      </A>
+      </a>
     </li>
 
     {#each entries as entry (entry.href)}

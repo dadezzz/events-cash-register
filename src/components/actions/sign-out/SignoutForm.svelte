@@ -1,16 +1,17 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-  import { Button } from "#components/controls/index.ts";
+  import type { ClassValue } from "svelte/elements";
   import { Form } from "#components/form/index.ts";
   import { signOutForm } from "./_form.remote.ts";
 
   interface Props {
+    class: ClassValue;
     children: Snippet;
   }
 
-  const { children }: Props = $props();
+  const { class: classProp, children }: Props = $props();
 </script>
 
 <Form form={signOutForm}>
-  <Button type="submit" {children} />
+  <button type="submit" class={classProp}>{@render children()}</button>
 </Form>

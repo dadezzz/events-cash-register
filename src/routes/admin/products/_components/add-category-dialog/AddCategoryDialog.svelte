@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-  import { Button } from "#components/controls/index.ts";
   import Dialog from "#components/Dialog.svelte";
   import AddCategoryForm from "./AddCategoryForm.svelte";
 
@@ -15,10 +14,12 @@
 
 <Dialog bind:open={dialogOpen}>
   {#snippet trigger({ props })}
-    <Button type="button" {...props} {children} />
+    <button type="button" {...props}>
+      {@render children()}
+    </button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="bg-white dialog-centered">
+    <div {...props} class="dialog-default">
       <AddCategoryForm
         onresult={() => {
           dialogOpen = false;

@@ -7,6 +7,14 @@ import type { ProductId } from "./id.ts";
 import { ProductOptionBatch } from "./option/batch.ts";
 
 export class ProductBatch extends Batch<ProductId> {
+  async getPrices(): Promise<BatchRows<ProductId, number | null>> {
+    const rows = await db
+      .select({ id: s.product.id, price: s.product.price, available: s.product.available })
+      .from(s.product)
+      .where(inArray(s.product.id, this.ids));
+    return new BatchRows(rows.map((r) => [r.id, r.available ? r.price : null] as const));
+  }
+
   async getClients(): Promise<BatchRows<ProductId, ProductClient>> {
     const rows = await db.select(sqlDataColumns).from(s.product).where(inArray(s.product.id, this.ids));
     return new BatchRows(rows.map((r) => [r.id, new ProductClient(r)]));

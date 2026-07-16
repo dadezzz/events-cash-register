@@ -1,8 +1,9 @@
 <script lang="ts">
-  import PageWithSidebar from "#components/layouts/PageWithSidebar.svelte";
+  import Header from "#components/Header.svelte";
   import { requireUser } from "#lib/auth/index.remote.ts";
 
   await requireUser();
 </script>
 
-<PageWithSidebar>TODO: show orders and allow reprinting</PageWithSidebar>
+<Header />
+TODO: show orders and allow reprinting

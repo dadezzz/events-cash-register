@@ -1,6 +1,5 @@
 <script lang="ts">
   import { PlusIcon } from "phosphor-svelte";
-  import { Button } from "#components/controls/index.ts";
   import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { PasswordInput, TextInput } from "#components/form/input/index.ts";
@@ -13,13 +12,13 @@
 
 <Dialog bind:open={dialogOpen}>
   {#snippet trigger({ props })}
-    <Button type="button" {...props} class="font-bold bg-black text-white flex items-center gap-2 p-1 px-3 rounded-md">
+    <button type="button" {...props} class="font-bold bg-black text-white flex items-center gap-2 p-1 px-3 rounded-md">
       <PlusIcon class="size-5" />
       <span>Nuovo</span>
-    </Button>
+    </button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="bg-white dialog-centered">
+    <div {...props} class="dialog-default">
       <h2>Aggiungi utente</h2>
 
       <Form
@@ -32,7 +31,7 @@
         <TextInput field={form.fields.username} label="Nome utente (usato per l'accesso)" />
         <PasswordInput field={form.fields._password} label="Password" />
 
-        <Button type="submit">Crea</Button>
+        <button type="submit">Crea</button>
       </Form>
     </div>
   {/snippet}

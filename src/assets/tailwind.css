@@ -1,13 +1,37 @@
 @import "tailwindcss";
 
-@utility dialog-centered {
-  @apply fixed z-50 top-1/2 left-1/2 -translate-1/2;
+@utility dialog-default {
+  @apply fixed top-1/2 left-1/2 -translate-1/2 bg-default text-default z-50 shadow border-mist-default border rounded-md;
+}
+
+@utility popover-default {
+  @apply bg-default text-default shadow border border-mist-default rounded-md z-40;
 }
 
 @utility bg-default {
-  @apply bg-slate-50 dark:bg-slate-900;
+  @apply bg-mist-50 dark:bg-mist-950;
 }
 
 @utility text-default {
-  @apply text-slate-900 dark:text-slate-100;
+  @apply text-mist-900 dark:text-mist-100;
+}
+
+@utility text-red-default {
+  @apply text-red-600 dark:text-red-400;
+}
+
+@utility outline-emerald-default {
+  @apply outline-emerald-300 dark:outline-emerald-700;
+}
+
+@utility border-emerald-strong {
+  @apply border-emerald-400 dark:hover:border-emerald-600;
+}
+
+@utility border-mist-default {
+  @apply border-mist-200 dark:border-mist-800;
+}
+
+@utility border-mist-strong {
+  @apply border-mist-300 dark:border-mist-700;
 }

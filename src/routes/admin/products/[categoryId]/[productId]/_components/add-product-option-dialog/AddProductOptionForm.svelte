@@ -1,7 +1,6 @@
 <script lang="ts">
   import { XIcon } from "phosphor-svelte";
   import * as v from "valibot";
-  import { Button } from "#components/controls/index.ts";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput, NumericInput, RadioInput, TextInput } from "#components/form/input/index.ts";
   import { iteratorToNumber } from "#lib/array.ts";
@@ -53,7 +52,7 @@
       <TextInput field={form.fields.data.entries[j].value} label="Nome" />
       <NumericInput field={form.fields.data.entries[j].price} label="Prezzo aggiuntivo" />
 
-      <Button
+      <button
         type="button"
         onclick={() => {
           for (let k = j; k < entriesToAdd; k++) {
@@ -64,9 +63,9 @@
         }}
       >
         <XIcon class="size-4" />
-      </Button>
+      </button>
     {/each}
   {/if}
 
-  <Button type="submit">Salva</Button>
+  <button type="submit">Salva</button>
 </Form>

@@ -11,6 +11,9 @@
 </script>
 
 <!-- biome-ignore lint/a11y/noLabelWithoutControl: There is a for attribute in rest :| -->
-<label {...rest} class="w-fit text-sm text-slate-500 transition-colors data-[invalid=true]:text-red-800">
+<label
+  {...rest}
+  class="w-fit text-sm text-mist-700 dark:text-mist-300 transition-colors data-[invalid=true]:text-red-default"
+>
   {@render children()}
 </label>

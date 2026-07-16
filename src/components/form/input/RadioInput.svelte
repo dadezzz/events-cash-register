@@ -18,7 +18,7 @@
      */
     entries: Entry[];
     /** Used to render a single choice of the radio input. */
-    entryUI: Snippet<[{ checked: boolean; label: L }]>;
+    entryUI?: Snippet<[{ checked: boolean; label: L }]>;
     /** Classes for the default entriesUI implementation. */
     entriesClass?: ClassValue;
   }
@@ -34,6 +34,20 @@
   });
 </script>
 
+{#snippet defaultEntryUI(entry: Entry)}
+  <div class="flex gap-2 items-center w-fit group">
+    <div
+      class="flex items-center justify-center group-hover:outline-2 outline-emerald-default size-4 border border-mist-strong group-has-[input:checked]/radio:border-emerald-700 dark:group-has-[input:checked]/radio:border-emerald-300 rounded-full"
+    >
+      <div
+        class="size-2 group-has-[input:checked]/radio:bg-emerald-700 dark:group-has-[input:checked]/radio:bg-emerald-300 rounded-full"
+      ></div>
+    </div>
+
+    <span class="text-mist-700 dark:text-mist-300">{entry.label}</span>
+  </div>
+{/snippet}
+
 <!--
   Renders the card that the user provided but wrapped with a RadioGroup.Item
 -->
@@ -44,19 +58,26 @@
     <!-- To style children use the prefix group-has-[input:checked]/radio: -->
     <!-- biome-ignore lint/a11y/noLabelWithoutControl: There is a for attribute :| -->
     <label for="{id}-values-{entry.value}">
-      {@render entryUI({ checked: field.value() === entry.value, label: entry.label })}
+      {#if entryUI}
+        {@render entryUI({ checked: field.value() === entry.value, label: entry.label })}
+      {:else}
+        {@render defaultEntryUI(entry)}
+      {/if}
     </label>
   </div>
 {/snippet}
 
-<div class="flex flex-col gap-2">
+<div>
   <!-- Setting flex on fieldset gives strange results, so we wrap in a div. -->
   <fieldset aria-describedby={field.issues()?.length ? `${id}-errors` : undefined} class="contents">
-    <legend data-invalid={!!field.issues()?.length} class="text-sm text-slate-500 data-[invalid=true]:text-red-700">
+    <legend
+      data-invalid={!!field.issues()?.length}
+      class="text-sm text-mist-700 dark:text-mist-300 data-[invalid=true]:text-red-default"
+    >
       {label}
     </legend>
 
-    <div class={entriesClass}>
+    <div class={["mt-0.5 mb-2", entriesClass]}>
       {#each entries as entry (entry.value)}
         {@render wrappedEntryUI(entry)}
       {/each}

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { TrashIcon } from "phosphor-svelte";
-  import { Button } from "#components/controls/index.ts";
   import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
@@ -21,12 +20,12 @@
 
 <Dialog bind:open={dialogOpen}>
   {#snippet trigger({ props })}
-    <Button type="button" {...props} aria-label="Elimina" disabled={categoryProductsCount > 0}>
+    <button type="button" {...props} aria-label="Elimina" disabled={categoryProductsCount > 0}>
       <TrashIcon class="size-5" />
-    </Button>
+    </button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="bg-white dialog-centered">
+    <div {...props} class="dialog-default">
       <h2>Elimina prodotto</h2>
 
       <p>Conferma di voler eliminare la categoria {category.data.name}</p>
@@ -39,15 +38,15 @@
       >
         <HiddenInput field={form.fields.id} value={category.data.id} />
 
-        <Button
+        <button
           type="button"
           onclick={() => {
             dialogOpen = false;
           }}
         >
           Annulla
-        </Button>
-        <Button type="submit">Conferma</Button>
+        </button>
+        <button type="submit">Conferma</button>
       </Form>
     </div>
   {/snippet}

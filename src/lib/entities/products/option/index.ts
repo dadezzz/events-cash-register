@@ -29,3 +29,25 @@ export const productOptionDataColumnSchema = v.variant(
 export type ProductOptionDataColumn = v.InferOutput<typeof productOptionDataColumnSchema>;
 
 export type ProductOptionValue = boolean | string;
+
+export function calculateProductOptionPrice(data: ProductOptionDataColumn, value: ProductOptionValue): number | null {
+  switch (data.type) {
+    case "boolean": {
+      const parsed = v.safeParse(v.boolean(), value);
+      if (!parsed.success) {
+        return null;
+      }
+
+      return parsed.output ? data.price : 0;
+    }
+
+    case "choice": {
+      const parsed = v.safeParse(v.string(), value);
+      if (!parsed.success) {
+        return null;
+      }
+
+      return data.entries.find((e) => e.value === parsed.output)?.price ?? null;
+    }
+  }
+}

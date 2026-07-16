@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { A } from "#components/controls/index.ts";
   import { page } from "$app/state";
 </script>
 
@@ -16,5 +15,5 @@
 
   {page.error?.message ?? "Errore interno al server"}
 
-  <A class="text-red-600 hover:underline focus:underline" href="/">Ritorna alla pagina home</A>
+  <a class="text-red-600 hover:underline focus:underline" href="/">Ritorna alla pagina home</a>
 </div>

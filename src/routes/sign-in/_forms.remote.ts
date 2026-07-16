@@ -19,10 +19,10 @@ export const signInForm = form(signInFormSchema, async (data, issue) => {
     error(429, `Raggiunto il limite di tentativi, riprovare tra ${Duration.fromDate(rlDate).toString(2)}`);
   }
 
-  const user = await User.fromUsernameAndPassword(data.username, data.password);
+  const user = await User.fromUsernameAndPassword(data.username, data._password);
 
   if (!user) {
-    invalid(issue.password("Nome utente o password non trovati"));
+    invalid(issue._password("Nome utente o password non trovati"));
   }
 
   await user.createSessionCookie();
