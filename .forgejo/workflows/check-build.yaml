@@ -5,7 +5,7 @@ concurrency:
 jobs:
   check:
     container:
-      image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:911d0b61b8654cb0eb6ba00c7cef1bb7c9c560cfcfbdc10ef2a914272cfc978c
+      image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:ba2179fddf94601722420638e57c371423a337cb55c3e41360a985d4648a14b5
       volumes:
         - forgejo-runner-cache-pnpm:/usr/local/pnpm/store
     name: Check that project builds
