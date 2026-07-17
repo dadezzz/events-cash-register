@@ -17,21 +17,15 @@ export function destGetInfo(connection: CupsConnectionData, dest: CupsPrinterDat
   return lib.destGetInfo(connection, dest);
 }
 
-export function destCheckMimeTypeSupport(
-  connection: CupsConnectionData,
-  dest: CupsPrinterData,
-  info: CupsPrinterInfoData,
-  mimeType: string,
-): boolean {
-  return lib.destCheckMimeTypeSupport(connection, dest, info, mimeType);
-}
-
 export function destGetJobCreationAttributes(
   connection: CupsConnectionData,
   dest: CupsPrinterData,
   info: CupsPrinterInfoData,
 ): JobCreationAttributesAvailable {
-  return lib.destGetJobCreationAttributes(connection, dest, info);
+  const attributes: JobCreationAttributesAvailable = lib.destGetJobCreationAttributes(connection, dest, info);
+  // Modern CUPS proxies can automatically handle any number of copies.
+  attributes.push({ name: "copies", type: "number", constraints: { min: 1, max: 9999 }, default: 1 });
+  return attributes;
 }
 
 export async function destSendJob(

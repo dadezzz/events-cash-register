@@ -4,38 +4,6 @@
 
 #include <ranges>
 
-Napi::Object parseRangeAttribute(const Napi::Env& env,
-                                 http_t* connection,
-                                 cups_dest_t* dest,
-                                 cups_dinfo_t* dinfo,
-                                 const char* name) {
-  auto* supportedAttr = cupsFindDestSupported(connection, dest, dinfo, name);
-  auto* defaultAttr = cupsFindDestDefault(connection, dest, dinfo, name);
-
-  auto resultObj = Napi::Object::New(env);
-  resultObj.Set("type", Napi::String::New(env, "number"));
-  auto constraintsObj = Napi::Object::New(env);
-
-  if (supportedAttr != nullptr) {
-    // We only get the first range since rarely someone needs to print more
-    // than 1 or 2 copies of a receipt in the same job.
-    int supportedUpper = 1;
-    int supportedLower = ippGetRange(supportedAttr, 0, &supportedUpper);
-    constraintsObj.Set("min", Napi::Number::New(env, supportedLower));
-    constraintsObj.Set("max", Napi::Number::New(env, supportedUpper));
-  } else {
-    constraintsObj.Set("min", Napi::Number::New(env, 1));
-    constraintsObj.Set("max", Napi::Number::New(env, 1));
-  }
-
-  resultObj.Set("constraints", constraintsObj);
-
-  auto defaultInt = defaultAttr != nullptr ? ippGetInteger(defaultAttr, 0) : 1;
-  resultObj.Set("default", Napi::Number::New(env, defaultInt));
-
-  return resultObj;
-}
-
 Napi::Object parseEnumAttribute(const Napi::Env& env,
                                 http_t* connection,
                                 cups_dest_t* dest,
@@ -115,12 +83,6 @@ Napi::Array destGetJobCreationAttributes(const Napi::CallbackInfo& info) {
 
   auto i = 0;
   auto array = Napi::Array::New(env);
-
-  auto copiesObj =
-      parseRangeAttribute(env, connection, dest, dinfo, CUPS_COPIES);
-  copiesObj.Set("name", "copies");
-
-  array.Set(i++, copiesObj);
 
   auto finishingsObj =
       parseEnumAttribute(env, connection, dest, dinfo, CUPS_FINISHINGS);

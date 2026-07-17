@@ -65,17 +65,7 @@ export class CupsConnection {
 
   async getPdfPrinters(): Promise<CupsPrinter[]> {
     const printersData = await this.connect((c) => binding.getDests(c));
-
-    const printers = await Promise.all(printersData.map((pd) => CupsPrinter.create(this, pd.name, pd.data)));
-    const pdfPrinters = [];
-
-    for (const p of printers) {
-      if (await p.supportsMimeType("application/pdf")) {
-        pdfPrinters.push(p);
-      }
-    }
-
-    return pdfPrinters;
+    return await Promise.all(printersData.map((pd) => CupsPrinter.create(this, pd.name, pd.data)));
   }
 }
 
@@ -97,12 +87,6 @@ export class CupsPrinter {
       const info = await binding.destGetInfo(c, data);
       return new CupsPrinter(connection, name, data, info);
     });
-  }
-
-  async supportsMimeType(mimeType: string) {
-    return this.connection.connect((c) =>
-      Promise.resolve(binding.destCheckMimeTypeSupport(c, this.data, this.info, mimeType)),
-    );
   }
 
   async getJobCreationAttributes() {
