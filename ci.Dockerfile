@@ -7,7 +7,7 @@ FROM docker.io/library/node:26.5.0-alpine@sha256:e88a35be04478413b7c71c455cd9865
 	RUN apk add --no-cache \
 	    git \
 	    cups-dev curl g++ clang-extra-tools meson \
-	    chroumium
+	    chromium
 
 # renovate: datasource=npm depName=pnpm versioning=npm
 ENV PNPM_VERSION="11.13.0"
