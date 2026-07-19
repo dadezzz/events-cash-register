@@ -2,8 +2,9 @@ import cart from "./cart.ts";
 import cartItem from "./cartItem.ts";
 import cartItemValue from "./cartItemValue.ts";
 import order from "./order.ts";
-import ordersState from "./ordersState.ts";
+import orderCounter from "./orderCounter.ts";
 import printer from "./printer.ts";
+import printerReceiptTemplate from "./printerReceiptTemplate.ts";
 import printerSettingAvailable from "./printerSettingAvailable.ts";
 import printerSettingSelected from "./printerSettingSelected.ts";
 import product from "./product.ts";
@@ -19,8 +20,9 @@ export {
   cartItem,
   cartItemValue,
   order,
-  ordersState,
+  orderCounter,
   printer,
+  printerReceiptTemplate,
   printerSettingAvailable,
   printerSettingSelected,
   product,

@@ -2,7 +2,7 @@
   import { WarningCircleIcon } from "phosphor-svelte";
 
   interface Props {
-    id: string;
+    id?: string;
     errors: { message: string }[] | undefined;
   }
 

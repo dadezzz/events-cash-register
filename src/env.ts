@@ -71,6 +71,10 @@ export const variables = defineEnvVars({
     description: "Url of the CUPS server",
   },
 
+  PUPPETEER_EXECUTABLE_PATH: {
+    description: "Path to chromium executable for puppeteer",
+  },
+
   ADMIN_USERS_PAGE_SIZE: {
     description: "User entries per page in admin dashboard",
     schema: integerSchema,

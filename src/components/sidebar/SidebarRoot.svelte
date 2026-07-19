@@ -13,12 +13,11 @@
   }
 
   let { context = $bindable(), content: sbContent, children }: Props = $props();
+  setSidebarContext(context);
 
   // SSR safe since sidebar should always be closed on initial rendering.
   // This matches tailwindcss's md breakpoint.
   const greatherThanTWLG = new MediaQuery("(width >= 1024px)", false);
-
-  setSidebarContext(context);
 
   // Close sidebar on mobile navigation.
   afterNavigate(() => {

@@ -5,7 +5,6 @@ import type { ProductOptionId } from "#lib/entities/products/option/id.ts";
 import type { ProductOptionValue } from "#lib/entities/products/option/index.ts";
 import type { User } from "#lib/entities/user/index.ts";
 import { db, s } from "#lib/server/database/index.ts";
-import { ProductBatch } from "../products/batch.ts";
 import { CartItemBatch } from "./cart-item/batch.ts";
 import type { CartItemId } from "./cart-item/id.ts";
 import type { CartId } from "./id.ts";
@@ -77,34 +76,5 @@ export class Cart {
   async getItems(): Promise<CartItemBatch> {
     const items = await db.select({ id: s.cartItem.id }).from(s.cartItem).where(eq(s.cartItem.cartId, this.id));
     return new CartItemBatch(items.map((i) => i.id));
-  }
-
-  async getTotal(): Promise<number | null> {
-    const cartItemsBatch = await this.getItems();
-    const cartItemValues = await cartItemsBatch.getValues();
-    const cartItemProducts = await cartItemsBatch.getProducts();
-    const productsBatch = new ProductBatch(
-      cartItemProducts
-        .values()
-        .map((p) => p.id)
-        .toArray(),
-    );
-    const productPrices = await productsBatch.getPrices();
-
-    let total = 0;
-    for (const cartItemId of cartItemsBatch.ids) {
-      const values = cartItemValues.get(cartItemId) ?? [];
-      const productId = cartItemProducts.get(cartItemId)?.id;
-      const productPrice = productId ? productPrices.get(productId) : null;
-
-      if (values.some((v) => v.price === null) || productPrice === null) {
-        return null;
-      }
-
-      // Invalid values are filtered above.
-      total += productPrice + values.map((v) => v.price as number).reduce((a, b) => a + b, 0);
-    }
-
-    return total;
   }
 }

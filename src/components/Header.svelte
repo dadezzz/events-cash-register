@@ -3,10 +3,10 @@
   import type { Snippet } from "svelte";
   import { fly } from "svelte/transition";
   import SignoutForm from "#components/actions/sign-out/SignoutForm.svelte";
+  import Popover from "#components/Popover.svelte";
   import Separator from "#components/Separator.svelte";
   import { SidebarButton } from "#components/sidebar/index.ts";
   import { UserClient } from "#lib/entities/user/client/index.ts";
-  import Popover from "./Popover.svelte";
 
   interface Props {
     children?: Snippet;

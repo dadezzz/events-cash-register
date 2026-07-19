@@ -9,11 +9,9 @@ export const createOrderForm = form(createOrderSchema, async (data) => {
   const user = await requireUser();
 
   const cart = await Cart.getUserLatestOrCreate(user);
+  const order = await Order.create(cart, data.finalPrice);
 
-  const total = await cart.getTotal();
-  if (!total || total <= 0) {
+  if (!order) {
     throw e.error400();
   }
-
-  await Order.create(cart, data.price - total);
 });

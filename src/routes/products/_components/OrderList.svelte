@@ -64,7 +64,7 @@
 
   <div class="mt-auto">
     <Form form={orderForm} class="mt-auto hidden md:block">
-      <NumericInput field={orderForm.fields.price} value={orderTotal} label="Prezzo totale" />
+      <NumericInput field={orderForm.fields.finalPrice} value={orderTotal} label="Prezzo totale" />
 
       <button
         type="submit"

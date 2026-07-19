@@ -10,7 +10,9 @@ export default sqliteTable("order", {
     .references(() => cart.id, { onDelete: "restrict", onUpdate: "cascade" }),
 
   counter: integer().notNull(),
-  discount: real().notNull(),
+  // User can arbitrarily modify the price of the order. So we store what they
+  // selected here.
+  finalPrice: real().notNull(),
 
   createdAt: timestamp()
     .notNull()
