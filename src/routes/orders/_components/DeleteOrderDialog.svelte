@@ -1,21 +1,25 @@
 <script lang="ts">
-  import { PlusIcon } from "phosphor-svelte";
+  import type { Snippet } from "svelte";
   import { fly } from "svelte/transition";
   import Dialog from "#components/Dialog.svelte";
-  import AddCategoryForm from "./AddCategoryForm.svelte";
+  import type { OrderClient } from "#lib/entities/cart/order/client/index.ts";
+  import DeleteOrderForm from "./DeleteOrderForm.svelte";
+
+  interface Props {
+    order: OrderClient;
+    trigger: Snippet<[{ props: Record<string, unknown> }]>;
+  }
+
+  const { order, trigger }: Props = $props();
 
   let dialogOpen = $state(false);
 </script>
 
-<Dialog bind:open={dialogOpen}>
-  {#snippet trigger({ props })}
-    <button {...props} type="button" class="button-ghost-icon">
-      <PlusIcon class="size-5" />
-    </button>
-  {/snippet}
+<Dialog bind:open={dialogOpen} {trigger}>
   {#snippet content({ props })}
     <div {...props} class="dialog-center dialog-inner" transition:fly>
-      <AddCategoryForm
+      <DeleteOrderForm
+        {order}
         onresult={() => {
           dialogOpen = false;
         }}

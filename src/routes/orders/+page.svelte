@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { TrashIcon } from "phosphor-svelte";
   import Header from "#components/Header.svelte";
   import Pagination from "#components/navigation/Pagination.svelte";
   import { requireUser } from "#lib/auth/index.remote.ts";
@@ -6,6 +7,7 @@
   import { orderPaginationSchema } from "#lib/entities/cart/order/pagination.ts";
   import { getCurrentPaginationOptions } from "#lib/pagination.ts";
   import { page } from "$app/state";
+  import DeleteOrderDialog from "./_components/DeleteOrderDialog.svelte";
 
   await requireUser();
 
@@ -17,8 +19,20 @@
 
 <Header />
 
-{#each orders as order (order.data.cartId)}
-  <p>{order.data.counter}</p>
-{/each}
+<ul>
+  {#each orders as order (order.data.cartId)}
+    <li>
+      {order.data.counter}
+
+      <DeleteOrderDialog {order}>
+        {#snippet trigger({ props })}
+          <button type="button" {...props}>
+            <TrashIcon class="size-4" />
+          </button>
+        {/snippet}
+      </DeleteOrderDialog>
+    </li>
+  {/each}
+</ul>
 
 <Pagination options={paginationOptions} itemsCount={ordersCount} />

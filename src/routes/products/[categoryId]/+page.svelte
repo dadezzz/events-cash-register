@@ -24,13 +24,13 @@
     <CategoriesList selectedCategory={category} />
   </div>
 
-  <div class="page-section p-2 w-full h-full overflow-y-auto @container">
+  <div class="page-section @container h-full w-full overflow-y-auto p-2">
     <h2 class="font-semibold">Prodotti</h2>
 
-    <ul class="gap-2 grid @md:grid-cols-2 @lg:grid-cols-3">
+    <ul class="grid gap-2 @md:grid-cols-2 @lg:grid-cols-3">
       {#each products as product}
-        <li class="border-mist-200 dark:border-mist-800 border rounded-md p-2 flex flex-col gap-3">
-          <div class="flex justify-between items-center">
+        <li class="flex flex-col gap-3 rounded-md border border-mist-200 p-2 dark:border-mist-800">
+          <div class="flex items-center justify-between">
             <span class="text-sm font-semibold">{product.data.name}</span>
             <FormatPrice price={product.data.price} class="text-xs text-mist-600 dark:text-mist-400" />
           </div>

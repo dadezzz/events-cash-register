@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
-@utility dialog-default {
-  @apply fixed top-1/2 left-1/2 -translate-1/2 bg-default text-default z-50 shadow border-mist-default border rounded-md;
+@utility dialog-inner {
+  @apply bg-default text-default shadow border-mist-default border rounded-md;
+}
+
+@utility dialog-center {
+  @apply fixed top-1/2 left-1/2 -translate-1/2 z-50;
 }
 
 @utility popover-default {
@@ -34,4 +38,16 @@
 
 @utility border-mist-strong {
   @apply border-mist-300 dark:border-mist-700;
+}
+
+@utility button-ghost {
+  @apply outline-emerald-default rounded-md hover:bg-mist-200 focus:outline-2 dark:hover:bg-mist-800;
+}
+
+@utility button-secondary {
+  @apply outline-emerald-default rounded-md bg-mist-200 font-semibold hover:bg-mist-300 focus:outline-2 dark:bg-mist-800 dark:hover:bg-mist-700;
+}
+
+@utility button-primary {
+  @apply outline-emerald-default rounded-md bg-emerald-200 font-semibold hover:bg-emerald-300 focus:outline-2 dark:bg-emerald-800 dark:hover:bg-emerald-700;
 }

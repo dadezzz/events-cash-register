@@ -36,7 +36,7 @@
   <nav class="contents">
     <ul
       bind:this={ulElement}
-      class="flex md:block scrollbar-none overflow-x-auto rounded-md outline-emerald-default focus:outline p-1 gap-1"
+      class="outline-emerald-default flex scrollbar-none gap-1 overflow-x-auto rounded-md p-1 focus:outline md:block"
       {@attach (node) => {
         function checkScroll() {
           showLeftArrow = node.scrollLeft > 1;
@@ -59,7 +59,7 @@
           <a
             href="/products/{category.data.id}"
             class={[
-              "p-2 hover:bg-mist-200 dark:hover:bg-mist-800 rounded-md flex w-full focus:outline-2 outline-emerald-default",
+              "outline-emerald-default flex w-full rounded-md p-2 hover:bg-mist-200 focus:outline-2 dark:hover:bg-mist-800",
               category.data.id === selectedCategory?.data.id ? "bg-emerald-100 dark:bg-emerald-900" : "",
             ]}
           >

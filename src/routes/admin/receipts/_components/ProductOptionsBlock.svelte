@@ -26,7 +26,7 @@
   <AddBlockButton blocksField={field.blocks} {position} choices={[{ label: "Aggiungi blocco linea", value: "line" }]} />
 {/snippet}
 
-<div class="flex flex-col gap-2 relative hover:border-mist-500 border border-mist-strong rounded-md p-2">
+<div class="border-mist-strong relative flex flex-col gap-2 rounded-md border p-2 hover:border-mist-500">
   <h4 class="font-semibold">Opzioni prodotto</h4>
 
   <DeleteBlockButton {blocksField} {position} class="absolute top-2 right-2">

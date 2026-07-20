@@ -17,7 +17,7 @@
   <p>Ricevute e comande</p>
 </Header>
 
-<div class="min-h-0 grow overflow-y-auto p-2 flex flex-col gap-4">
+<div class="flex min-h-0 grow flex-col gap-4 overflow-y-auto p-2">
   <Form {form} class="contents">
     <TextInput field={form.fields.name} label="Nome" />
 
@@ -29,12 +29,12 @@
 
     <Separator orientation="horizontal" class="border-mist-strong" />
 
-    <h3 class="font-semibold text-xl">Template</h3>
+    <h3 class="text-xl font-semibold">Template</h3>
 
-    <div class="rounded-md bg-mist-100 dark:bg-mist-900 p-2">
+    <div class="rounded-md bg-mist-100 p-2 dark:bg-mist-900">
       <RootBlock field={form.fields.blocks} />
     </div>
 
-    <button type="submit" class="bg-emerald-500 px-2 py-1 rounded-md">Crea</button>
+    <button type="submit" class="rounded-md bg-emerald-500 px-2 py-1">Crea</button>
   </Form>
 </div>

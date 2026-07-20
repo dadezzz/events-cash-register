@@ -1,5 +1,6 @@
 <script lang="ts">
   import { PencilIcon } from "phosphor-svelte";
+  import { fly } from "svelte/transition";
   import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput, PasswordInput, TextInput } from "#components/form/input/index.ts";
@@ -24,7 +25,7 @@
     </button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="dialog-default">
+    <div {...props} class="dialog-center dialog-inner" transition:fly>
       <h2>Modifica utente</h2>
 
       <Form

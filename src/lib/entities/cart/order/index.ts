@@ -1,6 +1,6 @@
 import { eq, sql } from "drizzle-orm";
 import puppeteer from "puppeteer-core";
-import { getFirstOrThrow } from "#lib/array.ts";
+import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { CartItem } from "#lib/entities/cart/cart-item/index.ts";
 import { PrinterReceiptTemplateBatch } from "#lib/entities/printer/receipt-template/batch.ts";
 import { renderReceiptHtml } from "#lib/entities/printer/receipt-template/render.ts";
@@ -156,6 +156,19 @@ export class Order {
 
   static async resetCounter(): Promise<void> {
     await db.update(s.orderCounter).set({ value: 0 }).where(eq(s.orderCounter.event, COUNTER_EVENT));
+  }
+
+  static async fromId(cartId: CartId): Promise<Order | null> {
+    const order = await db
+      .select({ cartId: s.order.cartId })
+      .from(s.order)
+      .where(eq(s.order.cartId, cartId))
+      .then(getFirstOptional);
+    return order ? new Order(order.cartId) : null;
+  }
+
+  async delete(): Promise<void> {
+    await db.delete(s.cart).where(eq(s.cart.id, this.cartId));
   }
 }
 

@@ -10,7 +10,7 @@
   Add vertical margin. If the screen is still high enough then show the error on
   the center of the page.
 -->
-<div class="flex flex-col gap-2 justify-center h-full items-center">
+<div class="flex h-full flex-col items-center justify-center gap-2">
   <h1 class="text-9xl">{page.status}</h1>
 
   {page.error?.message ?? "Errore interno al server"}

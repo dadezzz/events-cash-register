@@ -11,16 +11,16 @@
 
 <div class="flex min-h-0 grow flex-col md:flex-row">
   <div class="page-section">
-    <h2 class="font-semibold p-2">Categorie</h2>
+    <h2 class="p-2 font-semibold">Categorie</h2>
 
     <CategoriesList />
   </div>
 
   <div class="page-section w-full">
-    <h2 class="font-semibold p-2">Prodotti</h2>
+    <h2 class="p-2 font-semibold">Prodotti</h2>
 
-    <div class="flex items-center justify-center h-full">
-      <p class="dark:text-mist-400 text-mist-600">Seleziona una categoria</p>
+    <div class="flex h-full items-center justify-center">
+      <p class="text-mist-600 dark:text-mist-400">Seleziona una categoria</p>
     </div>
   </div>
 

@@ -13,7 +13,7 @@
 <!-- biome-ignore lint/a11y/noLabelWithoutControl: There is a for attribute in rest :| -->
 <label
   {...rest}
-  class="w-fit text-sm text-mist-700 dark:text-mist-300 transition-colors data-[invalid=true]:text-red-default"
+  class="data-[invalid=true]:text-red-default w-fit text-sm text-mist-700 transition-colors dark:text-mist-300"
 >
   {@render children()}
 </label>

@@ -10,7 +10,7 @@
 </script>
 
 {#if errors?.at(0)}
-  <p class="flex items-center gap-1 text-sm text-red-default">
+  <p class="text-red-default flex items-center gap-1 text-sm">
     <WarningCircleIcon class="size-4 shrink-0" />
     <span {id} aria-live="polite" role="alert">{errors[0].message}</span>
   </p>

@@ -35,12 +35,12 @@
 </script>
 
 {#snippet defaultEntryUI(entry: Entry)}
-  <div class="flex gap-2 items-center w-fit group">
+  <div class="group flex w-fit items-center gap-2">
     <div
-      class="flex items-center justify-center group-hover:outline-2 outline-emerald-default size-4 border border-mist-strong group-has-[input:checked]/radio:border-emerald-700 dark:group-has-[input:checked]/radio:border-emerald-300 rounded-full"
+      class="outline-emerald-default border-mist-strong flex size-4 items-center justify-center rounded-full border group-focus-within/radio:outline-2 group-hover:outline-2 group-has-[input:checked]/radio:border-emerald-700 dark:group-has-[input:checked]/radio:border-emerald-300"
     >
       <div
-        class="size-2 group-has-[input:checked]/radio:bg-emerald-700 dark:group-has-[input:checked]/radio:bg-emerald-300 rounded-full"
+        class="size-2 rounded-full group-has-[input:checked]/radio:bg-emerald-700 dark:group-has-[input:checked]/radio:bg-emerald-300"
       ></div>
     </div>
 
@@ -67,22 +67,22 @@
   </div>
 {/snippet}
 
-<div>
-  <!-- Setting flex on fieldset gives strange results, so we wrap in a div. -->
-  <fieldset aria-describedby={field.issues()?.length ? `${id}-errors` : undefined} class="contents">
-    <legend
-      data-invalid={!!field.issues()?.length}
-      class="text-sm text-mist-700 dark:text-mist-300 data-[invalid=true]:text-red-default"
-    >
-      {label}
-    </legend>
+<fieldset aria-describedby={field.issues()?.length ? `${id}-errors` : undefined}>
+  <legend
+    data-invalid={!!field.issues()?.length}
+    class="data-[invalid=true]:text-red-default text-sm text-mist-700 dark:text-mist-300"
+  >
+    {label}
+  </legend>
 
-    <div class={["mt-0.5 mb-2", entriesClass]}>
+  <!-- Fieldset is a special element and doesn't support flexbox.  -->
+  <div class="mt-1 flex flex-col gap-2">
+    <div class={entriesClass}>
       {#each entries as entry (entry.value)}
         {@render wrappedEntryUI(entry)}
       {/each}
     </div>
 
     <FieldErrors id="{id}-errors" errors={field.issues()} />
-  </fieldset>
-</div>
+  </div>
+</fieldset>

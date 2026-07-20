@@ -6,9 +6,10 @@
 
   interface Props {
     onresult: () => void;
+    oncancel: () => void;
   }
 
-  const { onresult }: Props = $props();
+  const { onresult, oncancel }: Props = $props();
 
   const form = addProductCategoryForm.preflight(addProductCategoryFormSchema);
 </script>
@@ -16,5 +17,6 @@
 <Form {form} {onresult}>
   <TextInput field={form.fields.name} label="Nome" />
 
+  <button type="button" onclick={oncancel}>Annulla</button>
   <button type="submit">Crea</button>
 </Form>

@@ -16,49 +16,49 @@
 </script>
 
 {#snippet navHomeLabel()}
-  <div class="flex gap-2 items-center">
+  <div class="flex items-center gap-2">
     <CashRegisterIcon class="size-5 shrink-0" />
     <span>Cassa</span>
   </div>
 {/snippet}
 
 {#snippet navOrdersLabel()}
-  <div class="flex gap-2 items-center">
+  <div class="flex items-center gap-2">
     <ArrowCounterClockwiseIcon class="size-5 shrink-0" />
     <span>Ordini</span>
   </div>
 {/snippet}
 
 {#snippet navAdminLabel()}
-  <div class="flex gap-2 items-center">
+  <div class="flex items-center gap-2">
     <GearIcon class="size-5 shrink-0" />
     <span>Amministrazione</span>
   </div>
 {/snippet}
 
 {#snippet navAdminUsersLabel()}
-  <div class="flex gap-2 items-center">
+  <div class="flex items-center gap-2">
     <UserGearIcon class="size-5 shrink-0" />
     <span>Utenti</span>
   </div>
 {/snippet}
 
 {#snippet navAdminProductsLabel()}
-  <div class="flex gap-2 items-center">
+  <div class="flex items-center gap-2">
     <ShoppingCartIcon class="size-5 shrink-0" />
     <span>Prodotti</span>
   </div>
 {/snippet}
 
 {#snippet navAdminPrintersLabel()}
-  <div class="flex gap-2 items-center">
+  <div class="flex items-center gap-2">
     <PrinterIcon class="size-5 shrink-0" />
     <span>Stampanti</span>
   </div>
 {/snippet}
 
 {#snippet navAdminReceiptsLabel()}
-  <div class="flex gap-2 items-center">
+  <div class="flex items-center gap-2">
     <ReceiptIcon class="size-5 shrink-0" />
     <span>Ricevute e comande</span>
   </div>
@@ -66,17 +66,16 @@
 
 <!-- overflow-x-hidden prevents scrollbar from appearing when tranitioning. -->
 <div
-  class="sticky gap-2 flex flex-col h-full top-0 overflow-y-auto p-2 shadow border-r border-mist-300 dark:border-mist-700 overflow-x-hidden"
+  class="border-mist-strong sticky top-0 flex h-full flex-col gap-2 overflow-x-hidden overflow-y-auto border-r p-2 shadow"
 >
-  <div class="w-full flex">
-    <SidebarButton
-      class="ml-auto text-mist-600 dark:text-mist-400 rounded-md focus:outline-2 outline-emerald-default p-1 hover:bg-slate-200 dark:hover:bg-slate-800"
-    >
+  <div class="flex">
+    <SidebarButton class="button-ghost ml-auto p-1 text-mist-700 dark:text-mist-300">
       <SidebarIcon class="size-5" />
     </SidebarButton>
   </div>
 
   <Navigation
+    class="flex flex-col gap-1"
     entries={[
       { href: "/products", label: navHomeLabel },
       { href: "/orders", label: navOrdersLabel },
@@ -93,13 +92,11 @@
     ]}
   >
     {#snippet entriesUI({ entries, wrappedEntryUI })}
-      <div class="flex flex-col gap-1 mb-1">
-        {#each entries.slice(0, 3) as entry (entry.href)}
-          {@render wrappedEntryUI(entry)}
-        {/each}
-      </div>
+      {#each entries.slice(0, 3) as entry (entry.href)}
+        {@render wrappedEntryUI(entry)}
+      {/each}
 
-      <div class="border-mist-200 flex flex-col gap-1 border-l dark:border-mist-800 ml-5">
+      <div class="border-mist-default ml-5 flex flex-col gap-1 border-l">
         {#each entries.slice(3) as entry (entry.href)}
           {@render wrappedEntryUI(entry)}
         {/each}
@@ -107,10 +104,8 @@
     {/snippet}
     {#snippet entryUI({ href, label })}
       <div
-        class={[
-          "ml-1 text-nowrap rounded-md hover:bg-mist-200 dark:hover:bg-mist-800 py-1 px-2 group-focus:outline-2 outline-emerald-default",
-          page.url.pathname === href ? "bg-mist-100 dark:bg-mist-900" : "",
-        ]}
+        aria-current={page.url.pathname === href ? "page" : false}
+        class="outline-emerald-default ml-1 rounded-md px-2 py-1 text-nowrap group-focus:outline-2 hover:bg-mist-200 aria-[current=page]:bg-mist-100 dark:hover:bg-mist-800 dark:aria-[current=page]:bg-mist-900"
       >
         {@render label()}
       </div>

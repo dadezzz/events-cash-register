@@ -1,5 +1,6 @@
 <script lang="ts">
   import { PlusIcon } from "phosphor-svelte";
+  import { fly } from "svelte/transition";
   import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { PasswordInput, TextInput } from "#components/form/input/index.ts";
@@ -12,13 +13,13 @@
 
 <Dialog bind:open={dialogOpen}>
   {#snippet trigger({ props })}
-    <button type="button" {...props} class="font-bold bg-black text-white flex items-center gap-2 p-1 px-3 rounded-md">
+    <button type="button" {...props} class="flex items-center gap-2 rounded-md bg-black p-1 px-3 font-bold text-white">
       <PlusIcon class="size-5" />
       <span>Nuovo</span>
     </button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="dialog-default">
+    <div {...props} class="dialog-center dialog-inner" transition:fly>
       <h2>Aggiungi utente</h2>
 
       <Form

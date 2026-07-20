@@ -1,5 +1,6 @@
 <script lang="ts">
   import { PencilIcon } from "phosphor-svelte";
+  import { fly } from "svelte/transition";
   import Dialog from "#components/Dialog.svelte";
   import type { ProductClient } from "#lib/entities/products/client/index.ts";
   import UpdateProductForm from "./UpdateProductForm.svelte";
@@ -20,7 +21,7 @@
     </button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="dialog-default">
+    <div {...props} class="dialog-center dialog-inner" transition:fly>
       <h2>Modifica prodotto</h2>
 
       <UpdateProductForm {product} />

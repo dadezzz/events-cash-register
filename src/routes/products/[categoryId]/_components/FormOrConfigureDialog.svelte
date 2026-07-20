@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { RemoteFormField } from "@sveltejs/kit";
-  import { scale } from "svelte/transition";
+  import { fly } from "svelte/transition";
   import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { CheckboxInput, HiddenInput, RadioInput } from "#components/form/input/index.ts";
@@ -33,7 +33,7 @@
       <button {...props} type="button" class="dialog-button">Configura</button>
     {/snippet}
     {#snippet content({ props })}
-      <div {...props} class="dialog-default" transition:scale>
+      <div {...props} class="dialog-center dialog-inner" transition:fly>
         <h3>Configura prodotto da aggiungere</h3>
 
         <Form
@@ -48,7 +48,7 @@
             <HiddenInput field={form.fields.options[i].productOptionId} value={option.data.id} />
 
             {#if option.data.data.type === "boolean"}
-              <div class="flex gap-3 items-center">
+              <div class="flex items-center gap-3">
                 <CheckboxInput
                   field={form.fields.options[i].value as RemoteFormField<boolean>}
                   label={option.data.name}
@@ -62,16 +62,16 @@
                 label={option.data.name}
               >
                 {#snippet entryUI({ label })}
-                  <div class="flex gap-2 items-center w-fit group">
+                  <div class="group flex w-fit items-center gap-2">
                     <div
-                      class="flex items-center justify-center group-hover:outline-2 outline-emerald-default size-4 border border-mist-300 dark:border-mist-600 group-has-[input:checked]/radio:border-emerald-600 dark:group-has-[input:checked]/radio:border-emerald-300 rounded-full"
+                      class="outline-emerald-default flex size-4 items-center justify-center rounded-full border border-mist-300 group-focus-within/radio:outline-2 group-hover:outline-2 group-has-[input:checked]/radio:border-emerald-600 dark:border-mist-600 dark:group-has-[input:checked]/radio:border-emerald-300"
                     >
                       <div
-                        class="size-2 group-has-[input:checked]/radio:bg-emerald-600 dark:group-has-[input:checked]/radio:bg-emerald-300 rounded-full"
+                        class="size-2 rounded-full group-has-[input:checked]/radio:bg-emerald-600 dark:group-has-[input:checked]/radio:bg-emerald-300"
                       ></div>
                     </div>
 
-                    <div class="flex gap-3 items-center">
+                    <div class="flex items-center gap-3">
                       <span class="text-mist-600 dark:text-mist-300">{label.value}</span>
                       <FormatPrice price={label.price} class="text-xs text-mist-500 " />
                     </div>

@@ -38,7 +38,7 @@
   const orderForm = createOrderForm.preflight(createOrderSchema);
 </script>
 
-<div class="flex flex-col h-full">
+<div class="flex h-full flex-col">
   <div class="flex items-center justify-between">
     <h2 class="font-bold">Ordine</h2>
     <p class="md:hidden">Totale: <FormatPrice price={orderTotal} /></p>
@@ -68,7 +68,7 @@
 
       <button
         type="submit"
-        class="w-full dark:bg-emerald-700 hover:bg-emerald-300 dark:hover:bg-emerald-600 bg-emerald-200 font-semibold rounded-md py-1 mt-2 focus:outline-2 outline-emerald-default"
+        class="outline-emerald-default mt-2 w-full rounded-md bg-emerald-200 py-1 font-semibold hover:bg-emerald-300 focus:outline-2 dark:bg-emerald-700 dark:hover:bg-emerald-600"
       >
         Invia
       </button>

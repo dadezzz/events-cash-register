@@ -17,10 +17,8 @@
   const user = $derived(await UserClient.fromSelf());
 </script>
 
-<header class="flex border-b border-mist-strong p-2 gap-4 items-center">
-  <SidebarButton
-    class="text-mist-600 dark:text-mist-400 rounded-md focus:outline-2 outline-emerald-default p-1 hover:bg-slate-200 dark:hover:bg-slate-800 data-[sidebar-open=true]:hidden"
-  >
+<header class="border-mist-strong flex items-center gap-4 border-b p-2">
+  <SidebarButton class="button-ghost p-1 text-mist-700 data-[sidebar-open=true]:hidden dark:text-mist-300">
     <SidebarIcon class="size-5" />
   </SidebarButton>
 
@@ -32,14 +30,14 @@
         <button
           type="button"
           {...props}
-          class="size-7 p-1 flex items-center ml-auto bg-mist-200 dark:bg-mist-800 rounded-full justify-center focus:outline-2 outline-emerald-default"
+          class="outline-emerald-default ml-auto flex size-7 items-center justify-center rounded-full bg-mist-200 p-1 focus:outline-2 dark:bg-mist-800"
         >
           {user.data.name.charAt(0)}
         </button>
       {/snippet}
       {#snippet content({ props })}
         <div {...props} class="popover-default p-2" transition:fly>
-          <div class="rounded-md py-1 px-2 bg-mist-100 dark:bg-mist-900">
+          <div class="rounded-md bg-mist-100 px-2 py-1 dark:bg-mist-900">
             <p>{user.data.name}</p>
             <p class="text-xs text-mist-500 dark:text-mist-500">@{user.data.username}</p>
           </div>
@@ -52,7 +50,7 @@
           <!-- <Separator aria-orientation='horizontal' /> -->
 
           <SignoutForm
-            class="flex gap-2 items-center w-full rounded-md py-1 px-2 hover:bg-mist-200 dark:hover:bg-mist-800 focus:outline-2 outline-emerald-default"
+            class="outline-emerald-default flex w-full items-center gap-2 rounded-md px-2 py-1 hover:bg-mist-200 focus:outline-2 dark:hover:bg-mist-800"
           >
             <SignOutIcon class="size-5" />
             <span>Logout</span>

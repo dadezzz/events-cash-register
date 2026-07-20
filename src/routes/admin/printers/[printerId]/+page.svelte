@@ -14,16 +14,16 @@
 <Header />
 
 <div class="flex h-full">
-  <div class="md:flex list-column">
-    <h2 class="font-bold flex mb-2">Stampanti</h2>
+  <div class="list-column md:flex">
+    <h2 class="mb-2 flex font-bold">Stampanti</h2>
 
     <PrintersList />
   </div>
 
-  <div class="flex list-column">
+  <div class="list-column flex">
     <h2 class="font-bold">Opzioni</h2>
 
-    <div class="max-w-md my-2">
+    <div class="my-2 max-w-md">
       <PrinterForm {printer} />
     </div>
   </div>

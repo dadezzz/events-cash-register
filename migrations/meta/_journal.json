@@ -92,6 +92,13 @@
       "when": 1784374468471,
       "tag": "0012_sudden_black_crow",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "6",
+      "when": 1784551400222,
+      "tag": "0013_aspiring_wild_child",
+      "breakpoints": true
     }
   ]
 }

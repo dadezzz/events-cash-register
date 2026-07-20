@@ -50,7 +50,7 @@
       <Popover bind:open={suggestionsOpen} autofocusContent={false}>
         {#snippet trigger({ props })}
           <div
-            class="flex gap-3 overflow-hidden rounded-md border border-mist-strong outline-emerald-default transition-colors focus-within:outline-2 hover:border-emerald-strong"
+            class="border-mist-strong outline-emerald-default hover:border-emerald-strong flex gap-3 overflow-hidden rounded-md border transition-colors focus-within:outline-2"
           >
             <input
               {...inputProps}
@@ -134,7 +134,7 @@
               type="button"
               aria-label="Open the list of options"
               tabindex={-1}
-              class="px-3 py-2 text-mist-400 dark:text-mist-600 transition-colors hover:bg-emerald-50 dark:hover:bg-emerald-950 hover:text-emerald-600 dark:hover:text-emerald-400 focus:bg-emerald-50 dark:focus:bg-emerald-950 focus:text-emerald-600 dark:focus:text-emerald-400 focus:outline-none"
+              class="px-3 py-2 text-mist-400 transition-colors hover:bg-emerald-50 hover:text-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 focus:outline-none dark:text-mist-600 dark:hover:bg-emerald-950 dark:hover:text-emerald-400 dark:focus:bg-emerald-950 dark:focus:text-emerald-400"
               onclick={() => {
                 suggestionsOpen = !suggestionsOpen;
                 // Keep focus on the input node. Entry selection is handled through
@@ -149,14 +149,14 @@
           </div>
         {/snippet}
         {#snippet content({ props })}
-          <div {...props} class="group max-h-96 overflow-y-auto p-2 text-sm popover-default">
+          <div {...props} class="group popover-default max-h-96 overflow-y-auto p-2 text-sm">
             <ul id="{id}-list">
               {#each suggestions as entry (entry.value)}
                 <li id="{id}-option-{entry.value}">
                   <button
                     type="button"
                     data-selected={suggestions[suggestionsIndex].value === entry.value}
-                    class="flex w-full cursor-pointer items-center justify-between gap-8 rounded-md p-2 transition-colors focus:outline-none hover:bg-mist-200 dark:hover:bg-mist-800 focus:bg-mist-200 dark:focus:bg-mist-800 not-group-focus-within:not-group-hover:data-[selected=true]:bg-mist-100 dark:not-group-focus-within:not-group-hover:data-[selected=true]:bg-mist-900"
+                    class="flex w-full cursor-pointer items-center justify-between gap-8 rounded-md p-2 transition-colors hover:bg-mist-200 focus:bg-mist-200 focus:outline-none not-group-focus-within:not-group-hover:data-[selected=true]:bg-mist-100 dark:hover:bg-mist-800 dark:focus:bg-mist-800 dark:not-group-focus-within:not-group-hover:data-[selected=true]:bg-mist-900"
                     onclick={() => {
                       field.set(entry.value);
 

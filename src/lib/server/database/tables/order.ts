@@ -7,7 +7,7 @@ export default sqliteTable("order", {
   cartId: text()
     .$type<CartId>()
     .primaryKey()
-    .references(() => cart.id, { onDelete: "restrict", onUpdate: "cascade" }),
+    .references(() => cart.id, { onDelete: "cascade", onUpdate: "cascade" }),
 
   counter: integer().notNull(),
   // User can arbitrarily modify the price of the order. So we store what they

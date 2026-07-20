@@ -19,9 +19,9 @@
 <Popover bind:open={popoverOpen}>
   {#snippet trigger({ props })}
     <div class="flex items-center gap-2">
-      <Separator orientation="horizontal" class="w-full border-dashed border-mist-default" />
-      <span {...props} class="text-nowrap cursor-pointer text-mist-500">Aggiungi blocco</span>
-      <Separator orientation="horizontal" class="w-full border-dashed border-mist-default" />
+      <Separator orientation="horizontal" class="border-mist-default w-full border-dashed" />
+      <span {...props} class="cursor-pointer text-nowrap text-mist-500">Aggiungi blocco</span>
+      <Separator orientation="horizontal" class="border-mist-default w-full border-dashed" />
     </div>
   {/snippet}
   {#snippet content({ props })}
@@ -29,7 +29,7 @@
       {#each choices as c (c.value)}
         <button
           type="button"
-          class="bg-mist-500 px-2 py-1 rounded-md"
+          class="rounded-md bg-mist-500 px-2 py-1"
           onclick={() => {
             const blocks = blocksField.value() ?? [];
             const blocksBefore = blocks.slice(0, position);

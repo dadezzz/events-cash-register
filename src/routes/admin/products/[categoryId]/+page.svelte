@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { ArrowLeftIcon, PlusIcon } from "phosphor-svelte";
+  import { ArrowLeftIcon } from "phosphor-svelte";
   import Header from "#components/Header.svelte";
+  import ThreeColumnsStacked from "#components/ThreeColumnsStacked.svelte";
   import { requireAdmin } from "#lib/auth/index.remote.ts";
   import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import type { ProductCategoryId } from "#lib/entities/products/category/id.ts";
@@ -17,54 +18,46 @@
   const category = $derived(await ProductCategoryClient.fromId(params.categoryId as ProductCategoryId));
 </script>
 
-<Header />
+<svelte:head>
+  <title>Configurazione menù | Cassa</title>
+</svelte:head>
 
-<div class="flex h-full">
-  <div class="md:flex hidden list-column">
-    <div class="flex font-bold justify-between mb-2">
+<Header>
+  <h1>Configurazione menù</h1>
+</Header>
+
+<ThreeColumnsStacked mainColumn="second" columnClass="p-2 h-full flex flex-col">
+  {#snippet firstColumn()}
+    <div class="mb-2 flex justify-between font-bold">
       <h2>Categorie</h2>
-      <AddCategoryDialog>
-        <PlusIcon class="size-4" />
-      </AddCategoryDialog>
+      <AddCategoryDialog />
     </div>
 
     <CategoriesList />
-  </div>
-
-  <div class="list-column">
-    <div class="font-bold flex mb-2 items-center gap-2">
-      <a href="/admin/products">
-        <ArrowLeftIcon class="size-4 md:hidden" />
+  {/snippet}
+  {#snippet secondColumn()}
+    <div class="mb-2 flex items-center gap-2 font-bold">
+      <a href="/admin/products" class="md:hidden">
+        <ArrowLeftIcon class="size-4" />
       </a>
 
-      <h2 class="flex gap-1">
+      <h2 class="flex gap-1 text-nowrap">
         <span>Prodotti</span>
         <span class="md:hidden">per {category.data.name}</span>
       </h2>
 
       <div class="ml-auto">
-        <AddProductDialog {category}>
-          <PlusIcon class="size-4" />
-        </AddProductDialog>
+        <AddProductDialog {category} />
       </div>
     </div>
 
     <ProductsList {category} />
-  </div>
-
-  <div class="md:flex hidden list-column">
+  {/snippet}
+  {#snippet thirdColumn()}
     <h2 class="font-bold">Opzioni</h2>
 
-    <div class="flex grow items-center justify-center">
+    <div class="flex h-full items-center justify-center">
       <p>Seleziona un prodotto</p>
     </div>
-  </div>
-</div>
-
-<style>
-  @reference "#assets/tailwind.css";
-
-  .list-column {
-    @apply w-full flex-col border-slate-300 p-2 not-first:border-l;
-  }
-</style>
+  {/snippet}
+</ThreeColumnsStacked>

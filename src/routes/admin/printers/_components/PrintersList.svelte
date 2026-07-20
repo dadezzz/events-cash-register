@@ -8,12 +8,12 @@
 
 <ul>
   {#each printers as printer, i (printer.data.id)}
-    <li class="flex justify-between border-t last:border-b border-slate-200 py-2">
-      <a href="/admin/printers/{printer.data.id}" class="flex gap-2 items-center">
+    <li class="flex justify-between border-t border-slate-200 py-2 last:border-b">
+      <a href="/admin/printers/{printer.data.id}" class="flex items-center gap-2">
         <span>{printer.data.name}</span>
 
         {#if printer.data.available}
-          <span class="rounded-full size-2 bg-green-500"></span>
+          <span class="size-2 rounded-full bg-green-500"></span>
         {/if}
       </a>
 
@@ -21,7 +21,7 @@
         <Popover.Trigger class="px-1">
           <DotsThreeVerticalIcon />
         </Popover.Trigger>
-        <Popover.Content class="bg-white z-40 border-slate-100 border rounded-md shadow p-4">
+        <Popover.Content class="z-40 rounded-md border border-slate-100 bg-white p-4 shadow">
           <Popover.Arrow class="text-slate-100 " />
 
           <p>Delete</p>

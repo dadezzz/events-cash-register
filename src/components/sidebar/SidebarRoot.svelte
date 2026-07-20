@@ -33,7 +33,7 @@
     {#snippet content({ props })}
       <aside
         {...props}
-        class={[greatherThanTWLG.current ? "" : "fixed inset-y-0 z-50 bg-default text-default"]}
+        class="bg-default text-default max-lg:fixed max-lg:inset-y-0 max-lg:z-50"
         transition:slide={{ axis: "x" }}
       >
         {@render sbContent()}
@@ -45,7 +45,7 @@
     Flex and flex col so that the user can use h-full elements without them
     overflowing at the bottom.
   -->
-  <main class="w-full flex flex-col">
+  <main class="flex w-full flex-col">
     {@render children()}
   </main>
 </div>

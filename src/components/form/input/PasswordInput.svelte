@@ -19,7 +19,7 @@
       <FieldLabel {...labelProps}>{label}</FieldLabel>
 
       <div
-        class="flex gap-3 overflow-hidden rounded-md border border-mist-strong outline-emerald-default transition-colors focus-within:outline-2 hover:border-emerald-strong"
+        class="border-mist-strong outline-emerald-default hover:border-emerald-strong flex gap-3 overflow-hidden rounded-md border transition-colors focus-within:outline-2"
       >
         <input
           {...inputProps}
@@ -30,7 +30,7 @@
 
         <button
           type="button"
-          class="px-3 py-2 text-mist-400 dark:text-mist-600 transition-colors hover:bg-emerald-50 dark:hover:bg-emerald-950 hover:text-emerald-600 dark:hover:text-emerald-400 focus:bg-emerald-50 dark:focus:bg-emerald-950 focus:text-emerald-600 dark:focus:text-emerald-400 focus:outline-none"
+          class="px-3 py-2 text-mist-400 transition-colors hover:bg-emerald-50 hover:text-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 focus:outline-none dark:text-mist-600 dark:hover:bg-emerald-950 dark:hover:text-emerald-400 dark:focus:bg-emerald-950 dark:focus:text-emerald-400"
           onclick={() => (showPassword = !showPassword)}
           aria-label="Show password"
           aria-pressed={showPassword}

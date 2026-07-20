@@ -1,5 +1,6 @@
 <script lang="ts">
   import { TrashIcon } from "phosphor-svelte";
+  import { fly } from "svelte/transition";
   import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
@@ -25,7 +26,7 @@
     </button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="dialog-default">
+    <div {...props} class="dialog-center dialog-inner" transition:fly>
       <h2>Elimina prodotto</h2>
 
       <p>Conferma di voler eliminare la categoria {category.data.name}</p>
