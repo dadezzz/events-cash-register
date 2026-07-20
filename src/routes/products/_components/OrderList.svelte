@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { MediaQuery } from "svelte/reactivity";
+  import { slide } from "svelte/transition";
+  import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
   import { NumericInput } from "#components/form/input/index.ts";
   import { FormatPrice } from "#components/format/index.ts";
@@ -35,16 +38,22 @@
     }, 0),
   );
 
-  const orderForm = createOrderForm.preflight(createOrderSchema);
+  const form = createOrderForm.preflight(createOrderSchema);
+
+  let dialogOpen = $state(false);
+
+  // SSR safe since dialog should always be closed on initial rendering.
+  // This matches tailwindcss's md breakpoint.
+  const greaterThanTWMDQuery = new MediaQuery("(width >= 768px)", false);
+  const greaterThanTWMD = $derived(greaterThanTWMDQuery.current);
 </script>
 
-<div class="flex h-full flex-col">
-  <div class="flex items-center justify-between">
-    <h2 class="font-bold">Ordine</h2>
-    <p class="md:hidden">Totale: <FormatPrice price={orderTotal} /></p>
-  </div>
+{#snippet column(formId: string)}
+  {@const f = form.for(formId)}
 
-  <ul class="hidden md:block">
+  <h2 class="font-bold">Ordine</h2>
+
+  <ul>
     {#each cartItems as cartItem (cartItem.data.id)}
       {@const product = await cartItem.getProduct()}
       {@const values = await cartItem.getValues()}
@@ -63,15 +72,67 @@
   </ul>
 
   <div class="mt-auto">
-    <Form form={orderForm} class="mt-auto hidden md:block">
-      <NumericInput field={orderForm.fields.finalPrice} value={orderTotal} label="Prezzo totale" />
+    <Form
+      form={f}
+      onresult={()=> {
+        dialogOpen = false;
+      }}
+    >
+      <NumericInput field={f.fields.finalPrice} value={orderTotal} label="Prezzo totale" />
 
       <button
         type="submit"
-        class="outline-emerald-default mt-2 w-full rounded-md bg-emerald-200 py-1 font-semibold hover:bg-emerald-300 focus:outline-2 dark:bg-emerald-700 dark:hover:bg-emerald-600"
+        class="button-primary mt-2 w-full py-1 disabled:bg-mist-200 dark:disabled:bg-mist-800"
+        disabled={!orderTotal}
       >
         Invia
       </button>
     </Form>
   </div>
+{/snippet}
+
+{#snippet dialogNotch()}
+  <div class="flex w-full justify-center py-1">
+    <button
+      type="button"
+      aria-label="Apri/chiudi popup ordine"
+      class="bg-mist-200 button-ghost h-2 w-12 rounded-full dark:bg-mist-800"
+      onclick={() => {
+        dialogOpen = !dialogOpen;
+      }}
+    ></button>
+  </div>
+{/snippet}
+
+<Dialog
+  bind:open={() => !greaterThanTWMD && dialogOpen, (v) => {
+      if (!greaterThanTWMD) dialogOpen = v;
+    }}
+>
+  {#snippet trigger({ props })}
+    <div class="md:hidden">
+      {@render dialogNotch()}
+
+      <button {...props} type="button" class="w-full" tabindex={-1}>
+        <div class="flex items-center justify-between">
+          <h2 class="font-bold">Ordine</h2>
+          <p class="md:hidden">Totale: <FormatPrice price={orderTotal} /></p>
+        </div>
+      </button>
+    </div>
+  {/snippet}
+  {#snippet content({ props })}
+    <div
+      {...props}
+      class="border-mist-default bg-default text-default fixed inset-x-0 bottom-0 z-50 rounded-t-md border-t p-2 shadow"
+      transition:slide
+    >
+      {@render dialogNotch()}
+      {@render column("md")}
+    </div>
+  {/snippet}
+</Dialog>
+
+<div class="flex h-full flex-col max-md:hidden">
+  {@render column("max-md")}
 </div>

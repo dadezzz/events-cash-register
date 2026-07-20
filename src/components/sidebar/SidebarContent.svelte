@@ -103,8 +103,12 @@
       </div>
     {/snippet}
     {#snippet entryUI({ href, label })}
+      <!--
+        We check with startsWith since pages typically have a /href/[uuid]
+        subpage that would remove the highlight.
+      -->
       <div
-        aria-current={page.url.pathname === href ? "page" : false}
+        aria-current={page.url.pathname.startsWith(href) ? "page" : false}
         class="outline-emerald-default ml-1 rounded-md px-2 py-1 text-nowrap group-focus:outline-2 hover:bg-mist-200 aria-[current=page]:bg-mist-100 dark:hover:bg-mist-800 dark:aria-[current=page]:bg-mist-900"
       >
         {@render label()}

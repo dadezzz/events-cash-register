@@ -16,12 +16,13 @@
   setSidebarContext(context);
 
   // SSR safe since sidebar should always be closed on initial rendering.
-  // This matches tailwindcss's md breakpoint.
-  const greatherThanTWLG = new MediaQuery("(width >= 1024px)", false);
+  // This matches tailwindcss's lg breakpoint.
+  const greaterThanTWLGQuery = new MediaQuery("(width >= 1024px)", false);
+  const greatherThanTWLG = $derived(greaterThanTWLGQuery.current);
 
   // Close sidebar on mobile navigation.
   afterNavigate(() => {
-    if (!greatherThanTWLG.current) {
+    if (!greatherThanTWLG) {
       context.open = false;
     }
   });
@@ -29,7 +30,7 @@
 
 <!-- Inherit the height from parent. -->
 <div class="flex h-full">
-  <Dialog bind:open={context.open} useOverlay={!greatherThanTWLG.current} usePortal={!greatherThanTWLG.current}>
+  <Dialog bind:open={context.open} useOverlay={!greatherThanTWLG} usePortal={!greatherThanTWLG}>
     {#snippet content({ props })}
       <aside
         {...props}

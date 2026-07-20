@@ -58,10 +58,8 @@
         <li>
           <a
             href="/products/{category.data.id}"
-            class={[
-              "outline-emerald-default flex w-full rounded-md p-2 hover:bg-mist-200 focus:outline-2 dark:hover:bg-mist-800",
-              category.data.id === selectedCategory?.data.id ? "bg-emerald-100 dark:bg-emerald-900" : "",
-            ]}
+            aria-current={category.data.id === selectedCategory?.data.id ? "page" : false}
+            class="outline-emerald-default ml-1 rounded-md px-2 py-1 text-nowrap group-focus:outline-2 hover:bg-mist-200 aria-[current=page]:bg-mist-100 dark:hover:bg-mist-800 dark:aria-[current=page]:bg-mist-900"
           >
             {category.data.name}
           </a>

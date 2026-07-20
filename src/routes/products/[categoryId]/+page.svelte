@@ -21,11 +21,13 @@
 
 <div class="flex min-h-0 grow flex-col md:flex-row">
   <div class="page-section p-1">
+    <h2 class="p-1 font-semibold">Categorie</h2>
+
     <CategoriesList selectedCategory={category} />
   </div>
 
   <div class="page-section @container h-full w-full overflow-y-auto p-2">
-    <h2 class="font-semibold">Prodotti</h2>
+    <h2 class="mb-2 font-semibold">Prodotti</h2>
 
     <ul class="grid gap-2 @md:grid-cols-2 @lg:grid-cols-3">
       {#each products as product}

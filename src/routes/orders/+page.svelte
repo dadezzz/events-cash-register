@@ -2,7 +2,7 @@
   import { TrashIcon } from "phosphor-svelte";
   import Header from "#components/Header.svelte";
   import Pagination from "#components/navigation/Pagination.svelte";
-  import { requireUser } from "#lib/auth/index.remote.ts";
+  import { getAdminUserId, requireUser } from "#lib/auth/index.remote.ts";
   import { OrderClient } from "#lib/entities/cart/order/client/index.ts";
   import { orderPaginationSchema } from "#lib/entities/cart/order/pagination.ts";
   import { getCurrentPaginationOptions } from "#lib/pagination.ts";
@@ -24,13 +24,15 @@
     <li>
       {order.data.counter}
 
-      <DeleteOrderDialog {order}>
-        {#snippet trigger({ props })}
-          <button type="button" {...props}>
-            <TrashIcon class="size-4" />
-          </button>
-        {/snippet}
-      </DeleteOrderDialog>
+      {#if await getAdminUserId()}
+        <DeleteOrderDialog {order}>
+          {#snippet trigger({ props })}
+            <button type="button" {...props}>
+              <TrashIcon class="size-4" />
+            </button>
+          {/snippet}
+        </DeleteOrderDialog>
+      {/if}
     </li>
   {/each}
 </ul>

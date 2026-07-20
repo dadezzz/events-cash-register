@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { cups } from "#lib/server/cups.ts";
 import { db, s } from "#lib/server/database/index.ts";
+import { logger } from "#lib/server/logger/request.ts";
 import { availablePrinters } from "./available.ts";
 import { PrinterBatch } from "./batch.ts";
 import type { PrinterId } from "./id.ts";
@@ -75,10 +76,11 @@ export class Printer {
       .where(eq(s.printerSettingSelected.printerId, this.id))) as JobCreationAttributesSelected;
   }
 
-  async print(title: string, pdf: Uint8Array) {
+  async print(title: string, pdf: Uint8Array): Promise<void> {
     const cupsPrinter = availablePrinters.get(this.id);
     if (!cupsPrinter) {
-      throw new Error("printer is not available anymore");
+      logger.warn({ message: "print job failed because printer is unavailable", printerId: this.id });
+      return;
     }
 
     const settings = await this.getSelectedSettings();

@@ -7,9 +7,13 @@
   import { signInFormSchema } from "./_schemas.ts";
 </script>
 
+<svelte:head>
+  <title>Accedi | Cassa</title>
+</svelte:head>
+
 <Header />
 
-<div class="my-12 flex h-full flex-col items-center justify-center">
+<div class="mx-2 my-8 flex h-full flex-col items-center justify-center">
   <div class="md:mt-auto">
     <h2 class="text-2xl font-bold">Accedi per continuare</h2>
     <p class="mb-8">Usa le credenziali fornite dall'amministratore.</p>

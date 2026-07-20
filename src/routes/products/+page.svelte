@@ -10,8 +10,8 @@
 <Header />
 
 <div class="flex min-h-0 grow flex-col md:flex-row">
-  <div class="page-section">
-    <h2 class="p-2 font-semibold">Categorie</h2>
+  <div class="page-section p-1">
+    <h2 class="p-1 font-semibold">Categorie</h2>
 
     <CategoriesList />
   </div>
