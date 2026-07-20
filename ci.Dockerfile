@@ -10,7 +10,7 @@ RUN apk add --no-cache \
     chromium
 
 # renovate: datasource=npm depName=pnpm versioning=npm
-ENV PNPM_VERSION="11.13.1"
+ENV PNPM_VERSION="11.14.0"
 
 RUN --mount=type=cache,sharing=locked,target=/root/.npm npm install -g "pnpm@$PNPM_VERSION"
 
