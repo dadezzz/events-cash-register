@@ -5,16 +5,16 @@
   import { Table, TableBodyCell, TableBodyRow, TableHeadCell, TableHeadRow } from "#components/table/index.ts";
   import { Duration } from "#lib/duration.ts";
   import { UserClient } from "#lib/entities/user/client/index.ts";
-  import { paginationSchema } from "#lib/entities/user/pagination.ts";
+  import { userPaginationSchema } from "#lib/entities/user/pagination.ts";
   import { getCurrentPaginationOptions } from "#lib/pagination.ts";
-  import { ADMIN_USERS_PAGE_SIZE } from "$app/env/public";
   import { page } from "$app/state";
   import AddUserDialog from "./_components/AddUserDialog.svelte";
   import DeleteUserDialog from "./_components/DeleteUserDialog.svelte";
   import UpdateUserDialog from "./_components/UpdateUserDialog.svelte";
 
-  const paginationOptions = $derived(getCurrentPaginationOptions(paginationSchema, page.url));
-  const users = $derived(await UserClient.getAllAdmin(paginationOptions));
+  const pageSize = 10;
+  const paginationOptions = $derived(getCurrentPaginationOptions(userPaginationSchema, pageSize, page.url));
+  const users = $derived(await UserClient.fromPaginationAdmin(paginationOptions));
   const usersCount = $derived(await UserClient.countAllAdmin());
 </script>
 
@@ -57,4 +57,4 @@
   {/snippet}
 </Table>
 
-<Pagination {paginationOptions} pageSize={ADMIN_USERS_PAGE_SIZE} itemsCount={usersCount} />
+<Pagination options={paginationOptions} itemsCount={usersCount} />

@@ -1,6 +1,9 @@
-import { paginationSchemaFactory } from "#lib/pagination.ts";
+import { type PaginationOptions, paginationSchemaFactory } from "#lib/pagination.ts";
+import type { s } from "#lib/server/database/index.ts";
 
-export const paginationSortColumns = ["createdAt", "name", "username"] as const;
-export type PaginationSortColumn = (typeof paginationSortColumns)[number];
+export const userPaginationSortColumns: (keyof typeof s.user._.columns)[] = ["createdAt", "name", "username"];
+export type UserPaginationSortColumn = (typeof userPaginationSortColumns)[number];
 
-export const paginationSchema = paginationSchemaFactory(paginationSortColumns);
+export const userPaginationSchema = paginationSchemaFactory(userPaginationSortColumns);
+
+export type UserPaginationOptions = PaginationOptions<UserPaginationSortColumn>;

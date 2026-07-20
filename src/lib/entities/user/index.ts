@@ -1,17 +1,14 @@
 import * as argon2 from "@node-rs/argon2";
-import { and, asc, desc, eq, inArray, isNull } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull } from "drizzle-orm";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { SessionBatch } from "#lib/entities/session/batch.ts";
 import type { SessionId } from "#lib/entities/session/id.ts";
 import { NewSession } from "#lib/entities/session/index.ts";
 import { sqlSessionNotExpired } from "#lib/entities/session/utils.ts";
-import type { PaginationOptions } from "#lib/pagination.ts";
 import { db, s } from "#lib/server/database/index.ts";
-import { ADMIN_USERS_PAGE_SIZE } from "$app/env/public";
 import { UserBatch } from "./batch.ts";
 import { sqlDataColumns, type UserData } from "./data.ts";
 import type { UserId } from "./id.ts";
-import type { PaginationSortColumn } from "./pagination.ts";
 
 export type UserPrivilege = "ADMIN";
 
@@ -52,6 +49,10 @@ export class User {
     return user ? new User(user.id) : null;
   }
 
+  static async countAll(): Promise<number> {
+    return await db.$count(s.user, isNull(s.user.deletedAt));
+  }
+
   static async fromIds(ids: UserId[]): Promise<UserBatch> {
     const users = await db.select({ id: s.user.id }).from(s.user).where(inArray(s.user.id, ids));
     return new UserBatch(users.map((u) => u.id));
@@ -65,22 +66,6 @@ export class User {
       .then(getFirstOrThrow);
 
     return new User(user.id);
-  }
-
-  static async getAll(options: PaginationOptions<PaginationSortColumn>): Promise<UserBatch> {
-    const users = await db
-      .select({ id: s.user.id })
-      .from(s.user)
-      .where(isNull(s.user.deletedAt))
-      .orderBy(options.sortDirection === "desc" ? desc(s.user[options.sortColumn]) : asc(s.user[options.sortColumn]))
-      .limit(ADMIN_USERS_PAGE_SIZE)
-      .offset((options.page - 1) * ADMIN_USERS_PAGE_SIZE);
-
-    return new UserBatch(users.map((u) => u.id));
-  }
-
-  static async countAll(): Promise<number> {
-    return await db.$count(s.user, isNull(s.user.deletedAt));
   }
 
   async createSession(): Promise<NewSession> {

@@ -150,6 +150,10 @@ export class Order {
     return new Order(cart.id);
   }
 
+  static async countAll(): Promise<number> {
+    return await db.$count(s.order);
+  }
+
   static async resetCounter(): Promise<void> {
     await db.update(s.orderCounter).set({ value: 0 }).where(eq(s.orderCounter.event, COUNTER_EVENT));
   }

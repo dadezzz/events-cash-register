@@ -1,17 +1,19 @@
 import { getUser, requireAdmin } from "#lib/auth/index.server.ts";
 import { e } from "#lib/error.ts";
 import { query } from "$app/server";
+import { UserBatch } from "../batch.ts";
 import { userIdSchema } from "../id.ts";
 import { User } from "../index.ts";
-import { paginationSchema } from "../pagination.ts";
+import { userPaginationSchema } from "../pagination.ts";
 import { UserClient } from "./index.ts";
 
-export const getAllAdmin = query(paginationSchema, async (options) => {
+export const fromPaginationAdmin = query(userPaginationSchema, async (options) => {
   await requireAdmin();
 
-  const batch = await User.getAll(options);
+  const batch = await UserBatch.fromPagination(options);
   const clients = await batch.getClients();
 
+  // Need to preserve the order of ids.
   return batch.ids.map((id) => clients.get(id)).filter((c) => c !== null);
 });
 

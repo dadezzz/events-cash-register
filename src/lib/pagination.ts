@@ -1,6 +1,7 @@
 import * as v from "valibot";
 
 const pageNumberSchema = v.pipe(v.number(), v.integer(), v.minValue(1));
+const pageSizeSchema = pageNumberSchema;
 
 /**
  * Creates a Valibot schema for validating pagination query parameters.
@@ -12,6 +13,7 @@ const pageNumberSchema = v.pipe(v.number(), v.integer(), v.minValue(1));
 export function paginationSchemaFactory<V extends string>(sortColumnValues: readonly V[]) {
   return v.object({
     page: pageNumberSchema,
+    pageSize: pageSizeSchema,
     sortColumn: v.picklist(sortColumnValues),
     sortDirection: v.picklist(["asc", "desc"]),
   });
@@ -87,10 +89,12 @@ export function createPaginationUrl<V extends string>(currentUrl: URL, options: 
  */
 export function getCurrentPaginationOptions<V extends string>(
   schema: PaginationOptionsSchema<V>,
+  pageSize: number,
   url: URL,
 ): PaginationOptions<V> {
   const options: PaginationOptions<V> = {
     page: 1,
+    pageSize,
     sortColumn: schema.entries.sortColumn.options[0],
     sortDirection: "desc",
   };

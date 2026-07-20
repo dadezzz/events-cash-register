@@ -6,20 +6,19 @@
   import { page } from "$app/state";
 
   interface Props {
-    paginationOptions: PaginationOptions<string>;
+    options: PaginationOptions<string>;
     itemsCount: number;
-    pageSize: number;
   }
 
-  const { paginationOptions, itemsCount, pageSize }: Props = $props();
+  const { options, itemsCount }: Props = $props();
 </script>
 
 <!-- Show pagination only if necessary. -->
-{#if itemsCount > pageSize}
+{#if itemsCount > options.pageSize}
   <Pagination.Root
     count={itemsCount}
-    page={paginationOptions.page}
-    perPage={pageSize}
+    page={options.page}
+    perPage={options.pageSize}
     class="flex items-center gap-1 font-semibold text-slate-600"
     onPageChange={async (pageNumber) => {
       await goto(createPaginationUrl(page.url, { page: pageNumber }));

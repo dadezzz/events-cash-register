@@ -14,12 +14,6 @@ const stringToUrlSchema = v.pipe(
   v.transform((i) => new URL(i)),
 );
 
-const integerSchema = v.pipe(
-  v.string(),
-  v.digits(),
-  v.transform((i) => Number.parseInt(i, 10)),
-);
-
 const booleanSchema = v.pipe(
   v.string(),
   v.picklist(["true", "false"]),
@@ -73,19 +67,6 @@ export const variables = defineEnvVars({
 
   PUPPETEER_EXECUTABLE_PATH: {
     description: "Path to chromium executable for puppeteer",
-  },
-
-  ADMIN_USERS_PAGE_SIZE: {
-    description: "User entries per page in admin dashboard",
-    schema: integerSchema,
-    static: true,
-    public: true,
-  },
-  ADMIN_PRODUCTS_PAGE_SIZE: {
-    description: "Product entries per page in admin dashboard",
-    schema: integerSchema,
-    static: true,
-    public: true,
   },
 
   INITIAL_ADMIN_NAME: {
