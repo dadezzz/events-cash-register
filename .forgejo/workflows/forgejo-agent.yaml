@@ -1,7 +1,7 @@
 jobs:
   respond:
     container:
-      image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:a38e577b4d880a33f287d585f778f4ddf0f2b2a199bda023f0eae0e00ef07ddd
+      image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:46f0ca06654b941cde3dde2d1cc00b36ce50c3f172754aaf9f1e16d3852b2c37
       # The composite action in action.yaml can save the binary to speed up
       # subsequent runs.
       volumes:
