@@ -20,4 +20,30 @@ export class CartClient extends Serializable<CartClientData> {
   getItems(): RemoteQuery<CartItemClient[]> {
     return remote.getItems(this.data.id);
   }
+
+  async getTotalPrice(): Promise<number | null> {
+    const items = await this.getItems();
+    const itemPrices = await Promise.all(
+      items.map(async (i) => {
+        const product = await i.getProduct();
+        const values = await i.getValues();
+
+        let sum = product.data.price;
+        for (const v of values) {
+          if (v.price === null) return null;
+          sum += v.price;
+        }
+
+        return sum;
+      }),
+    );
+
+    return itemPrices.reduce((a, b) => {
+      if (a === null || b === null) {
+        return null;
+      }
+
+      return a + b;
+    }, 0);
+  }
 }

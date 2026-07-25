@@ -2,7 +2,7 @@
   import Header from "#components/Header.svelte";
   import { requireUser } from "#lib/auth/index.remote.ts";
   import CategoriesList from "./_components/CategoriesList.svelte";
-  import OrderList from "./_components/OrderList.svelte";
+  import OrderColumnWrapper from "./_components/OrderColumnWrapper.svelte";
 
   await requireUser();
 </script>
@@ -16,7 +16,7 @@
     <CategoriesList />
   </div>
 
-  <div class="page-section w-full">
+  <div class="page-section h-full w-full">
     <h2 class="p-2 font-semibold">Prodotti</h2>
 
     <div class="flex h-full items-center justify-center">
@@ -24,8 +24,8 @@
     </div>
   </div>
 
-  <div class="page-section shrink-0 overflow-y-auto p-2">
-    <OrderList />
+  <div class="page-section">
+    <OrderColumnWrapper />
   </div>
 </div>
 

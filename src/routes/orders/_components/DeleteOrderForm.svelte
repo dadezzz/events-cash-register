@@ -2,7 +2,7 @@
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
   import type { OrderClient } from "#lib/entities/cart/order/client/index.ts";
-  import { deleteOrderForm } from "../_forms.remote";
+  import { deleteOrderForm } from "../_forms.remote.ts";
 
   interface Props {
     order: OrderClient;

@@ -71,76 +71,76 @@ export class Order {
     const receiptTemplates = await PrinterReceiptTemplateBatch.getAll();
     const receiptPrintingInfo = await receiptTemplates.getPrintingInfo();
 
-    for (const i of receiptPrintingInfo.values()) {
-      const page = await browser.newPage();
+    const quantityCounters = new Map<string, number>();
+    const receiptData = {
+      date: createdAt.toDateString(),
+      time: createdAt.toTimeString(),
+      order: {
+        counter: counterRow.toString(),
+        discountPrice: priceToString(finalPrice - totalPrice),
+        modifiedPrice: priceToString(finalPrice),
+        totalPrice: priceToString(totalPrice),
+      },
+      products: cartItemsBatch.ids
+        .map((id) => {
+          const product = cartItemProducts.get(id);
+          if (!product) {
+            return null;
+          }
 
-      const quantityCounters = new Map<string, number>();
-      page.setContent(
-        renderReceiptHtml(i.template, {
-          date: createdAt.toDateString(),
-          time: createdAt.toTimeString(),
-          order: {
-            counter: counterRow.toString(),
-            discountPrice: priceToString(finalPrice - totalPrice),
-            modifiedPrice: priceToString(finalPrice),
-            totalPrice: priceToString(totalPrice),
-          },
-          products: cartItemsBatch.ids
-            .map((id) => {
-              const product = cartItemProducts.get(id);
-              if (!product) {
-                return null;
-              }
+          const productClient = productClients.get(product.id);
+          if (!productClient) {
+            return null;
+          }
 
-              const productClient = productClients.get(product.id);
-              if (!productClient) {
-                return null;
-              }
+          const values = cartItemValues.get(id) ?? [];
 
-              const values = cartItemValues.get(id) ?? [];
+          return {
+            name: productClient.data.name,
+            hash: CartItem.hash(productClient.data.id, values),
+            price: priceToString(productClient.data.price),
+            options: values
+              .map((v) => {
+                const optionClient = productOptionClients.get(v.optionId);
+                if (!optionClient || v.price === null) {
+                  return null;
+                }
 
-              return {
-                name: productClient.data.name,
-                hash: CartItem.hash(productClient.data.id, values),
-                price: priceToString(productClient.data.price),
-                options: values
-                  .map((v) => {
-                    const optionClient = productOptionClients.get(v.optionId);
-                    if (!optionClient || v.price === null) {
+                let valueStr: string;
+                switch (optionClient.data.data.type) {
+                  case "boolean":
+                    if (!(v.value as boolean)) {
                       return null;
                     }
 
-                    let valueStr: string;
-                    switch (optionClient.data.data.type) {
-                      case "boolean":
-                        if (!(v.value as boolean)) {
-                          return null;
-                        }
+                    valueStr = "Sì";
+                    break;
+                  case "choice":
+                    valueStr = v.value as string;
+                    break;
+                }
 
-                        valueStr = "Sì";
-                        break;
-                      case "choice":
-                        valueStr = v.value as string;
-                        break;
-                    }
-
-                    return {
-                      name: optionClient.data.name,
-                      value: valueStr,
-                      price: priceToString(v.price),
-                    };
-                  })
-                  .filter((v) => v !== null),
-              };
-            })
-            .filter((p) => p !== null)
-            .map(({ hash, ...p }) => {
-              const quantity = quantityCounters.getOrInsert(hash, 0) + 1;
-              quantityCounters.set(hash, quantity);
-              return { ...p, quantity: quantity.toString() };
-            }),
+                return {
+                  name: optionClient.data.name,
+                  value: valueStr,
+                  price: priceToString(v.price),
+                };
+              })
+              .filter((v) => v !== null),
+          };
+        })
+        .filter((p) => p !== null)
+        .map(({ hash, ...p }) => {
+          const quantity = quantityCounters.getOrInsert(hash, 0) + 1;
+          quantityCounters.set(hash, quantity);
+          return { ...p, quantity: quantity.toString() };
         }),
-      );
+    };
+
+    for (const i of receiptPrintingInfo.values()) {
+      const page = await browser.newPage();
+
+      page.setContent(renderReceiptHtml(i.template, receiptData));
 
       const pdf = await page.pdf();
       await i.printer.print(i.name, pdf);

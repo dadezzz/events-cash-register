@@ -5,7 +5,7 @@
   import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import type { ProductCategoryId } from "#lib/entities/products/category/id.ts";
   import CategoriesList from "../_components/CategoriesList.svelte";
-  import OrderList from "../_components/OrderList.svelte";
+  import OrderColumnWrapper from "../_components/OrderColumnWrapper.svelte";
   import FormOrConfigureDialog from "./_components/FormOrConfigureDialog.svelte";
   import type { PageProps } from "./$types";
 
@@ -43,8 +43,8 @@
     </ul>
   </div>
 
-  <div class="page-section shrink-0 overflow-y-auto p-2">
-    <OrderList />
+  <div class="page-section">
+    <OrderColumnWrapper />
   </div>
 </div>
 
