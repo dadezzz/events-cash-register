@@ -9,7 +9,7 @@ jobs:
     env:
       IMAGE: git.zarantonello.dev/${{ forge.repository }}:cups
       name: Build the cups container
-    runs-on: srv-0-nbg-hetz
+    runs-on: srv-hetz-nbg-0
     steps:
       - name: Clone the repository
         run: |
@@ -36,3 +36,4 @@ name: build-cups.yaml
       - cups.Dockerfile
       - cups.entrypoint.sh
       - cupsd.conf
+  workflow_dispatch: {}
