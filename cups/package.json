@@ -19,7 +19,7 @@
     "setup": "meson setup build"
   },
   "dependencies": {
-    "node-addon-api": "8.9.0",
+    "node-addon-api": "8.9.1",
     "valibot": "1.4.2"
   },
   "devDependencies": {
