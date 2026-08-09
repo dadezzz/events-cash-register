@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { CopyrightIcon } from "phosphor-svelte";
   import { Form } from "#components/form/index.ts";
   import { PasswordInput, TextInput } from "#components/form/input/index.ts";
   import Header from "#components/Header.svelte";
@@ -25,9 +24,4 @@
       <button type="submit" class="button-primary mt-2 w-full px-2 py-1">Accedi</button>
     </Form>
   </div>
-
-  <p class="mt-auto flex items-center gap-1 text-xs text-mist-400 dark:text-mist-500">
-    <CopyrightIcon />
-    Davide Zarantonello
-  </p>
 </div>
