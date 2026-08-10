@@ -5,7 +5,7 @@ import { logger } from "#lib/server/logger/request.ts";
 import { form } from "$app/server";
 import { addProductOptionFormSchema, deleteProductOptionFormSchema } from "./_schemas.ts";
 
-export const addProductOptionForm = form(addProductOptionFormSchema, async (data) => {
+export const addOptionForm = form(addProductOptionFormSchema, async (data) => {
   await requireAdmin();
 
   const product = await Product.fromId(data.productId);
@@ -14,10 +14,11 @@ export const addProductOptionForm = form(addProductOptionFormSchema, async (data
   }
 
   await product.addOption(data.name, data.data);
+
   logger.info({ message: "added new option to product", productId: product.id });
 });
 
-export const deleteProductOptionForm = form(deleteProductOptionFormSchema, async (data) => {
+export const deleteOptionForm = form(deleteProductOptionFormSchema, async (data) => {
   await requireAdmin();
 
   const product = await Product.fromId(data.productId);
@@ -26,5 +27,6 @@ export const deleteProductOptionForm = form(deleteProductOptionFormSchema, async
   }
 
   await product.deleteOption(data.id);
+
   logger.info({ message: "deleted option from product", productId: product.id });
 });

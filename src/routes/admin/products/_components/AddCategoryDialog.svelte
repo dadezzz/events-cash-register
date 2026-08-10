@@ -3,12 +3,13 @@
   import { fly } from "svelte/transition";
   import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
-  import { PasswordInput, TextInput } from "#components/form/input/index.ts";
-  import { addUserForm } from "../_forms.remote.ts";
-  import { addUserFormSchema } from "../_schemas.ts";
+  import { TextInput } from "#components/form/input/index.ts";
+  import { addCategoryForm } from "../_forms.remote.ts";
+  import { addCategorySchema } from "../_schemas.ts";
 
   let dialogOpen = $state(false);
-  const form = addUserForm.preflight(addUserFormSchema);
+
+  const form = addCategoryForm.preflight(addCategorySchema);
 </script>
 
 <Dialog bind:open={dialogOpen}>
@@ -19,7 +20,9 @@
   {/snippet}
   {#snippet content({ props })}
     <div {...props} class="dialog-center dialog-inner p-2" transition:fly>
-      <h2 class="mb-2 text-xl font-bold">Aggiungi utente</h2>
+      <h2 class="mb-2 text-xl font-bold">Aggiungi categoria</h2>
+
+      <p class="mb-2">Una categoria definisce un gruppo di prodotti visualizzati insieme</p>
 
       <Form
         {form}
@@ -29,8 +32,6 @@
         class="flex flex-col gap-2"
       >
         <TextInput field={form.fields.name} label="Nome" />
-        <TextInput field={form.fields.username} label="Nome utente (usato per l'accesso)" />
-        <PasswordInput field={form.fields._password} label="Password" />
 
         <div class="mt-2 flex justify-end gap-2">
           <button

@@ -3,12 +3,20 @@
   import { fly } from "svelte/transition";
   import Dialog from "#components/Dialog.svelte";
   import { Form } from "#components/form/index.ts";
-  import { PasswordInput, TextInput } from "#components/form/input/index.ts";
-  import { addUserForm } from "../_forms.remote.ts";
-  import { addUserFormSchema } from "../_schemas.ts";
+  import { CheckboxInput, HiddenInput, NumericInput, TextInput } from "#components/form/input/index.ts";
+  import type { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
+  import { addProductForm } from "../_forms.remote.ts";
+  import { addProductFormSchema } from "../_schemas.ts";
+
+  interface Props {
+    category: ProductCategoryClient;
+  }
+
+  const { category }: Props = $props();
 
   let dialogOpen = $state(false);
-  const form = addUserForm.preflight(addUserFormSchema);
+
+  const form = addProductForm.preflight(addProductFormSchema);
 </script>
 
 <Dialog bind:open={dialogOpen}>
@@ -19,7 +27,9 @@
   {/snippet}
   {#snippet content({ props })}
     <div {...props} class="dialog-center dialog-inner p-2" transition:fly>
-      <h2 class="mb-2 text-xl font-bold">Aggiungi utente</h2>
+      <h2 class="mb-2 text-xl font-bold">Aggiungi prodotto</h2>
+
+      <p class="mb-2">Il prodotto è ciò che viene venduto al cliente</p>
 
       <Form
         {form}
@@ -28,9 +38,11 @@
         }}
         class="flex flex-col gap-2"
       >
+        <HiddenInput field={form.fields.categoryId} value={category.data.id} />
+
         <TextInput field={form.fields.name} label="Nome" />
-        <TextInput field={form.fields.username} label="Nome utente (usato per l'accesso)" />
-        <PasswordInput field={form.fields._password} label="Password" />
+        <NumericInput field={form.fields.price} label="Prezzo" />
+        <CheckboxInput field={form.fields.available} label="In vendita" checked={true} />
 
         <div class="mt-2 flex justify-end gap-2">
           <button

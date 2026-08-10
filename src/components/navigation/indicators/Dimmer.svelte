@@ -8,6 +8,7 @@
 </script>
 
 <script lang="ts">
+  import { fade } from "svelte/transition";
   import { afterNavigate, beforeNavigate } from "$app/navigation";
 
   let show = $state(false);
@@ -34,9 +35,10 @@
 
 {#if show}
   <div
-    class="fixed z-49 h-full w-full bg-white/40"
+    transition:fade
+    class="fixed inset-0 z-70 bg-mist-50/40"
     role="alert"
     aria-live="polite"
-    aria-label="Loading, please wait. The page is unresponsive."
+    aria-label="La pagina sta caricando più lentamente del previsto"
   ></div>
 {/if}

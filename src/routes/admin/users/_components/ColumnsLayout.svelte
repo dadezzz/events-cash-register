@@ -1,16 +1,15 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
 
-  type ColumnId = "first" | "second" | "third";
+  type ColumnId = "first" | "second";
 
   interface Props {
     mainColumn: ColumnId;
     firstColumn: Snippet;
     secondColumn: Snippet;
-    thirdColumn: Snippet;
   }
 
-  const { mainColumn, firstColumn, secondColumn, thirdColumn }: Props = $props();
+  const { mainColumn, firstColumn, secondColumn }: Props = $props();
 </script>
 
 {#snippet column(id: ColumnId, children: Snippet)}
@@ -26,5 +25,4 @@
 <div class="flex h-full min-h-0">
   {@render column("first", firstColumn)}
   {@render column("second", secondColumn)}
-  {@render column("third", thirdColumn)}
 </div>

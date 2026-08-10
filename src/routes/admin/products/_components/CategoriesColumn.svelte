@@ -4,7 +4,7 @@
   import Popover from "#components/Popover.svelte";
   import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import { page } from "$app/state";
-  import AddCategoryDialog from "./add-category-dialog/AddCategoryDialog.svelte";
+  import AddCategoryDialog from "./AddCategoryDialog.svelte";
 
   const categories = $derived(await ProductCategoryClient.getAll());
 </script>

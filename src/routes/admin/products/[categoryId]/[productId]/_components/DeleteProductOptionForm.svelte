@@ -4,7 +4,7 @@
   import { HiddenInput } from "#components/form/input/index.ts";
   import type { ProductClient } from "#lib/entities/products/client/index.ts";
   import type { ProductOptionClient } from "#lib/entities/products/option/client/index.ts";
-  import { deleteProductOptionForm } from "../_forms.remote.ts";
+  import { deleteOptionForm } from "../_forms.remote.ts";
 
   interface Props {
     product: ProductClient;
@@ -13,7 +13,7 @@
 
   const { product, option }: Props = $props();
 
-  const form = $derived(deleteProductOptionForm.for(option.data.id));
+  const form = $derived(deleteOptionForm.for(option.data.id));
 </script>
 
 <Form {form}>

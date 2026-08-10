@@ -5,7 +5,7 @@
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
   import type { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
-  import { deleteProductCategoryForm } from "../_forms.remote.ts";
+  import { deleteCategoryForm } from "../_forms.remote.ts";
 
   interface Props {
     category: ProductCategoryClient;
@@ -13,7 +13,7 @@
 
   const { category }: Props = $props();
 
-  const form = $derived(deleteProductCategoryForm.for(category.data.id));
+  const form = $derived(deleteCategoryForm.for(category.data.id));
   let dialogOpen = $state(false);
 
   const categoryProductsCount = $derived(await category.countProducts());

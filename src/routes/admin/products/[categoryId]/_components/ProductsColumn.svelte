@@ -4,7 +4,7 @@
   import Popover from "#components/Popover.svelte";
   import type { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import { page } from "$app/state";
-  import AddProductDialog from "./add-product-dialog/AddProductDialog.svelte";
+  import AddProductDialog from "./AddProductDialog.svelte";
 
   interface Props {
     category: ProductCategoryClient;

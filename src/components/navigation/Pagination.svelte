@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { Pagination } from "bits-ui";
   import { CaretLeftIcon, CaretRightIcon } from "phosphor-svelte";
+  import { iteratorToNumber } from "#lib/array.ts";
   import { createPaginationUrl, type PaginationOptions } from "#lib/pagination.ts";
-  import { goto } from "$app/navigation";
   import { page } from "$app/state";
 
   interface Props {
@@ -11,64 +10,41 @@
   }
 
   const { options, itemsCount }: Props = $props();
+
+  const firstPage = 1;
+  const isFirstPage = $derived(options.page === firstPage);
+  const lastPage = $derived(Math.ceil(itemsCount / options.pageSize) + 1);
+  const isLastPage = $derived(options.page === lastPage);
 </script>
 
 <!-- Show pagination only if necessary. -->
 {#if itemsCount > options.pageSize}
-  <Pagination.Root
-    count={itemsCount}
-    page={options.page}
-    perPage={options.pageSize}
-    class="flex items-center gap-1 font-semibold text-slate-600"
-    onPageChange={async (pageNumber) => {
-      await goto(createPaginationUrl(page.url, { page: pageNumber }));
-    }}
-  >
-    {#snippet children({ pages, currentPage })}
-      <Pagination.PrevButton>
-        {#snippet child({ props })}
-          <button
-            {...props}
-            type="button"
-            disabled={currentPage === 1}
-            class="block rounded-md p-1 outline-yellow-300 transition-colors not-disabled:hover:bg-yellow-50 not-disabled:hover:text-yellow-600 focus:outline-2 disabled:text-slate-400"
-          >
-            <CaretLeftIcon weight="bold" />
-          </button>
-        {/snippet}
-      </Pagination.PrevButton>
+  <div class="flex items-center gap-1 font-semibold text-mist-600 dark:text-mist-400">
+    <a
+      aria-disabled={isFirstPage}
+      href={!isFirstPage ? createPaginationUrl(page.url, { ...options, page: options.page - 1 }).href : undefined}
+      class="button-ghost block rounded-md p-2 disabled:hover:bg-transparent"
+    >
+      <CaretLeftIcon weight="bold" class="size-4" />
+    </a>
 
-      {#each pages as p (p.key)}
-        {#if p.type === "ellipsis"}
-          <div class="px-2">...</div>
-        {:else}
-          <Pagination.Page page={p}>
-            {#snippet child({ props })}
-              <button
-                {...props}
-                disabled={p.value === currentPage}
-                type="button"
-                class="block rounded-md px-2 outline-yellow-300 transition-colors not-disabled:hover:bg-yellow-50 not-disabled:hover:text-yellow-600 focus:outline-2 disabled:bg-yellow-100 disabled:text-yellow-600"
-              >
-                {p.value}
-              </button>
-            {/snippet}
-          </Pagination.Page>
-        {/if}
-      {/each}
+    {#each iteratorToNumber(firstPage, lastPage) as pageNumber}
+      <a
+        aria-disabled={options.page === pageNumber}
+        aria-current={options.page === pageNumber}
+        href={createPaginationUrl(page.url, { ...options, page: pageNumber }).href}
+        class="button-ghost block p-1 px-3 aria-current:bg-emerald-50 dark:aria-current:bg-emerald-950"
+      >
+        {pageNumber}
+      </a>
+    {/each}
 
-      <Pagination.NextButton>
-        {#snippet child({ props })}
-          <button
-            {...props}
-            type="button"
-            disabled={currentPage === pages.length}
-            class="block rounded-md p-1 outline-yellow-300 transition-colors not-disabled:hover:bg-yellow-50 not-disabled:hover:text-yellow-600 focus:outline-2 disabled:text-slate-400"
-          >
-            <CaretRightIcon weight="bold" />
-          </button>
-        {/snippet}
-      </Pagination.NextButton>
-    {/snippet}
-  </Pagination.Root>
+    <a
+      aria-disabled={isLastPage}
+      href={!isLastPage ? createPaginationUrl(page.url, { ...options, page: options.page + 1 }).href : undefined}
+      class="button-ghost block rounded-md p-2 disabled:hover:bg-transparent"
+    >
+      <CaretRightIcon weight="bold" class="size-4" />
+    </a>
+  </div>
 {/if}

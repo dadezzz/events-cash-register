@@ -5,7 +5,7 @@
   import FieldErrors from "#components/form/input/FieldErrors.svelte";
   import { HiddenInput, NumericInput, RadioInput, TextInput } from "#components/form/input/index.ts";
   import type { ProductClient } from "#lib/entities/products/client/index.ts";
-  import { addProductOptionForm } from "../../_forms.remote.ts";
+  import { addOptionForm } from "../../_forms.remote.ts";
   import { addProductOptionFormSchema } from "../../_schemas.ts";
 
   interface Props {
@@ -16,7 +16,7 @@
 
   const { product, onresult, oncancel }: Props = $props();
 
-  const form = $derived(addProductOptionForm.for(product.data.id).preflight(addProductOptionFormSchema));
+  const form = $derived(addOptionForm.for(product.data.id).preflight(addProductOptionFormSchema));
 </script>
 
 <Form {form} {onresult} class="flex flex-col gap-2">

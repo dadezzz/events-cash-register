@@ -1,6 +1,7 @@
 import { and, eq } from "drizzle-orm";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { db, s } from "#lib/server/database/index.ts";
+import { ProductCategory } from "./category/index.ts";
 import type { ProductData } from "./data.ts";
 import type { ProductId } from "./id.ts";
 import type { ProductOptionId } from "./option/id.ts";
@@ -36,6 +37,15 @@ export class Product {
       await tx.update(s.productOption).set({ deletedAt: new Date() }).where(eq(s.productOption.productId, this.id));
       await tx.update(s.product).set({ deletedAt: new Date() }).where(eq(s.product.id, this.id));
     });
+  }
+
+  async getCategory(): Promise<ProductCategory> {
+    const category = await db
+      .select({ id: s.product.categoryId })
+      .from(s.product)
+      .where(eq(s.product.id, this.id))
+      .then(getFirstOrThrow);
+    return new ProductCategory(category.id);
   }
 
   async addOption(name: string, data: ProductOptionDataColumn): Promise<void> {
