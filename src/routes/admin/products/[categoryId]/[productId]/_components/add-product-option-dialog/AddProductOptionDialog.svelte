@@ -16,8 +16,8 @@
 
 <Dialog bind:open={dialogOpen}>
   {#snippet trigger({ props })}
-    <button {...props} type="button" class="button-ghost-icon">
-      <PlusIcon class="size-5" />
+    <button {...props} type="button" class="button-ghost p-1 text-mist-700 dark:text-mist-300">
+      <PlusIcon class="size-4" />
     </button>
   {/snippet}
   {#snippet content({ props })}

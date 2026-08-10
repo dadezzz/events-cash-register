@@ -9,12 +9,16 @@
 
 <Dialog bind:open={dialogOpen}>
   {#snippet trigger({ props })}
-    <button {...props} type="button" class="button-ghost-icon">
-      <PlusIcon class="size-5" />
+    <button {...props} type="button" class="button-ghost p-1 text-mist-700 dark:text-mist-300">
+      <PlusIcon class="size-4" />
     </button>
   {/snippet}
   {#snippet content({ props })}
-    <div {...props} class="dialog-center dialog-inner" transition:fly>
+    <div {...props} class="dialog-center dialog-inner p-2" transition:fly>
+      <h2 class="mb-2 text-xl font-bold">Aggiungi categoria</h2>
+
+      <p class="mb-2">Una categoria definisce un gruppo di prodotti visualizzati insieme</p>
+
       <AddCategoryForm
         onresult={() => {
           dialogOpen = false;

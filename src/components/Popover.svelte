@@ -7,9 +7,10 @@
     autofocusContent?: boolean;
     trigger?: Snippet<[{ props: Record<string, unknown> }]>;
     content: Snippet<[{ props: Record<string, unknown> }]>;
+    anchor?: HTMLElement;
   }
 
-  let { open = $bindable(false), autofocusContent = true, trigger, content }: Props = $props();
+  let { open = $bindable(false), autofocusContent = true, trigger, content, anchor }: Props = $props();
 </script>
 
 <Popover.Root bind:open>
@@ -18,7 +19,7 @@
   {/if}
 
   <Popover.Content
-    class="popover-default"
+    customAnchor={anchor}
     forceMount
     collisionPadding={8}
     onOpenAutoFocus={(e) => {

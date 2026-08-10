@@ -17,7 +17,7 @@
       <input
         {...inputProps}
         {...field.as("text")}
-        class="outline-emerald-default hover:border-emerald-strong rounded-md border border-mist-300 px-3 py-2 focus:outline-2 dark:border-mist-700"
+        class="outline-emerald-default hover:border-emerald-strong border-mist-strong rounded-md border px-3 py-2 focus:outline-2"
         onblur={(e) => {
           e.currentTarget.value = field.value()?.trim() ?? "";
         }}

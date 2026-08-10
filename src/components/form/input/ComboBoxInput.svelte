@@ -47,7 +47,7 @@
 
       <HiddenInput {field} value={field.value()} />
 
-      <Popover bind:open={suggestionsOpen} autofocusContent={false}>
+      <Popover bind:open={suggestionsOpen} autofocusContent={false} anchor={comboboxInput}>
         {#snippet trigger({ props })}
           <div
             class="border-mist-strong outline-emerald-default hover:border-emerald-strong flex gap-3 overflow-hidden rounded-md border transition-colors focus-within:outline-2"
@@ -149,7 +149,7 @@
           </div>
         {/snippet}
         {#snippet content({ props })}
-          <div {...props} class="group popover-default max-h-96 overflow-y-auto p-2 text-sm">
+          <div {...props} class="popover-default max-h-96 overflow-y-auto p-2 text-sm">
             <ul id="{id}-list">
               {#each suggestions as entry (entry.value)}
                 <li id="{id}-option-{entry.value}">

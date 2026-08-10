@@ -9,7 +9,7 @@
 }
 
 @utility popover-default {
-  @apply bg-default text-default shadow border border-mist-default rounded-md z-40;
+  @apply bg-default text-default shadow border border-mist-default rounded-md z-60;
 }
 
 @utility bg-default {
