@@ -1,0 +1,32 @@
+# Git and CI files.
+.devcontainer/
+.forgejo/
+.git/
+.gitignore
+.dockerignore
+Dockerfile
+ci.Dockerfile
+cups.Dockerfile
+cups.entrypoint.sh
+cupsd.conf
+
+# Tool config files (unused in build)
+.prettierignore
+.prettierrc.json
+.releaserc.json
+.renovaterc.json
+
+# Cache dirs
+.pnpm-store/
+.svelte-kit/
+.turbo/
+cups/.cache/
+cups/build/
+data/
+dist/
+node_modules/
+
+# Other files
+.env
+LICENSE
+README.md

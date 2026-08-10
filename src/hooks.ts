@@ -1,4 +1,5 @@
 import type { Transport } from "@sveltejs/kit";
+import { Duration } from "#lib/duration.ts";
 import { CartItemClient } from "#lib/entities/cart/cart-item/client/index.ts";
 import { CartClient } from "#lib/entities/cart/client/index.ts";
 import { OrderClient } from "#lib/entities/cart/order/client/index.ts";
@@ -40,5 +41,9 @@ export const transport: Transport = {
   OrderClient: {
     decode: (v) => OrderClient.deserialize(v),
     encode: (v) => v instanceof OrderClient && v.serialize(),
+  },
+  Duration: {
+    decode: (v) => Duration.fromMilliseconds(v),
+    encode: (v) => v instanceof Duration && v.asMilliseconds(),
   },
 };

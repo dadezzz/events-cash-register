@@ -8,6 +8,9 @@ jobs:
       image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:38f67817cee277edb2384497a8df56e2416ab2810496a3939d4d1393ee27988c
       volumes:
         - forgejo-runner-cache-pnpm:/usr/local/pnpm/store
+        - forgejo-runner-cache-projects-events-cash-register-turbo:/cache/turbo
+    env:
+      TURBO_CACHE_DIR: /cache/turbo
     name: Checks with static tools
     runs-on: srv-generic
     steps:
@@ -18,9 +21,9 @@ jobs:
       - name: Install dependencies with pnpm
         run: pnpm install
       - name: Run types and syntax check
-        run: |
-          pnpm run -r --no-sort --aggregate-output setup
-          pnpm run -r --aggregate-output check
+        run: turbo run check
+      - name: Build the website
+        run: turbo run build
 
 name: check-syntax.yaml
 

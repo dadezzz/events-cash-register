@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "checkJs": true,
+    "declaration": true,
+    "declarationMap": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "noFallthroughCasesInSwitch": true,
+    "outDir": "dist",
+    "rewriteRelativeImportExtensions": true,
+    "rootDir": "src",
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
-    "verbatimModuleSyntax": true,
-    "allowImportingTsExtensions": true,
-    "types": ["node"]
+    "types": ["node"],
+    "verbatimModuleSyntax": true
   }
 }

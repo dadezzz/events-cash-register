@@ -21,30 +21,29 @@ const booleanSchema = v.pipe(
 );
 
 export const variables = defineEnvVars({
-  DOMAIN: {
-    description: "DNS domain of the application",
-    static: true,
-  },
   ORIGIN: {
     description: "Web origin of the application",
     schema: stringToUrlSchema,
-    static: true,
   },
 
   SESSION_COOKIE_NAME: {
     description: "Name of the session cookie",
+    static: true,
   },
   SESSION_MAX_AGE: {
     description: "Max duration for the session (including renovations)",
     schema: stringMillisecondsToDurationSchema,
+    // static:true // Not enabled since transport hooks don't seem to run on static vars.
   },
   SESSION_EXPIRE_AFTER: {
     description: "Duration of inactivity period after which user must reauthenticate",
     schema: stringMillisecondsToDurationSchema,
+    // static:true
   },
   SESSION_RENOVATE_AFTER: {
     description: "Duration after which the session token is rotated",
     schema: stringMillisecondsToDurationSchema,
+    // static:true
   },
 
   DATABASE_URL: {
@@ -59,6 +58,7 @@ export const variables = defineEnvVars({
   },
   DATABASE_MIGRATIONS_FOLDER: {
     description: "Path to folder containing migrations sql files",
+    static: true,
   },
 
   CUPS_URL: {
@@ -67,6 +67,7 @@ export const variables = defineEnvVars({
 
   PUPPETEER_EXECUTABLE_PATH: {
     description: "Path to chromium executable for puppeteer",
+    static: true,
   },
 
   INITIAL_ADMIN_NAME: {
