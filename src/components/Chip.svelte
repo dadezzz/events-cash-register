@@ -9,9 +9,9 @@
   const { color, children }: Props = $props();
 
   const colors = {
-    red: "bg-red-100 text-red-700",
-    yellow: "bg-yellow-100 text-yellow-700",
-    green: "bg-green-100 text-green-700",
+    error: "bg-red-100 text-red-700",
+    warning: "bg-yellow-100 text-yellow-700",
+    success: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300",
   };
 </script>
 

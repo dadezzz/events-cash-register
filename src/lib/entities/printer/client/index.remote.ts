@@ -37,3 +37,17 @@ export const getSettingsSelected = query.batch(printerIdSchema, async (ids) => {
 
   return (id) => settings.get(id) ?? [];
 });
+
+export const getReceiptTemplates = query.batch(printerIdSchema, async (ids) => {
+  await requireAdmin();
+
+  const printersBatch = new PrinterBatch(ids);
+  const receiptTemplatesBatch = await printersBatch.getReceiptTemplates();
+  const clients = await receiptTemplatesBatch.getClients();
+
+  return (id) =>
+    clients
+      .values()
+      .filter((c) => c.data.printerId === id)
+      .toArray();
+});

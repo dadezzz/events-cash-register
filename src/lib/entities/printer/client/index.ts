@@ -3,6 +3,7 @@ import type { JobCreationAttributesAvailable, JobCreationAttributesSelected } fr
 import { Serializable } from "#lib/serializable.ts";
 import type { PrinterData } from "../data.ts";
 import type { PrinterId } from "../id.ts";
+import type { PrinterReceiptTemplateClient } from "../receipt-template/client.ts";
 import * as remote from "./index.remote.ts";
 
 type PrinterDataClient = PrinterData & { available: boolean };
@@ -22,5 +23,9 @@ export class PrinterClient extends Serializable<PrinterDataClient> {
 
   getSettingsSelected(): RemoteQuery<JobCreationAttributesSelected> {
     return remote.getSettingsSelected(this.data.id);
+  }
+
+  getReceiptTemplates(): RemoteQuery<PrinterReceiptTemplateClient[]> {
+    return remote.getReceiptTemplates(this.data.id);
   }
 }

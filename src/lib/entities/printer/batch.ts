@@ -6,6 +6,7 @@ import { availablePrinters } from "./available.ts";
 import { PrinterClient } from "./client/index.ts";
 import { sqlDataColumns } from "./data.ts";
 import type { PrinterId } from "./id.ts";
+import { PrinterReceiptTemplateBatch } from "./receipt-template/batch.ts";
 
 export class PrinterBatch extends Batch<PrinterId> {
   async getClients(): Promise<BatchRows<PrinterId, PrinterClient>> {
@@ -51,5 +52,14 @@ export class PrinterBatch extends Batch<PrinterId> {
     }
 
     return new BatchRows(rows2);
+  }
+
+  async getReceiptTemplates(): Promise<PrinterReceiptTemplateBatch> {
+    const rows = await db
+      .select({ id: s.printerReceiptTemplate.id })
+      .from(s.printerReceiptTemplate)
+      .where(inArray(s.printerReceiptTemplate.printerId, this.ids));
+
+    return new PrinterReceiptTemplateBatch(rows.map((r) => r.id));
   }
 }

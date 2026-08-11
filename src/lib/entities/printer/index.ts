@@ -7,6 +7,7 @@ import { logger } from "#lib/server/logger/request.ts";
 import { availablePrinters } from "./available.ts";
 import { PrinterBatch } from "./batch.ts";
 import type { PrinterId } from "./id.ts";
+import { PrinterReceiptTemplate } from "./receipt-template/index.ts";
 
 export class Printer {
   readonly id: PrinterId;
@@ -85,5 +86,17 @@ export class Printer {
 
     const settings = await this.getSelectedSettings();
     await cupsPrinter.sendJob(title, settings, "application/pdf", pdf);
+  }
+
+  async getInvoiceTemplates(): Promise<PrinterReceiptTemplate[]> {
+    const rows = await db
+      .select({ id: s.printerReceiptTemplate.id })
+      .from(s.printerReceiptTemplate)
+      .where(eq(s.printerReceiptTemplate.printerId, this.id));
+    return rows.map((r) => new PrinterReceiptTemplate(r.id));
+  }
+
+  async forget(): Promise<void> {
+    await db.delete(s.printer).where(eq(s.printer.id, this.id));
   }
 }

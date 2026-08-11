@@ -24,3 +24,7 @@ export const updateSettingsFormSchema = v.lazyAsync(async (input) => {
     ),
   });
 });
+
+export const deletePrinterFormSchema = v.object({
+  id: printerIdSchema,
+});

@@ -24,7 +24,7 @@
   const form = $derived(updateSettingsForm.for(printer.data.id).preflight(updateSettingsFormSchema));
 </script>
 
-<Form {form}>
+<Form {form} class="flex flex-col gap-2">
   <HiddenInput field={form.fields.printerId} value={printer.data.id} />
 
   {#each availableSettings as setting, i (setting.name)}
@@ -50,5 +50,5 @@
     {/if}
   {/each}
 
-  <button type="submit">Salva</button>
+  <button type="submit" class="button-primary mt-2 px-2 py-1">Salva</button>
 </Form>
