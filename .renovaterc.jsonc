@@ -13,13 +13,24 @@
       "automerge": true,
       "groupName": "CI dependencies",
       "groupSlug": "ci",
-      "matchFileNames": [".devcontainer/**", ".forgejo/**", "ci.Dockerfile"],
+      "matchFileNames": [".devcontainer/**", ".forgejo/**", "ci.Dockerfile", "cups.Dockerfile"],
       "matchUpdateTypes": ["!major"]
     },
     // Formatters and linters get automerged.
     {
       "automerge": true,
-      "matchPackageNames": ["svelte-check", "@biomejs/biome", "@types/*", "prettier*", "pnpm", "vitest"],
+      "groupName": "CI dependencies",
+      "groupSlug": "ci",
+      "matchPackageNames": ["svelte-check", "@biomejs/biome", "@types/*", "prettier*", "pnpm", "vitest", "turbo"],
+      "matchUpdateTypes": ["!major"]
+    },
+    // Group also the CI image.
+    {
+      "automerge": true,
+      "groupName": "CI dependencies",
+      "groupSlug": "ci",
+      "matchPackageNames": ["git.zarantonello.dev/projects/events-cash-register"],
+      "matchCurrentValue": "ci",
       "matchUpdateTypes": ["!major"]
     },
     // These are devDependencies but they can cause user visible changes.
