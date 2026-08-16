@@ -6,7 +6,7 @@ FROM git.zarantonello.dev/projects/events-cash-register:ci@sha256:285cd4c51de2e8
 WORKDIR /srv
 
 COPY . .
-RUN turbo prune --docker @workspace/website
+RUN turbo prune --docker @workspace/root
 
 FROM git.zarantonello.dev/projects/events-cash-register:ci@sha256:285cd4c51de2e885188f9e15d5d80726b327afccf7968decfabf0da8510d107e AS builder
 
