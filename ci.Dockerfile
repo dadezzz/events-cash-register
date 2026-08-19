@@ -10,7 +10,7 @@ RUN apk add --no-cache \
     chromium
 
 # renovate: datasource=npm depName=pnpm versioning=npm
-ENV PNPM_VERSION="11.21.0"
+ENV PNPM_VERSION="11.22.0"
 # renovate: datasource=npm depName=turbo versioning=npm
 ENV TURBO_VERSION="2.10.10"
 
