@@ -12,7 +12,7 @@ RUN apk add --no-cache \
 # renovate: datasource=npm depName=pnpm versioning=npm
 ENV PNPM_VERSION="11.22.0"
 # renovate: datasource=npm depName=turbo versioning=npm
-ENV TURBO_VERSION="2.10.10"
+ENV TURBO_VERSION="2.10.11"
 
 RUN --mount=type=cache,sharing=locked,target=/root/.npm \
     npm install -g "pnpm@$PNPM_VERSION" "turbo@$TURBO_VERSION"
