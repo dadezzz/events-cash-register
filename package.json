@@ -40,7 +40,7 @@
     "@sveltejs/kit": "2.70.3",
     "@tailwindcss/vite": "4.3.3",
     "@types/node": "25.9.5",
-    "bits-ui": "2.18.2",
+    "bits-ui": "2.19.0",
     "drizzle-kit": "0.31.10",
     "phosphor-svelte": "3.1.0",
     "prettier": "3.9.6",
