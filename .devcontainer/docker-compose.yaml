@@ -7,7 +7,7 @@ services:
   workspace:
     entrypoint: sleep infinity
     env_file: ../.env
-    image: git.zarantonello.dev/projects/events-cash-register:ci@sha256:655a53a29c722f97f65075880acd841c01b6bf073aa26a88e0a637d509c82a05
+    image: git.zarantonello.dev/projects/events-cash-register-ci:v2026.08.27.1
     ports:
       - 5173:5173
       - 4983:4983

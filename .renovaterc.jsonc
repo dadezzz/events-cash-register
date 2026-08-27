@@ -16,21 +16,18 @@
       "matchFileNames": [".devcontainer/**", ".forgejo/**", "ci.Dockerfile", "cups.Dockerfile"],
       "matchUpdateTypes": ["!major"]
     },
+    {
+      "automerge": true,
+      "groupName": "CI dependencies",
+      "groupSlug": "ci",
+      "matchPackageNames": ["git.zarantonello.dev/projects/events-cash-register-ci"]
+    },
     // Formatters and linters get automerged.
     {
       "automerge": true,
       "groupName": "CI dependencies",
       "groupSlug": "ci",
       "matchPackageNames": ["svelte-check", "@biomejs/biome", "@types/*", "prettier*", "pnpm", "vitest", "turbo"],
-      "matchUpdateTypes": ["!major"]
-    },
-    // Group also the CI image.
-    {
-      "automerge": true,
-      "groupName": "CI dependencies",
-      "groupSlug": "ci",
-      "matchPackageNames": ["git.zarantonello.dev/projects/events-cash-register"],
-      "matchCurrentValue": "ci",
       "matchUpdateTypes": ["!major"]
     },
     // These are devDependencies but they can cause user visible changes.
@@ -64,6 +61,10 @@
       ],
       "matchUpdateTypes": ["major"],
       "semanticCommitType": "feat"
+    },
+    {
+      "automerge": true,
+      "matchPackageNames": ["git.zarantonello.dev/igl/website"]
     }
   ],
   // Raise limit or there are situations where we can't keep up with the number
