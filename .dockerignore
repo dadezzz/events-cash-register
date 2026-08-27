@@ -7,8 +7,6 @@
 Dockerfile
 ci.Dockerfile
 cups.Dockerfile
-cups.entrypoint.sh
-cupsd.conf
 
 # Tool config files (unused in build)
 .prettierignore

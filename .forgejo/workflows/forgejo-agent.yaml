@@ -17,10 +17,10 @@ jobs:
       - name: Generate response
         uses: https://git.zarantonello.dev/projects/forgejo-agent@c9840809ef071f70765af4b47e3d810079075384 # v1.8.20
         with:
-          auth-token: ${{ secrets.AGENT_TOKEN }}
-          auth-username: llm-bot
-          git-author: LLM [bot]
-          git-email: llm-bot@git.zarantonello.dev
+          auth-token: ${{ secrets.CI_BOT_TOKEN }}
+          auth-username: ci-bot
+          git-author: CI [bot]
+          git-email: ci-bot@git.zarantonello.dev
 
 name: forgejo-agent
 
