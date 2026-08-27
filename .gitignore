@@ -4,8 +4,8 @@
 .pnpm-store/
 
 # Cups meson build folder
-/cups/.cache/
-/cups/build/
+/packages/cups/.cache/
+/packages/cups/build/
 
 # Database folder, so we don't have to re-create it every time.
 data/**
@@ -16,3 +16,4 @@ data/**
 .turbo/
 dist/
 node_modules/
+out/

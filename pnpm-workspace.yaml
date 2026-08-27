@@ -4,5 +4,4 @@ allowBuilds:
 includeWorkspaceRoot: true
 injectWorkspacePackages: true
 packages:
-  - cups
-  - .
+  - packages/*

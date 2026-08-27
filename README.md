@@ -36,25 +36,28 @@ Prerequisites:
 pnpm install
 
 # Build the project.
-pnpm run -r --no-sort setup
-pnpm run -r build
+turbo setup
+turbo build
 ```
 
 ## Project Structure
 
 ```
 migrations/          # Database migration files
-cups/                # NAPI bindings to libcups 2
-src/
-├── assets/          # Static assets (images, icons)
-├── components/      # Reusable Svelte components
-├── lib/             # Shared library code
-│   ├── auth/        # Authentication logic
-│   ├── entities/    # Domain entities (user, product, printer, session)
-│   └── server/      # Server-side utilities (database, logging, cron, etc.)
-└── routes/          # SvelteKit routes
-    ├── admin/       # Admin panel (products, users, printers)
-    └── auth/        # Authentication (sign-in)
+packages/
+├── cups/            # NAPI bindings to libcups 2
+└── website/         # SvelteKit application
+    ├── src/
+    │   ├── assets/  # Static assets (images, icons)
+    │   ├── components/  # Reusable Svelte components
+    │   ├── lib/     # Shared library code
+    │   │   ├── auth/        # Authentication logic
+    │   │   ├── entities/    # Domain entities (user, product, printer, session)
+    │   │   └── server/      # Server-side utilities (database, logging, cron, etc.)
+    │   └── routes/  # SvelteKit routes
+    │       ├── admin/       # Admin panel (products, users, printers)
+    │       └── auth/        # Authentication (sign-in)
+    └── static/      # Static files (favicon, robots.txt)
 ```
 
 ## License

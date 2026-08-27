@@ -1,58 +1,16 @@
 {
   "name": "@workspace/root",
-  "type": "module",
-  "imports": {
-    "#assets/*": "./src/assets/*",
-    "#components/*": "./src/components/*",
-    "#lib/*": "./src/lib/*",
-    "#routes/*": "./src/routes/*"
-  },
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "build": "svelte-kit sync && vite build",
-    "check": "svelte-kit sync && svelte-check --tsconfig tsconfig.json",
-    "clean": "rm -rf ./dist ./node_modules ./.svelte-kit",
-    "dev": "svelte-kit sync && vite dev",
-    "drizzle": "drizzle-kit",
-    "format:check": "biome format && prettier --check .",
-    "format:fix": "biome format --fix && prettier --write .",
-    "lint:check": "biome check",
-    "lint:fix": "biome check --fix",
-    "setup": "if [ ! -f .env ]; then cp .env.example .env ; fi",
-    "test": "vitest run"
-  },
-  "dependencies": {
-    "@libsql/client": "0.17.4",
-    "@node-rs/argon2": "2.1.0",
-    "@workspace/cups": "workspace:*",
-    "croner": "10.0.1",
-    "drizzle-orm": "0.45.2",
-    "handlebars": "4.7.9",
-    "puppeteer-core": "25.8.0",
-    "valibot": "1.4.2"
+    "clean": "rm -rf .pnpm-store/ node_modules/ && turbo clean",
+    "format:check": "turbo format:check && biome format && prettier --check .",
+    "format:fix": "turbo format:fix && biome format --fix && prettier --write ."
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.10",
-    "@sveltejs/adapter-node": "5.5.7",
-    "@sveltejs/enhanced-img": "0.11.0",
-    "@sveltejs/kit": "2.70.3",
-    "@tailwindcss/vite": "4.3.3",
-    "@types/node": "25.9.5",
-    "bits-ui": "2.19.0",
-    "drizzle-kit": "0.31.10",
-    "phosphor-svelte": "3.1.0",
     "prettier": "3.9.6",
     "prettier-plugin-svelte": "4.1.1",
     "prettier-plugin-tailwindcss": "0.8.1",
-    "svelte": "5.56.10",
-    "svelte-check": "4.7.6",
-    "tailwindcss": "4.3.3",
-    "turbo": "2.10.11",
-    "typescript": "6.0.3",
-    "vite": "8.2.2",
-    "vitest": "4.1.11"
+    "turbo": "2.10.11"
   },
   "packageManager": "pnpm@11.24.0"
 }

@@ -18,11 +18,12 @@ cups.Dockerfile
 .pnpm-store/
 .svelte-kit/
 .turbo/
-cups/.cache/
-cups/build/
 data/
 dist/
 node_modules/
+out/
+.cache/
+build/
 
 # Other files
 .env

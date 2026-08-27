@@ -9,8 +9,13 @@ project.
 register operations. It supports product management (with options), user
 management with role-based access, printer management, and session tracking.
 
-This project uses a pnpm workspace (root + `cups/`). When running scripts that
-apply to all workspaces, use `pnpm run -r`:
+This project uses a pnpm monorepo with packages in `packages/`:
+
+- `packages/website/` - The SvelteKit application
+- `packages/cups/` - NAPI bindings to libcups 2
+
+Scripts are orchestrated with Turbo. Run scripts across all workspaces with
+`turbo run <script>` or use the root-level scripts defined in `package.json`:
 
 ## Key Technologies
 
@@ -58,7 +63,7 @@ import { randomUUID } from "node:crypto";
 
 ### Database (Drizzle ORM)
 
-- Tables are defined in `src/lib/server/database/tables/`
+- Tables are defined in `packages/website/src/lib/server/database/tables/`
 - Use `sqliteTable` from `drizzle-orm/sqlite-core`
 - Use custom type wrappers for IDs (e.g., `$type<UserId>()`)
 - Migrations go in `migrations/` directory (there are sql files that define the
@@ -73,16 +78,18 @@ import { randomUUID } from "node:crypto";
 
 ### Component Structure
 
-- Each feature area has its own directory under `src/components/`
+- Each feature area has its own directory under
+  `packages/website/src/components/`
 - Index files re-export components for cleaner imports
 - Private components (internal to a route) go in `_components/` directories
 
 ## Environment Variables
 
-See `.env.example` and `src/env.ts` for all available variables.
+See `.env.example` and `packages/website/src/env.ts` for all available
+variables.
 
 ## CI
 
 All pull requests must pass required checks found in the `.forgejo/workflows`
-folder. The checks run the following pnpm scripts `format:check`, `lint:check`,
+folder. The checks run the following Turbo tasks: `format:check`, `lint:check`,
 `check`, `build`, `test`.

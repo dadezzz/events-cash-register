@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @utility dialog-inner {
-  @apply bg-default text-default shadow border-mist-default border rounded-md;
+  @apply bg-default text-default border-mist-default rounded-md border shadow;
 }
 
 @utility dialog-center {
-  @apply fixed top-1/2 left-1/2 -translate-1/2 z-50;
+  @apply fixed top-1/2 left-1/2 z-50 -translate-1/2;
 }
 
 @utility popover-default {
-  @apply bg-default text-default shadow border border-mist-default rounded-md z-60;
+  @apply bg-default text-default border-mist-default z-60 rounded-md border shadow;
 }
 
 @utility bg-default {
