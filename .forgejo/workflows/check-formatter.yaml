@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies with pnpm
         run: pnpm install
       - name: Run formatter
-        run: pnpm run format:check
+        run: turbo run format:check
 
 name: check-formatter.yaml
 

@@ -2,8 +2,9 @@
   "name": "@workspace/root",
   "scripts": {
     "clean": "rm -rf .pnpm-store/ node_modules/ && turbo clean",
-    "format:check": "turbo format:check && biome format && prettier --check .",
-    "format:fix": "turbo format:fix && biome format --fix && prettier --write ."
+    "format:check": "biome format && prettier --check .",
+    "format:fix": "biome format --fix && prettier --write .",
+    "setup": "if [ ! -f .env ] ; then cp .env.example .env ; fi"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.10",

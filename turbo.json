@@ -1,15 +1,15 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "tasks": {
-    "build": {
-      "dependsOn": ["setup", "^build"],
-      "outputs": ["dist/**"]
-    },
+    "build": { "dependsOn": ["setup", "^build"], "outputs": ["dist/**"] },
     "check": { "dependsOn": ["setup", "^build"] },
     "setup": { "cache": false },
+    "//#setup": { "cache": false, "inputs": [".env.example"] },
     "clean": {},
     "format:check": {},
+    "//#format:check": {},
     "format:fix": {},
+    "//#format:fix": {},
     "lint:check": {},
     "lint:fix": {},
     "test": { "dependsOn": ["^build"] }
