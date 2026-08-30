@@ -1,23 +1,14 @@
-FROM docker.io/library/node:26.8.1-alpine@sha256:2d984a15c9b54fd0aeb608b8e0d0d83529eb34d2966db27a1fb4f1edc3d298a3
+FROM git.zarantonello.dev/infra/ci-pnpm:v1.0.0@sha256:d6119c2fbece2b90644fed77bae5065281ca460ac12d52b5e5909e0ac4519bf7
 
 # Lines:
-# 1. dev tools
-# 2. cups package build deps
-# 4. chromium for puppeteer
+# 1. cups package build deps
+# 2. chromium for puppeteer
 RUN apk add --no-cache \
-    git \
-    cups-dev curl g++ clang-extra-tools meson \
+    cups-dev g++ clang-extra-tools meson \
     chromium
 
-# renovate: datasource=npm depName=pnpm versioning=npm
-ENV PNPM_VERSION="11.24.0"
 # renovate: datasource=npm depName=turbo versioning=npm
 ENV TURBO_VERSION="2.10.12"
 
 RUN --mount=type=cache,sharing=locked,target=/root/.npm \
-    npm install -g "pnpm@$PNPM_VERSION" "turbo@$TURBO_VERSION"
-
-ENV PATH="/usr/local/pnpm/bin:$PATH"
-ENV PNPM_HOME="/usr/local/pnpm"
-
-RUN pnpm config set store-dir /usr/local/pnpm/store
+    npm install -g "turbo@$TURBO_VERSION"

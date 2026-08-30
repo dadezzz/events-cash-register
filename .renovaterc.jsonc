@@ -8,7 +8,19 @@
     ":semanticCommits"
   ],
   "packageRules": [
-    // Automerge actions and devcontainer deps.
+    // Rebuild the container if something is updated in the Dockerfile.
+    {
+      "automerge": true,
+      "matchFileNames": ["Dockerfile"],
+      "matchUpdateTypes": ["!major"],
+      "semanticCommitType": "fix"
+    },
+    {
+      "matchFileNames": ["Dockerfile"],
+      "matchUpdateTypes": ["major"],
+      "semanticCommitType": "feat"
+    },
+    // Automerge and group devcontainer, actions and ci deps.
     {
       "automerge": true,
       "groupName": "CI dependencies",
@@ -16,11 +28,14 @@
       "matchFileNames": [".devcontainer/**", ".forgejo/**", "ci.Dockerfile", "cups.Dockerfile"],
       "matchUpdateTypes": ["!major"]
     },
+    // Automerge the ci image and don't trigger a release even in Dockerfile.
+    // Also group the pnpm in the packageManager in package.json.
     {
       "automerge": true,
       "groupName": "CI dependencies",
       "groupSlug": "ci",
-      "matchPackageNames": ["git.zarantonello.dev/projects/events-cash-register-ci"]
+      "matchPackageNames": ["git.zarantonello.dev/infra/ci-pnpm", "pnpm"],
+      "semanticCommitType": "ci"
     },
     // Formatters and linters get automerged.
     {
@@ -61,10 +76,6 @@
       ],
       "matchUpdateTypes": ["major"],
       "semanticCommitType": "feat"
-    },
-    {
-      "automerge": true,
-      "matchPackageNames": ["git.zarantonello.dev/igl/website"]
     }
   ],
   // Raise limit or there are situations where we can't keep up with the number

@@ -24,6 +24,7 @@ jobs:
       - name: Build the container image
         run: |
           podman build \
+            --jobs 2 \
             --label org.opencontainers.image.source="https://git.zarantonello.dev/${{ forge.repository }}" \
             --label org.opencontainers.image.revision="${{ forge.sha }}" \
             --tag ${{ env.IMAGE }} .
