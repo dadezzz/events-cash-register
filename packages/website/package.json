@@ -40,7 +40,7 @@
     "bits-ui": "2.19.0",
     "drizzle-kit": "0.31.10",
     "phosphor-svelte": "3.1.0",
-    "svelte": "5.56.10",
+    "svelte": "5.57.0",
     "svelte-check": "4.7.6",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
