@@ -163,8 +163,8 @@ importers:
         specifier: 4.7.9
         version: 4.7.9
       puppeteer-core:
-        specifier: 25.9.0
-        version: 25.9.0
+        specifier: 25.10.0
+        version: 25.10.0
       valibot:
         specifier: 1.4.2
         version: 1.4.2(typescript@6.0.3)
@@ -1069,8 +1069,8 @@ packages:
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
 
-  '@puppeteer/browsers@3.2.1':
-    resolution: {integrity: sha512-KDz+3qDRdBAlRlMjmKyj6dEs33YHTk/xRHEENSXq6TNnhgoU15ruSHtEBeVF6OZ9tBDY55Se4P0nFMNsipzU9A==}
+  '@puppeteer/browsers@3.2.2':
+    resolution: {integrity: sha512-q2BU4YfO9h/Wt7IcWPcggpOOqLk2Tbs1hDwolvKZrweRjy751OJBKMN9zO5bfD0pzU7X/tvKw/exQds4pM/LOg==}
     engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
@@ -2201,8 +2201,8 @@ packages:
   promise-limit@2.7.0:
     resolution: {integrity: sha512-7nJ6v5lnJsXwGprnGXga4wx6d1POjvi5Qmf1ivTRxTjH4Z/9Czja/UCMLVmB9N93GeWOU93XaFaEt6jbuoagNw==}
 
-  puppeteer-core@25.9.0:
-    resolution: {integrity: sha512-U61rCwSMha62CA/Opy6tCx2Fx+ck7ouiKnbpEApzSoLYMoEu9F71nuFpHL55vmIt33/GYm6eKZVhH2ev0nAIeg==}
+  puppeteer-core@25.10.0:
+    resolution: {integrity: sha512-Hy5eMQshOEMil4JUUx03h5pw1HYkYCso1RG/gcpPlFSd4cYPOcopxcXEAxpLPOkOPJb9LIJtwxuj66bSdvknFg==}
     engines: {node: '>=22.12.0'}
 
   readdirp@4.1.2:
@@ -2482,8 +2482,8 @@ packages:
       jsdom:
         optional: true
 
-  webdriver-bidi-protocol@0.4.2:
-    resolution: {integrity: sha512-VSV+fzfChirL3e7jay2yUC7B4HQCGtEWEg/MSSQbK+qWbqeGlRLlXTzPpYr3XGUvbpDHumWZBJxgesg4N7dbtA==}
+  webdriver-bidi-protocol@0.4.3:
+    resolution: {integrity: sha512-uuN0goWfxP22B7J/uAgBpOYNPttC+XVseYE+rSY5+rQ+YBeVz/VORw8WbmLVcqW78zNg5A4qnjNXYUWR3il2ig==}
 
   why-is-node-running@2.3.0:
     resolution: {integrity: sha512-hUrmaWBdVDcxvYqnyh09zunKzROWjbZTiNy8dBEjkS7ehEDQibXJ7XvlmtbwuTclUiIyN+CyXQD4Vmko8fNm8w==}
@@ -3055,7 +3055,7 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@puppeteer/browsers@3.2.1':
+  '@puppeteer/browsers@3.2.2':
     dependencies:
       modern-tar: 0.8.4
       yargs: 18.1.0
@@ -3864,13 +3864,13 @@ snapshots:
 
   promise-limit@2.7.0: {}
 
-  puppeteer-core@25.9.0:
+  puppeteer-core@25.10.0:
     dependencies:
-      '@puppeteer/browsers': 3.2.1
+      '@puppeteer/browsers': 3.2.2
       chromium-bidi: 17.0.2(devtools-protocol@0.0.1666840)
       devtools-protocol: 0.0.1666840
       typed-query-selector: 2.12.2
-      webdriver-bidi-protocol: 0.4.2
+      webdriver-bidi-protocol: 0.4.3
       ws: 8.21.3
     transitivePeerDependencies:
       - bufferutil
@@ -4182,7 +4182,7 @@ snapshots:
     transitivePeerDependencies:
       - msw
 
-  webdriver-bidi-protocol@0.4.2: {}
+  webdriver-bidi-protocol@0.4.3: {}
 
   why-is-node-running@2.3.0:
     dependencies:
