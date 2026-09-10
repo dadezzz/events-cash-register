@@ -1,14 +1,14 @@
 # Make sure the .env file is configured before building the application. Some
 # variables will be used for prerendering and build time substitution.
 
-FROM git.zarantonello.dev/projects/events-cash-register-ci:v2026.09.08.1@sha256:6250715a6b3419e36a598fbc70ab4de180393e32d15773ef8f9048e072b8414e AS pruner
+FROM git.zarantonello.dev/projects/events-cash-register-ci:v2026.09.09.1@sha256:be9dcda5a431ca6e85b381b31a5a6265d6467030fb1d7cb6748d0fb29f9ebda7 AS pruner
 
 WORKDIR /srv
 
 COPY . .
 RUN turbo prune --docker @workspace/website
 
-FROM git.zarantonello.dev/projects/events-cash-register-ci:v2026.09.08.1@sha256:6250715a6b3419e36a598fbc70ab4de180393e32d15773ef8f9048e072b8414e AS builder
+FROM git.zarantonello.dev/projects/events-cash-register-ci:v2026.09.09.1@sha256:be9dcda5a431ca6e85b381b31a5a6265d6467030fb1d7cb6748d0fb29f9ebda7 AS builder
 
 WORKDIR /srv
 
