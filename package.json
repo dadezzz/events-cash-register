@@ -7,11 +7,11 @@
     "setup": "if [ ! -f .env ] ; then cp .env.example .env ; fi"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.12",
+    "@biomejs/biome": "2.5.13",
     "prettier": "3.9.6",
     "prettier-plugin-svelte": "4.1.1",
     "prettier-plugin-tailwindcss": "0.8.1",
     "turbo": "2.10.12"
   },
-  "packageManager": "pnpm@12.4.0"
+  "packageManager": "pnpm@12.4.1"
 }
