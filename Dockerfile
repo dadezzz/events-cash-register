@@ -23,7 +23,7 @@ RUN mkdir data && turbo run build && rm -r data
 
 RUN --mount=type=cache,sharing=locked,target=/usr/local/pnpm/store pnpm deploy --prod --filter @workspace/website out
 
-FROM docker.io/library/node:26.9.0-alpine@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
+FROM docker.io/library/node:26.9.0-alpine@sha256:dbaa92e5758cbbcf85d65d5403fdb530fe3442cbe8c6dbfb7ef23365450d5070
 
 RUN apk add --no-cache chromium
 
