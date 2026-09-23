@@ -1,4 +1,4 @@
-FROM git.zarantonello.dev/infra/ci-pnpm:v1.1.8@sha256:e124501d6e8f1e75bb10e9c0e4198f220d37d02c860866ce07e21c87bc6bb886
+FROM git.zarantonello.dev/infra/ci-pnpm:v1.1.9@sha256:146dd0f65fc8297679f7078fa442b886652ae57e755359fca9b7dd9febb25088
 
 # Lines:
 # 1. cups package build deps
@@ -8,7 +8,7 @@ RUN apk add --no-cache \
     chromium
 
 # renovate: datasource=npm depName=turbo versioning=npm
-ENV TURBO_VERSION="2.10.13"
+ENV TURBO_VERSION="2.11.2"
 
 RUN --mount=type=cache,sharing=locked,target=/root/.npm \
     npm install -g "turbo@$TURBO_VERSION"
