@@ -26,7 +26,7 @@
     "@node-rs/argon2": "2.2.1",
     "@workspace/cups": "workspace:*",
     "croner": "10.0.1",
-    "drizzle-orm": "0.45.2",
+    "drizzle-orm": "0.45.3",
     "handlebars": "4.7.9",
     "puppeteer-core": "25.11.0",
     "valibot": "1.5.0"
