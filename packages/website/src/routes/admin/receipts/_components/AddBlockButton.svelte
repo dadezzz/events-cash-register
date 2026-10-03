@@ -1,7 +1,13 @@
 <script lang="ts">
   import type { RemoteFormFields } from "@sveltejs/kit";
   import { fly } from "svelte/transition";
-  import Popover from "#components/Popover.svelte";
+  import {
+    getPopoverContext,
+    PopoverAnchor,
+    PopoverButton,
+    PopoverContent,
+    PopoverRoot,
+  } from "#components/popover/index.ts";
   import Separator from "#components/Separator.svelte";
   import type { BlockData } from "#lib/entities/printer/receipt-template/schema.ts";
 
@@ -12,20 +18,21 @@
   }
 
   const { blocksField, choices, position }: Props = $props();
-
-  let popoverOpen = $state(false);
 </script>
 
-<Popover bind:open={popoverOpen}>
-  {#snippet trigger({ props })}
-    <div class="flex items-center gap-2">
-      <Separator orientation="horizontal" class="border-mist-default w-full border-dashed" />
-      <span {...props} class="cursor-pointer text-nowrap text-mist-500">Aggiungi blocco</span>
-      <Separator orientation="horizontal" class="border-mist-default w-full border-dashed" />
-    </div>
-  {/snippet}
-  {#snippet content({ props })}
-    <div {...props} class="popover-default flex flex-col gap-2 p-2" transition:fly>
+<PopoverRoot>
+  {const popoverContext = getPopoverContext()}
+
+  <div class="flex items-center gap-2">
+    <Separator orientation="horizontal" class="border-mist-default w-full border-dashed" />
+    <PopoverAnchor>
+      <PopoverButton class="cursor-pointer text-nowrap text-mist-500">Aggiungi blocco</PopoverButton>
+    </PopoverAnchor>
+    <Separator orientation="horizontal" class="border-mist-default w-full border-dashed" />
+  </div>
+
+  <PopoverContent class="anchored-bottom-center">
+    <div class="popover-default flex flex-col gap-2 p-2" transition:fly>
       {#each choices as c (c.value)}
         <button
           type="button"
@@ -35,12 +42,12 @@
             const blocksBefore = blocks.slice(0, position);
             const blocksAfter = blocks.slice(position);
             blocksField.set([...blocksBefore, { type: c.value }, ...blocksAfter]);
-            popoverOpen = false;
+            popoverContext.open = false;
           }}
         >
           {c.label}
         </button>
       {/each}
     </div>
-  {/snippet}
-</Popover>
+  </PopoverContent>
+</PopoverRoot>

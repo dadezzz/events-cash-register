@@ -1,4 +1,5 @@
 allowBuilds:
+  "@toolwind/anchors": false
   esbuild: true
   sharp: true
 includeWorkspaceRoot: true

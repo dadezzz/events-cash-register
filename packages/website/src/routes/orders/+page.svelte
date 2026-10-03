@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { TrashIcon } from "phosphor-svelte";
   import Header from "#components/Header.svelte";
   import Pagination from "#components/navigation/Pagination.svelte";
   import { getAdminUserId, requireUser } from "#lib/auth/index.remote.ts";
@@ -25,13 +24,7 @@
       {order.data.counter}
 
       {#if await getAdminUserId()}
-        <DeleteOrderDialog {order}>
-          {#snippet trigger({ props })}
-            <button type="button" {...props}>
-              <TrashIcon class="size-4" />
-            </button>
-          {/snippet}
-        </DeleteOrderDialog>
+        <DeleteOrderDialog {order} />
       {/if}
     </li>
   {/each}

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { XIcon } from "phosphor-svelte";
   import * as v from "valibot";
+  import { DialogButton } from "#components/dialog/index.ts";
   import { Form } from "#components/form/index.ts";
   import FieldErrors from "#components/form/input/FieldErrors.svelte";
   import { HiddenInput, NumericInput, RadioInput, TextInput } from "#components/form/input/index.ts";
@@ -11,10 +12,9 @@
   interface Props {
     product: ProductClient;
     onresult: () => void;
-    oncancel: () => void;
   }
 
-  const { product, onresult, oncancel }: Props = $props();
+  const { product, onresult }: Props = $props();
 
   const form = $derived(addOptionForm.for(product.data.id).preflight(addProductOptionFormSchema));
 </script>
@@ -80,7 +80,7 @@
   <FieldErrors errors={form.fields.data.issues()} />
 
   <div class="mt-2 flex justify-end gap-2">
-    <button type="button" class="button-secondary px-2 py-1" onclick={oncancel}>Annulla</button>
+    <DialogButton class="button-secondary px-2 py-1">Annulla</DialogButton>
     <button type="submit" class="button-primary px-2 py-1">Salva</button>
   </div>
 </Form>

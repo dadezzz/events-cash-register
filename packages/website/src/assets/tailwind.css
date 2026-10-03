@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@toolwind/anchors";
 
 @utility dialog-inner {
   @apply bg-default text-default border-mist-default rounded-md border shadow;

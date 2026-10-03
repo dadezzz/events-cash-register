@@ -1,32 +1,41 @@
 <script lang="ts">
-  import type { Snippet } from "svelte";
+  import { TrashIcon } from "phosphor-svelte";
   import { fly } from "svelte/transition";
-  import Dialog from "#components/Dialog.svelte";
+  import { DialogButton, DialogContent, DialogRoot, getDialogContext } from "#components/dialog/index.ts";
+  import { Form } from "#components/form/index.ts";
+  import { HiddenInput } from "#components/form/input/index.ts";
   import type { OrderClient } from "#lib/entities/cart/order/client/index.ts";
-  import DeleteOrderForm from "./DeleteOrderForm.svelte";
+  import { deleteOrderForm } from "../_forms.remote.ts";
 
   interface Props {
     order: OrderClient;
-    trigger: Snippet<[{ props: Record<string, unknown> }]>;
   }
 
-  const { order, trigger }: Props = $props();
+  const { order }: Props = $props();
 
-  let dialogOpen = $state(false);
+  const form = $derived(deleteOrderForm.for(order.data.cartId));
 </script>
 
-<Dialog bind:open={dialogOpen} {trigger}>
-  {#snippet content({ props })}
-    <div {...props} class="dialog-center dialog-inner" transition:fly>
-      <DeleteOrderForm
-        {order}
+<DialogRoot>
+  {const dialogContext = getDialogContext()}
+
+  <DialogButton>
+    <TrashIcon class="size-4" />
+  </DialogButton>
+
+  <DialogContent>
+    <div class="dialog-center dialog-inner" transition:fly>
+      <Form
+        {form}
         onresult={() => {
-          dialogOpen = false;
+          dialogContext.open = false;
         }}
-        oncancel={() => {
-          dialogOpen = false;
-        }}
-      />
+      >
+        <HiddenInput field={form.fields.cartId} value={order.data.cartId} />
+
+        <DialogButton>Annulla</DialogButton>
+        <button type="submit">Conferma</button>
+      </Form>
     </div>
-  {/snippet}
-</Dialog>
+  </DialogContent>
+</DialogRoot>

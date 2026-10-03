@@ -3,15 +3,19 @@
   import NavigationProgressBar from "#components/navigation/indicators/ProgressBar.svelte";
   import type { LayoutProps, Snapshot } from "./$types";
   import "#assets/tailwind.css";
-  import { SidebarContent, type SidebarContext, SidebarRoot } from "#components/sidebar/index.ts";
+  import { createDialogContext, type DialogContext } from "#components/dialog/index.ts";
+  import { SidebarContent, SidebarRoot } from "#components/sidebar/index.ts";
 
   const { children }: LayoutProps = $props();
 
-  const progressBarId = $props.id();
+  const id = $props.id();
+
+  const progressBarId = `${id}-progressbar`;
   let progressBarProgress = $state(0);
 
-  let sidebarContext = $state({ open: false });
-  export const snapshot: Snapshot<SidebarContext> = {
+  const sidebarId = `${id}-sidebar`;
+  let sidebarContext = $state(createDialogContext(sidebarId));
+  export const snapshot: Snapshot<DialogContext> = {
     capture: () => sidebarContext,
     restore: (v) => (sidebarContext = v),
   };

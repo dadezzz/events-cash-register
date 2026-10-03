@@ -9,10 +9,10 @@
     SidebarIcon,
     UserGearIcon,
   } from "phosphor-svelte";
+  import { DialogButton } from "#components/dialog/index.ts";
   import Navigation from "#components/navigation/Navigation.svelte";
   import { getAdminUserId } from "#lib/auth/index.remote.ts";
   import { page } from "$app/state";
-  import { SidebarButton } from "./index.ts";
 </script>
 
 {#snippet navHomeLabel()}
@@ -69,9 +69,9 @@
   class="border-mist-strong sticky top-0 flex h-full flex-col gap-2 overflow-x-hidden overflow-y-auto border-r p-2 shadow"
 >
   <div class="flex">
-    <SidebarButton class="button-ghost ml-auto p-1 text-mist-700 dark:text-mist-300">
+    <DialogButton class="button-ghost ml-auto p-1 text-mist-700 dark:text-mist-300">
       <SidebarIcon class="size-5" />
-    </SidebarButton>
+    </DialogButton>
   </div>
 
   <Navigation

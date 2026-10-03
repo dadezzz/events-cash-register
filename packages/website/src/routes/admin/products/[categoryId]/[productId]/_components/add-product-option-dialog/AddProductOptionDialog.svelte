@@ -1,7 +1,7 @@
 <script lang="ts">
   import { PlusIcon } from "phosphor-svelte";
   import { fly } from "svelte/transition";
-  import Dialog from "#components/Dialog.svelte";
+  import { DialogButton, DialogContent, DialogRoot, getDialogContext } from "#components/dialog/index.ts";
   import type { ProductClient } from "#lib/entities/products/client/index.ts";
   import AddProductOptionForm from "./AddProductOptionForm.svelte";
 
@@ -10,19 +10,18 @@
   }
 
   const { product }: Props = $props();
-
-  let dialogOpen = $state(false);
 </script>
 
-<Dialog bind:open={dialogOpen}>
-  {#snippet trigger({ props })}
-    <button {...props} type="button" class="button-ghost p-1 text-mist-700 dark:text-mist-300">
-      <PlusIcon class="size-4" />
-    </button>
-  {/snippet}
-  {#snippet content({ props })}
+<DialogRoot>
+  {const dialogContext = getDialogContext()}
+
+  <DialogButton class="button-ghost p-1 text-mist-700 dark:text-mist-300">
+    <PlusIcon class="size-4" />
+  </DialogButton>
+
+  <DialogContent>
     <div class="dialog-center flex max-h-screen">
-      <div {...props} class="dialog-inner m-2 max-h-full max-w-md overflow-y-auto p-2" transition:fly>
+      <div class="dialog-inner m-2 max-h-full max-w-md overflow-y-auto p-2" transition:fly>
         <h2 class="mb-2 text-xl font-bold">Aggiungi opzione</h2>
 
         <p class="mb-2">Le opzioni permettono di configurare il prodotto per adattarlo alle esigenze del cliente.</p>
@@ -30,13 +29,10 @@
         <AddProductOptionForm
           {product}
           onresult={() => {
-            dialogOpen = false;
-          }}
-          oncancel={() => {
-            dialogOpen = false;
+            dialogContext.open = false;
           }}
         />
       </div>
     </div>
-  {/snippet}
-</Dialog>
+  </DialogContent>
+</DialogRoot>

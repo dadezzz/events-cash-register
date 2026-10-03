@@ -1,6 +1,8 @@
 <script lang="ts">
   import { CaretUpDownIcon, CheckIcon } from "phosphor-svelte";
-  import Popover from "#components/Popover.svelte";
+  import { fly } from "svelte/transition";
+  import { getPopoverContext, PopoverAnchor, PopoverContent, PopoverRoot } from "#components/popover/index.ts";
+  import PopoverButton from "#components/popover/PopoverButton.svelte";
   import type { InputProps } from ".";
   import Field from "./Field.svelte";
   import FieldErrors from "./FieldErrors.svelte";
@@ -33,7 +35,6 @@
   const id = $props.id();
   let comboboxInput: HTMLInputElement | undefined = $state(undefined);
 
-  let suggestionsOpen = $state(false);
   // Index of the currently selected or suggested entry.
   let suggestionsIndex = $state(0);
   // Entries filtered by the value of comboboxInput.
@@ -47,96 +48,94 @@
 
       <HiddenInput {field} value={field.value()} />
 
-      <Popover bind:open={suggestionsOpen} autofocusContent={false} anchor={comboboxInput}>
-        {#snippet trigger({ props })}
-          <div
-            class="border-mist-strong outline-emerald-default hover:border-emerald-strong flex gap-3 overflow-hidden rounded-md border transition-colors focus-within:outline-2"
-          >
-            <input
-              {...inputProps}
-              class="w-full border-none px-3 py-2 focus:outline-none"
-              type="text"
-              value={value ? entriesMap.get(value) : undefined}
-              bind:this={comboboxInput}
-              oninput={(e) => {
-                suggestionsOpen = true;
-                suggestionsIndex = 0;
-                suggestions = entries.filter((n) =>
-                  n.label.toLowerCase().includes(e.currentTarget.value.toLowerCase()),
-                );
-              }}
-              onkeydown={(e) => {
-                switch (e.key) {
-                  case "ArrowUp": {
-                    suggestionsOpen = true;
+      <PopoverRoot>
+        {const popoverContext = getPopoverContext()}
 
-                    if (suggestions.length === 0) {
-                      return;
-                    }
+        <div
+          class="border-mist-strong outline-emerald-default hover:border-emerald-strong flex gap-3 overflow-hidden rounded-md border transition-colors focus-within:outline-2"
+        >
+          <input
+            {...inputProps}
+            class="w-full border-none px-3 py-2 focus:outline-none"
+            type="text"
+            value={value ? entriesMap.get(value) : undefined}
+            bind:this={comboboxInput}
+            oninput={(e) => {
+              popoverContext.open = true;
+              suggestionsIndex = 0;
+              suggestions = entries.filter((n) => n.label.toLowerCase().includes(e.currentTarget.value.toLowerCase()));
+            }}
+            onkeydown={(e) => {
+              switch (e.key) {
+                case "ArrowUp": {
+                  popoverContext.open = true;
 
-                    suggestionsIndex = Math.max(0, suggestionsIndex - 1);
-                    e.currentTarget.value = suggestions[suggestionsIndex].label;
-                    break;
+                  if (suggestions.length === 0) {
+                    return;
                   }
-                  case "ArrowDown": {
-                    suggestionsOpen = true;
 
-                    if (suggestions.length === 0) {
-                      return;
-                    }
-
-                    suggestionsIndex = Math.min(suggestions.length - 1, suggestionsIndex + 1);
-                    e.currentTarget.value = suggestions[suggestionsIndex].label;
-                    break;
-                  }
-                  case "Enter": {
-                    // Prevent submitting the form.
-                    e.preventDefault();
-
-                    if (!suggestionsOpen || suggestions.length === 0) {
-                      return;
-                    }
-
-                    field.set(suggestions[suggestionsIndex].value);
-                    e.currentTarget.value = suggestions[suggestionsIndex].label;
-                    break;
-                  }
-                  case "Tab": {
-                    suggestionsOpen = false;
-
-                    if (suggestions.length === 0) {
-                      return;
-                    }
-
-                    field.set(suggestions[suggestionsIndex].value);
-                    e.currentTarget.value = suggestions[suggestionsIndex].label;
-                    break;
-                  }
-                  case "Escape": {
-                    if (!suggestionsOpen) {
-                      e.currentTarget.value = "";
-                    }
-
-                    suggestionsOpen = false;
-                  }
+                  suggestionsIndex = Math.max(0, suggestionsIndex - 1);
+                  e.currentTarget.value = suggestions[suggestionsIndex].label;
+                  break;
                 }
-              }}
-              role="combobox"
-              aria-activedescendant={suggestionsOpen ? `${id}-option-${suggestions[suggestionsIndex]}` : undefined}
-              aria-autocomplete="list"
-              aria-controls="{id}-list"
-              aria-expanded={suggestionsOpen}
-              aria-haspopup="listbox"
-            />
+                case "ArrowDown": {
+                  popoverContext.open = true;
 
-            <button
-              {...props}
-              type="button"
+                  if (suggestions.length === 0) {
+                    return;
+                  }
+
+                  suggestionsIndex = Math.min(suggestions.length - 1, suggestionsIndex + 1);
+                  e.currentTarget.value = suggestions[suggestionsIndex].label;
+                  break;
+                }
+                case "Enter": {
+                  // Prevent submitting the form.
+                  e.preventDefault();
+
+                  if (!popoverContext.open || suggestions.length === 0) {
+                    return;
+                  }
+
+                  field.set(suggestions[suggestionsIndex].value);
+                  e.currentTarget.value = suggestions[suggestionsIndex].label;
+                  break;
+                }
+                case "Tab": {
+                  popoverContext.open = false;
+
+                  if (suggestions.length === 0) {
+                    return;
+                  }
+
+                  field.set(suggestions[suggestionsIndex].value);
+                  e.currentTarget.value = suggestions[suggestionsIndex].label;
+                  break;
+                }
+                case "Escape": {
+                  if (!popoverContext.open) {
+                    e.currentTarget.value = "";
+                  }
+
+                  popoverContext.open = false;
+                }
+              }
+            }}
+            role="combobox"
+            aria-activedescendant={popoverContext.open ? `${id}-option-${suggestions[suggestionsIndex]}` : undefined}
+            aria-autocomplete="list"
+            aria-controls="{id}-list"
+            aria-expanded={popoverContext.open}
+            aria-haspopup="listbox"
+          />
+
+          <PopoverAnchor class="flex">
+            <PopoverButton
               aria-label="Open the list of options"
-              tabindex={-1}
-              class="px-3 py-2 text-mist-400 transition-colors hover:bg-emerald-50 hover:text-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 focus:outline-none dark:text-mist-600 dark:hover:bg-emerald-950 dark:hover:text-emerald-400 dark:focus:bg-emerald-950 dark:focus:text-emerald-400"
+              class="px-3 py-2 text-mist-400 transition-colors hover:bg-emerald-50
+            hover:text-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 focus:outline-none dark:text-mist-600
+            dark:hover:bg-emerald-950 dark:hover:text-emerald-400 dark:focus:bg-emerald-950 dark:focus:text-emerald-400"
               onclick={() => {
-                suggestionsOpen = !suggestionsOpen;
                 // Keep focus on the input node. Entry selection is handled through
                 // pressing the up and down arrow keys.
                 comboboxInput?.focus();
@@ -145,11 +144,12 @@
               }}
             >
               <CaretUpDownIcon class="size-5" />
-            </button>
-          </div>
-        {/snippet}
-        {#snippet content({ props })}
-          <div {...props} class="popover-default max-h-96 overflow-y-auto p-2 text-sm">
+            </PopoverButton>
+          </PopoverAnchor>
+        </div>
+
+        <PopoverContent class="anchored-bottom-span-left">
+          <div class="popover-default max-h-96 overflow-y-auto p-2 text-sm" transition:fly>
             <ul id="{id}-list">
               {#each suggestions as entry (entry.value)}
                 <li id="{id}-option-{entry.value}">
@@ -164,7 +164,7 @@
                         comboboxInput.value = entriesMap.get(entry.value) ?? "";
                       }
 
-                      suggestionsOpen = false;
+                      popoverContext.open = false;
                     }}
                   >
                     <span>{entry.label}</span>
@@ -180,8 +180,8 @@
               {/each}
             </ul>
           </div>
-        {/snippet}
-      </Popover>
+        </PopoverContent>
+      </PopoverRoot>
 
       <FieldErrors {...errorProps} />
     </div>

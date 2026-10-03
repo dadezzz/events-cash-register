@@ -3,9 +3,9 @@
   import type { Snippet } from "svelte";
   import { fly } from "svelte/transition";
   import SignoutForm from "#components/actions/sign-out/SignoutForm.svelte";
-  import Popover from "#components/Popover.svelte";
+  import { DialogButton } from "#components/dialog/index.ts";
+  import { PopoverAnchor, PopoverButton, PopoverContent, PopoverRoot } from "#components/popover/index.ts";
   import Separator from "#components/Separator.svelte";
-  import { SidebarButton } from "#components/sidebar/index.ts";
   import { UserClient } from "#lib/entities/user/client/index.ts";
 
   interface Props {
@@ -18,25 +18,24 @@
 </script>
 
 <header class="border-mist-strong flex items-center gap-4 border-b p-2">
-  <SidebarButton class="button-ghost p-1 text-mist-700 data-[sidebar-open=true]:hidden dark:text-mist-300">
+  <DialogButton class="button-ghost p-1 text-mist-700 aria-expanded:hidden dark:text-mist-300">
     <SidebarIcon class="size-5" />
-  </SidebarButton>
+  </DialogButton>
 
   {@render children?.()}
 
   {#if user}
-    <Popover>
-      {#snippet trigger({ props })}
-        <button
-          type="button"
-          {...props}
-          class="outline-emerald-default ml-auto flex size-7 items-center justify-center rounded-full bg-mist-200 p-1 focus:outline-2 dark:bg-mist-800"
+    <PopoverRoot>
+      <PopoverAnchor class="ml-auto">
+        <PopoverButton
+          class="outline-emerald-default flex size-7 items-center justify-center rounded-full bg-mist-200 p-1 focus:outline-2 dark:bg-mist-800"
         >
           {user.data.name.charAt(0)}
-        </button>
-      {/snippet}
-      {#snippet content({ props })}
-        <div {...props} class="popover-default p-2" transition:fly>
+        </PopoverButton>
+      </PopoverAnchor>
+
+      <PopoverContent class="anchored-bottom-span-left">
+        <div class="popover-default p-2" transition:fly>
           <div class="rounded-md bg-mist-100 px-2 py-1 dark:bg-mist-900">
             <p>{user.data.name}</p>
             <p class="text-xs text-mist-500 dark:text-mist-500">@{user.data.username}</p>
@@ -56,10 +55,13 @@
             <span>Logout</span>
           </SignoutForm>
         </div>
-      {/snippet}
-    </Popover>
+      </PopoverContent>
+    </PopoverRoot>
   {:else}
-    <!-- Keeps head height consistent when sidebar is open. -->
+    <!--
+      Keeps header height consistent when sidebar is open and the button isn't
+      shown.
+    -->
     <div class="size-7"></div>
   {/if}
 </header>

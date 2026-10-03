@@ -14,7 +14,7 @@ const job = new Cron(
     const availableCountBefore = availablePrinters.size;
     await Printer.updateAvailable();
     const availableCountAfter = availablePrinters.size;
-    logger.info(`updated printers count: ${availableCountAfter - availableCountBefore}`);
+    logger.info({ message: "updated printers count", delta: availableCountAfter - availableCountBefore });
   },
   {
     paused: true,

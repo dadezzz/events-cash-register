@@ -1,7 +1,8 @@
 <script lang="ts">
   import { DotsThreeVerticalIcon } from "phosphor-svelte";
   import { fly } from "svelte/transition";
-  import Popover from "#components/Popover.svelte";
+  import { PopoverButton, PopoverContent, PopoverRoot } from "#components/popover/index.ts";
+  import PopoverAnchor from "#components/popover/PopoverAnchor.svelte";
   import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import { page } from "$app/state";
   import AddCategoryDialog from "./AddCategoryDialog.svelte";
@@ -14,9 +15,9 @@
   <AddCategoryDialog />
 </div>
 
-<ol class="flex flex-col gap-2 p-2">
+<ol class="flex flex-col gap-2 overflow-y-auto p-2">
   {#each categories as category, index (category.data.id)}
-    <li class="flex justify-between overflow-hidden rounded-md">
+    <li class="flex shrink-0 justify-between overflow-hidden rounded-md">
       <a
         href="/admin/products/{category.data.id}"
         aria-current={page.url.pathname.startsWith(`/admin/products/${category.data.id}`)}
@@ -26,24 +27,23 @@
         <span>{category.data.name}</span>
       </a>
 
-      <Popover>
-        {#snippet trigger({ props })}
-          <button
-            type="button"
-            {...props}
+      <PopoverRoot>
+        <PopoverAnchor class="flex">
+          <PopoverButton
             aria-label="Opzioni"
             class="px-2 text-mist-600 hover:bg-mist-200 focus:bg-emerald-50 focus:outline-none dark:text-mist-400 dark:hover:bg-mist-800 dark:focus:bg-emerald-950"
           >
             <DotsThreeVerticalIcon class="size-5" />
-          </button>
-        {/snippet}
-        {#snippet content({ props })}
-          <div {...props} class="popover-default p-2" transition:fly>
+          </PopoverButton>
+        </PopoverAnchor>
+
+        <PopoverContent class="anchored-bottom-span-left">
+          <div class="popover-default p-2" transition:fly>
             <p>Modifica</p>
             <p>Elimina</p>
           </div>
-        {/snippet}
-      </Popover>
+        </PopoverContent>
+      </PopoverRoot>
     </li>
   {/each}
 </ol>
