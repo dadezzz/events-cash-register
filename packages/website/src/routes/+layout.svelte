@@ -26,7 +26,7 @@
 <NavigationDimmer />
 
 <div aria-busy={progressBarProgress !== 0} aria-describedby={progressBarId} class="bg-default text-default h-screen">
-  <SidebarRoot bind:context={sidebarContext} {children}>
+  <SidebarRoot bind:dialogContext={sidebarContext} {children}>
     {#snippet content()}
       <SidebarContent />
     {/snippet}

@@ -22,7 +22,9 @@
   const { field, blocksField, position }: Props = $props();
 </script>
 
-{#snippet addBlockButton(position: number)}
+{#snippet addBlockButton(
+  position: number,
+)}
   <AddBlockButton blocksField={field.blocks} {position} choices={[{ label: "Aggiungi blocco linea", value: "line" }]} />
 {/snippet}
 

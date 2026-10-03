@@ -69,7 +69,9 @@
                 entries={option.data.data.entries.map((e) => ({ value: e.value, label: e }))}
                 label={option.data.name}
               >
-                {#snippet entryUI({ label })}
+                {#snippet entryUI({
+                  label,
+                })}
                   <div class="group flex w-fit items-center gap-2">
                     <div
                       class="outline-emerald-default flex size-4 items-center justify-center rounded-full border border-mist-300 group-focus-within/radio:outline-2 group-hover:outline-2 group-has-[input:checked]/radio:border-emerald-600 dark:border-mist-600 dark:group-has-[input:checked]/radio:border-emerald-300"

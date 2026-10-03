@@ -13,7 +13,10 @@
   const { mainColumn, firstColumn, secondColumn, thirdColumn }: Props = $props();
 </script>
 
-{#snippet column(id: ColumnId, children: Snippet)}
+{#snippet column(
+  id: ColumnId,
+  children: Snippet,
+)}
   {#if id === mainColumn}
     <div class="border-mist-default flex h-full w-full flex-col not-first:border-l">
       {@render children()}

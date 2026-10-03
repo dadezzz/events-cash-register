@@ -15,6 +15,7 @@
   aria-haspopup="dialog"
   aria-controls={context.id}
   aria-expanded={context.open}
+  data-open={context.open}
   onclick={(e) => {
     if (onclick) {
       onclick(e);

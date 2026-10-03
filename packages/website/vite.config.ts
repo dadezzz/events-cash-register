@@ -16,7 +16,7 @@ export default defineConfig({
   ],
   build: {
     rolldownOptions: {
-      // NAPI modules don't work well with bundling.
+      // NAPI modules don't work well with the bundler.
       external: ["@workspace/cups"],
     },
   },

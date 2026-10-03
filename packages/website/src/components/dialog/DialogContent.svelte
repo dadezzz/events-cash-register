@@ -1,15 +1,14 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-  import { fade } from "svelte/transition";
   import { getDialogContext } from ".";
+  import { DialogOverlay } from "./index.ts";
 
   interface Props {
-    forceOpen?: boolean;
     overlay?: boolean;
     children: Snippet;
   }
 
-  let { forceOpen = false, overlay = true, children }: Props = $props();
+  let { overlay = true, children }: Props = $props();
 
   const context = getDialogContext();
 
@@ -36,18 +35,6 @@
     }
   });
 
-  // Prevent the page from scrolling behind a modal dialog.
-  $effect(() => {
-    if (overlay && context.open) {
-      const previous = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-
-      return () => {
-        document.body.style.overflow = previous;
-      };
-    }
-  });
-
   async function handleCancel(event: Event) {
     // Let the outro finish before removing the dialog from the top layer.
     event.preventDefault();
@@ -66,10 +53,7 @@
 </script>
 
 {#if overlay}
-  {#if forceOpen || context.open}
-    <!-- Pointer events are prevented by dialog's backdrop. -->
-    <div class="fixed inset-0 z-50 bg-mist-950/60 backdrop-blur-xs" transition:fade></div>
-  {/if}
+  <DialogOverlay />
 
   <dialog
     bind:this={htmlDialog}
@@ -79,10 +63,10 @@
     onoutroendcapture={handleoutroEnd}
     closedby="any"
   >
-    {#if forceOpen || context.open}
+    {#if context.open}
       {@render children()}
     {/if}
   </dialog>
-{:else if forceOpen || context.open}
+{:else if context.open}
   {@render children()}
 {/if}

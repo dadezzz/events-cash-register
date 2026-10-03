@@ -2,7 +2,7 @@
   import Header from "#components/Header.svelte";
   import { requireUser } from "#lib/auth/index.remote.ts";
   import CategoriesList from "./_components/CategoriesList.svelte";
-  import OrderColumnWrapper from "./_components/OrderColumnWrapper.svelte";
+  import OrderColumnRoot from "./_components/OrderColumnRoot.svelte";
 
   await requireUser();
 </script>
@@ -25,7 +25,7 @@
   </div>
 
   <div class="page-section">
-    <OrderColumnWrapper />
+    <OrderColumnRoot />
   </div>
 </div>
 

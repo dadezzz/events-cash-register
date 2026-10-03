@@ -5,7 +5,7 @@
   import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import type { ProductCategoryId } from "#lib/entities/products/category/id.ts";
   import CategoriesList from "../_components/CategoriesList.svelte";
-  import OrderColumnWrapper from "../_components/OrderColumnWrapper.svelte";
+  import OrderColumnRoot from "../_components/OrderColumnRoot.svelte";
   import FormOrConfigureDialog from "./_components/FormOrConfigureDialog.svelte";
   import type { PageProps } from "./$types";
 
@@ -44,7 +44,7 @@
   </div>
 
   <div class="page-section">
-    <OrderColumnWrapper />
+    <OrderColumnRoot />
   </div>
 </div>
 

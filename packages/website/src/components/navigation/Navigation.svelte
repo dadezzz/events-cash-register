@@ -18,7 +18,9 @@
   const { entryUI, entriesUI, entries, ...rest }: NavigationProps<T> = $props();
 </script>
 
-{#snippet wrappedEntryUI(entry: Entry<T>)}
+{#snippet wrappedEntryUI(
+  entry: Entry<T>,
+)}
   <li>
     <a href={entry.href} class="group focus:outline-none">{@render entryUI(entry)}</a>
   </li>

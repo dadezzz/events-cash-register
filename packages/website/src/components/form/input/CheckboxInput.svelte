@@ -11,7 +11,11 @@
 </script>
 
 <Field {field}>
-  {#snippet children({ errorProps, inputProps, labelProps })}
+  {#snippet children({
+    errorProps,
+    inputProps,
+    labelProps,
+  })}
     <div class="group flex flex-col gap-2">
       <input {...inputProps} {...field.as("checkbox")} class="sr-only" {...rest} />
 

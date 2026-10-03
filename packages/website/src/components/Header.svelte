@@ -17,8 +17,10 @@
   const user = $derived(await UserClient.fromSelf());
 </script>
 
-<header class="border-mist-strong flex items-center gap-4 border-b p-2">
-  <DialogButton class="button-ghost p-1 text-mist-700 aria-expanded:hidden dark:text-mist-300">
+<header class="border-mist-strong flex items-center border-b p-2">
+  <DialogButton
+    class="button-ghost p-1 text-mist-700 transition-[width,visibility] data-[open=false]:mr-4 data-[open=true]:invisible data-[open=true]:w-0 dark:text-mist-300"
+  >
     <SidebarIcon class="size-5" />
   </DialogButton>
 
@@ -57,11 +59,5 @@
         </div>
       </PopoverContent>
     </PopoverRoot>
-  {:else}
-    <!--
-      Keeps header height consistent when sidebar is open and the button isn't
-      shown.
-    -->
-    <div class="size-7"></div>
   {/if}
 </header>

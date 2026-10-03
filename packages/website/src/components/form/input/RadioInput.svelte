@@ -34,7 +34,9 @@
   });
 </script>
 
-{#snippet defaultEntryUI(entry: Entry)}
+{#snippet defaultEntryUI(
+  entry: Entry,
+)}
   <div class="group flex w-fit items-center gap-2">
     <div
       class="outline-emerald-default border-mist-strong flex size-4 items-center justify-center rounded-full border group-focus-within/radio:outline-2 group-hover:outline-2 group-has-[input:checked]/radio:border-emerald-700 dark:group-has-[input:checked]/radio:border-emerald-300"
@@ -51,7 +53,9 @@
 <!--
   Renders the card that the user provided but wrapped with a RadioGroup.Item
 -->
-{#snippet wrappedEntryUI(entry: Entry)}
+{#snippet wrappedEntryUI(
+  entry: Entry,
+)}
   <div class="group/radio">
     <input id="{id}-values-{entry.value}" {...field.as("radio", entry.value)} class="sr-only" />
 

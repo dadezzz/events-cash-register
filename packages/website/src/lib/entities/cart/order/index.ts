@@ -139,7 +139,6 @@ export class Order {
 
     for (const i of receiptPrintingInfo.values()) {
       const page = await browser.newPage();
-
       page.setContent(renderReceiptHtml(i.template, receiptData));
 
       const pdf = await page.pdf();
