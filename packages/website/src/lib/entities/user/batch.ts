@@ -4,8 +4,8 @@ import { db, s } from "#lib/server/database/index.ts";
 import { UserClient } from "./client/index.ts";
 import { sqlDataColumns } from "./data.ts";
 import type { UserId } from "./id.ts";
-import type { UserPrivilege } from "./index.ts";
 import type { UserPaginationOptions } from "./pagination.ts";
+import type { UserPrivilege } from "./privilege.ts";
 
 export class UserBatch extends Batch<UserId> {
   static async fromPagination(options: UserPaginationOptions): Promise<UserBatch> {

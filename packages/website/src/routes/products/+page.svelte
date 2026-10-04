@@ -2,6 +2,7 @@
   import Header from "#components/Header.svelte";
   import { requireUser } from "#lib/auth/index.remote.ts";
   import CategoriesList from "./_components/CategoriesList.svelte";
+  import EmptyProductsColumn from "./_components/EmptyProductsColumn.svelte";
   import OrderColumnRoot from "./_components/OrderColumnRoot.svelte";
 
   await requireUser();
@@ -16,13 +17,7 @@
     <CategoriesList />
   </div>
 
-  <div class="page-section h-full w-full">
-    <h2 class="p-2 font-semibold">Prodotti</h2>
-
-    <div class="flex h-full items-center justify-center">
-      <p class="text-mist-600 dark:text-mist-400">Seleziona una categoria</p>
-    </div>
-  </div>
+  <EmptyProductsColumn />
 
   <div class="page-section">
     <OrderColumnRoot />

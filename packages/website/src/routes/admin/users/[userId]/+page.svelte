@@ -7,6 +7,9 @@
   import type { UserId } from "#lib/entities/user/id.ts";
   import ColumnsLayout from "../_components/ColumnsLayout.svelte";
   import UsersColumn from "../_components/UsersColumn.svelte";
+  import DeleteUserDialog from "./_components/DeleteUserDialog.svelte";
+  import UpdatePrivilegesForm from "./_components/UpdatePrivilegesForm.svelte";
+  import UpdateProfileForm from "./_components/UpdateProfileForm.svelte";
   import type { PageProps } from "./$types";
 
   const { params }: PageProps = $props();
@@ -38,8 +41,24 @@
       </h2>
     </div>
 
-    <p>nome: {user.data.name}</p>
-    <p>username: {user.data.username}</p>
-    <p>creato: <FormatDuration duration={Duration.fromDate(user.data.createdAt)} precision={2} /> fa</p>
+    <div class="flex flex-col gap-4 overflow-y-auto p-2">
+      <h3 class="font-semibold">Profilo</h3>
+
+      <UpdateProfileForm {user} />
+
+      <p class="text-mist-600 dark:text-mist-400">
+        Creato <FormatDuration duration={Duration.fromDate(user.data.createdAt)} precision={2} /> fa.
+      </p>
+
+      <h3 class="font-semibold">Privilegi</h3>
+
+      <UpdatePrivilegesForm {user} />
+
+      <h3 class="font-semibold">Elimina</h3>
+
+      <p>L'utente verrà eliminato dal database. Non verranno persi gli ordini associati ad esso.</p>
+
+      <DeleteUserDialog {user} />
+    </div>
   {/snippet}
 </ColumnsLayout>

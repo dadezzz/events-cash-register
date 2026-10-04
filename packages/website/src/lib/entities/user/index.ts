@@ -9,8 +9,7 @@ import { db, s } from "#lib/server/database/index.ts";
 import { UserBatch } from "./batch.ts";
 import { sqlDataColumns, type UserData } from "./data.ts";
 import type { UserId } from "./id.ts";
-
-export type UserPrivilege = "ADMIN";
+import type { UserPrivilege } from "./privilege.ts";
 
 export class User {
   readonly id: UserId;
@@ -110,14 +109,15 @@ export class User {
       .where(eq(s.user.id, this.id));
   }
 
-  async addPrivilege(privilege: UserPrivilege): Promise<void> {
-    await db.insert(s.userPrivilege).values({ userId: this.id, privilege });
-  }
+  async updatePrivileges(privileges: { name: UserPrivilege; granted: boolean }[]) {
+    await db.transaction(async (tx) => {
+      await tx.delete(s.userPrivilege).where(eq(s.userPrivilege.userId, this.id));
 
-  async revokePrivilege(privilege: UserPrivilege): Promise<void> {
-    await db
-      .delete(s.userPrivilege)
-      .where(and(eq(s.userPrivilege.userId, this.id), eq(s.userPrivilege.privilege, privilege)));
+      const grantedPrivileges = privileges.filter((p) => p.granted);
+      if (grantedPrivileges.length === 0) return;
+
+      await tx.insert(s.userPrivilege).values(grantedPrivileges.map((p) => ({ userId: this.id, privilege: p.name })));
+    });
   }
 
   async getPrivileges(): Promise<UserPrivilege[]> {

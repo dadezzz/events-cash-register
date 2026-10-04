@@ -2,8 +2,8 @@ import type { RemoteQuery } from "@sveltejs/kit";
 import { Serializable } from "#lib/serializable.ts";
 import type { UserData } from "../data.ts";
 import type { UserId } from "../id.ts";
-import type { UserPrivilege } from "../index.ts";
 import type { UserPaginationOptions } from "../pagination.ts";
+import type { UserPrivilege } from "../privilege.ts";
 import * as remote from "./index.remote.ts";
 
 export class UserClient extends Serializable<UserData> {

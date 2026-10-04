@@ -27,13 +27,13 @@
 <!-- Inherit the height from parent. -->
 <div class="flex h-full">
   <DialogRoot bind:context={dialogContext}>
-    <DialogOverlay class="md:data-[open=true]:hidden" />
+    <DialogOverlay class="z-20! md:data-[open=true]:hidden" />
 
     <dialog
       open
       id={dialogContext.id}
       data-open={dialogContext.open}
-      class="border-mist-strong text-default bg-default invisible fixed left-0 z-50 h-full w-0 max-w-fit overflow-x-hidden border-r shadow transition-[width,visibility] data-[open=true]:visible data-[open=true]:w-full data-[open=true]:duration-200 md:static"
+      class="border-mist-strong text-default bg-default invisible fixed left-0 z-30 h-full w-0 max-w-fit overflow-x-hidden border-r shadow transition-[width,visibility] data-[open=true]:visible data-[open=true]:w-full data-[open=true]:duration-200 md:static"
     >
       <aside class="p-2">
         {@render content()}

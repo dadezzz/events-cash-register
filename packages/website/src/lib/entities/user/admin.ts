@@ -28,7 +28,7 @@ export async function initCreateAdmin() {
       username: INITIAL_ADMIN_USERNAME,
     });
 
-    await admin.addPrivilege("ADMIN");
+    await admin.updatePrivileges([{ name: "ADMIN", granted: true }]);
 
     const logger = new Logger();
     logger.warn("found 0 users in the system");
