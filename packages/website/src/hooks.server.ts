@@ -9,6 +9,7 @@ import { initRefreshAvailablePrintersJob } from "#lib/server/cron/refresh-availa
 import { initMigrateDatabase } from "#lib/server/database/index.ts";
 import { Logger } from "#lib/server/logger/index.ts";
 import { logger as requestLogger } from "#lib/server/logger/request.ts";
+import { errorStackForLog } from "#lib/server/logger/utils.ts";
 import { building } from "$app/env";
 import { ENABLE_CRON } from "$app/env/private";
 
@@ -34,7 +35,7 @@ export const handleError: HandleServerError = ({ kind, error, issues }) => {
   switch (kind) {
     case "unknown":
       if (error instanceof Error) {
-        logger.error({ kind, message: error.message, stack: error.stack });
+        logger.error({ kind, message: error.message, stack: errorStackForLog(error.stack) });
       } else {
         logger.error({ kind, message: "non-error value thrown", value: inspect(error) });
       }

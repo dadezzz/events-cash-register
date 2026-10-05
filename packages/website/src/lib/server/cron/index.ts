@@ -1,6 +1,7 @@
 import { inspect } from "node:util";
 import { Cron } from "croner";
 import { Logger } from "#lib/server/logger/index.ts";
+import { errorStackForLog } from "#lib/server/logger/utils.ts";
 
 type CronCallbackContext = {
   logger: Logger;
@@ -17,7 +18,7 @@ export function job(name: string, pattern: string, fn: CronCallback) {
     {
       catch: (error) => {
         if (error instanceof Error) {
-          logger.error({ kind: "cron", message: error.message, stack: error.stack });
+          logger.error({ kind: "cron", message: error.message, stack: errorStackForLog(error.stack) });
         } else {
           logger.error({ kind: "cron", message: "non-error value thrown", value: inspect(error) });
         }

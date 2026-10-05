@@ -3,7 +3,6 @@ import { AdminUser } from "#lib/entities/user/admin.ts";
 import type { User } from "#lib/entities/user/index.ts";
 import { e } from "#lib/error.ts";
 import { LocalsCache } from "#lib/server/locals-cache.ts";
-import { getRequestEvent } from "$app/server";
 
 const requestSession = new LocalsCache<Session | null>("session", () => Session.fromCookie());
 
@@ -24,7 +23,7 @@ export async function getUser(): Promise<User | null> {
 export async function requireUser(): Promise<User> {
   const user = await getUser();
   if (user) return user;
-  throw e.requireSignIn(getRequestEvent().url.pathname);
+  throw e.requireSignIn("/");
 }
 
 const requestAdmin = new LocalsCache<AdminUser | null>("admin", async () => {
@@ -40,5 +39,5 @@ export async function getAdmin(): Promise<AdminUser | null> {
 export async function requireAdmin(): Promise<AdminUser> {
   const admin = await getAdmin();
   if (admin) return admin;
-  throw e.requireSignIn(getRequestEvent().url.pathname);
+  throw e.requireSignIn("/");
 }

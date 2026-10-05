@@ -1,6 +1,7 @@
 import { defineEnvVars } from "@sveltejs/kit/env";
 import * as v from "valibot";
 import { Duration } from "#lib/duration.ts";
+import { LOGGER_LEVELS_KEYS } from "#lib/server/logger/levels.ts";
 
 const stringMillisecondsToDurationSchema = v.pipe(
   v.string(),
@@ -74,6 +75,17 @@ export const variables = defineEnvVars({
   },
   INITIAL_ADMIN_USERNAME: {
     description: "Username for the initial admin user",
+  },
+
+  LOGGER_MIN_LEVEL: {
+    description: "Filters logs below this level",
+    schema: v.pipe(v.string(), v.picklist(LOGGER_LEVELS_KEYS)),
+    static: true,
+  },
+  LOGGER_PRETTY: {
+    description: "Whether to enable readable logs instead of json",
+    schema: booleanSchema,
+    static: true,
   },
 
   ENABLE_CRON: {
