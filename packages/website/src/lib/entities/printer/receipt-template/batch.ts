@@ -3,7 +3,7 @@ import type { TemplateDelegate } from "handlebars";
 import { Batch, BatchRows } from "#lib/server/batch.ts";
 import { db, s } from "#lib/server/database/index.ts";
 import { Printer } from "../index.ts";
-import { PrinterReceiptTemplateClient } from "./client.ts";
+import { PrinterReceiptTemplateClient } from "./client/index.ts";
 import { sqlDataColumns } from "./data.ts";
 import type { PrinterReceiptTemplateId } from "./id.ts";
 import { renderReceiptTemplate } from "./render.ts";

@@ -26,7 +26,7 @@
   <div class="flex items-center gap-2">
     <Separator orientation="horizontal" class="border-mist-default w-full border-dashed" />
     <PopoverAnchor>
-      <PopoverButton class="cursor-pointer text-nowrap text-mist-500">Aggiungi blocco</PopoverButton>
+      <PopoverButton class="text-nowrap text-mist-500">Aggiungi blocco</PopoverButton>
     </PopoverAnchor>
     <Separator orientation="horizontal" class="border-mist-default w-full border-dashed" />
   </div>

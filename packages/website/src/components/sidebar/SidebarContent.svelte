@@ -25,7 +25,7 @@
 {#snippet navOrdersLabel()}
   <div class="flex items-center gap-2">
     <ArrowCounterClockwiseIcon class="size-5 shrink-0" />
-    <span>Ordini</span>
+    <span>Cronologia ordini</span>
   </div>
 {/snippet}
 
@@ -81,8 +81,8 @@
           { href: "/admin", label: navAdminLabel },
           { href: "/admin/users", label: navAdminUsersLabel },
           { href: "/admin/products", label: navAdminProductsLabel },
-          { href: "/admin/printers", label: navAdminPrintersLabel },
           { href: "/admin/receipts", label: navAdminReceiptsLabel },
+          { href: "/admin/printers", label: navAdminPrintersLabel },
         ]
       : []),
   ]}

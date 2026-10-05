@@ -4,7 +4,7 @@ import { CartItemClient } from "#lib/entities/cart/cart-item/client/index.ts";
 import { CartClient } from "#lib/entities/cart/client/index.ts";
 import { OrderClient } from "#lib/entities/cart/order/client/index.ts";
 import { PrinterClient } from "#lib/entities/printer/client/index.ts";
-import { PrinterReceiptTemplateClient } from "#lib/entities/printer/receipt-template/client.ts";
+import { PrinterReceiptTemplateClient } from "#lib/entities/printer/receipt-template/client/index.ts";
 import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
 import { ProductClient } from "#lib/entities/products/client/index.ts";
 import { ProductOptionClient } from "#lib/entities/products/option/client/index.ts";

@@ -3,7 +3,7 @@ import type { JobCreationAttributesAvailable, JobCreationAttributesSelected } fr
 import { Serializable } from "#lib/serializable.ts";
 import type { PrinterData } from "../data.ts";
 import type { PrinterId } from "../id.ts";
-import type { PrinterReceiptTemplateClient } from "../receipt-template/client.ts";
+import type { PrinterReceiptTemplateClient } from "../receipt-template/client/index.ts";
 import * as remote from "./index.remote.ts";
 
 type PrinterDataClient = PrinterData & { available: boolean };

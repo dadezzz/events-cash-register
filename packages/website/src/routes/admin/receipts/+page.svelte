@@ -1,40 +1,18 @@
 <script lang="ts">
-  import { Form } from "#components/form/index.ts";
-  import { ComboBoxInput, TextInput } from "#components/form/input/index.ts";
-  import Header from "#components/Header.svelte";
-  import Separator from "#components/Separator.svelte";
-  import { PrinterClient } from "#lib/entities/printer/client/index.ts";
-  import RootBlock from "./_components/RootBlock.svelte";
-  import { createReceiptForm } from "./_forms.remote.ts";
-  import { createReceiptSchema } from "./_schemas.ts";
-
-  const form = createReceiptForm.preflight(createReceiptSchema);
-
-  const printers = $derived(await PrinterClient.getAll());
+  import ColumnsLayout from "./_components/ColumnsLayout.svelte";
+  import EmptyEditorColumn from "./_components/EmptyEditorColumn.svelte";
+  import EmptyOptionsColumn from "./_components/EmptyOptionsColumn.svelte";
+  import ReceiptsListColumn from "./_components/ReceiptsListColumn.svelte";
 </script>
 
-<Header>
-  <p>Ricevute e comande</p>
-</Header>
-
-<div class="flex min-h-0 grow flex-col gap-4 overflow-y-auto p-2">
-  <Form {form} class="contents">
-    <TextInput field={form.fields.name} label="Nome" />
-
-    <ComboBoxInput
-      field={form.fields.printerId}
-      label="Stampante"
-      entries={printers.map((p) => ({ label: p.data.name, value: p.data.id }))}
-    />
-
-    <Separator orientation="horizontal" class="border-mist-strong" />
-
-    <h3 class="text-xl font-semibold">Template</h3>
-
-    <div class="rounded-md bg-mist-100 p-2 dark:bg-mist-900">
-      <RootBlock field={form.fields.blocks} />
-    </div>
-
-    <button type="submit" class="rounded-md bg-emerald-500 px-2 py-1">Crea</button>
-  </Form>
-</div>
+<ColumnsLayout mainColumn="first">
+  {#snippet firstColumn()}
+    <ReceiptsListColumn />
+  {/snippet}
+  {#snippet secondColumn()}
+    <EmptyEditorColumn />
+  {/snippet}
+  {#snippet thirdColumn()}
+    <EmptyOptionsColumn />
+  {/snippet}
+</ColumnsLayout>
