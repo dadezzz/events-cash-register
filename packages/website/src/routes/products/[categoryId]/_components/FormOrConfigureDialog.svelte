@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { RemoteFormField } from "@sveltejs/kit";
   import { fly } from "svelte/transition";
   import { DialogButton, DialogContent, DialogRoot, getDialogContext } from "#components/dialog/index.ts";
   import { Form } from "#components/form/index.ts";
   import { CheckboxInput, HiddenInput, RadioInput } from "#components/form/input/index.ts";
   import { FormatPrice } from "#components/format/index.ts";
   import type { ProductClient } from "#lib/entities/products/client/index.ts";
+  import type { RemoteFormField } from "$app/server";
   import { addProductToOrderForm } from "../_forms.remote.ts";
   import { addProductToOrderSchema } from "../_schemas.ts";
 
@@ -23,6 +23,7 @@
 {#if options.length === 0}
   <Form {form}>
     <HiddenInput field={form.fields.productId} value={product.data.id} />
+
     <button
       type="submit"
       class="outline-emerald-default w-full rounded-md border border-mist-400 bg-mist-200 px-2 py-1 text-mist-700 focus:outline-2 dark:border-mist-600 dark:bg-mist-800 dark:text-mist-300"

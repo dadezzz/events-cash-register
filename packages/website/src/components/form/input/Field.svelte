@@ -1,7 +1,7 @@
 <script lang="ts" generics="T extends RemoteFormFieldValue">
-  // biome-ignore lint/correctness/noUnusedImports: Used in generic.
-  import type { RemoteFormField, RemoteFormFieldValue } from "@sveltejs/kit";
   import type { Snippet } from "svelte";
+  // biome-ignore lint/correctness/noUnusedImports: Used in generic.
+  import type { RemoteFormField, RemoteFormFieldValue } from "$app/server";
 
   interface Props {
     field: RemoteFormField<T>;

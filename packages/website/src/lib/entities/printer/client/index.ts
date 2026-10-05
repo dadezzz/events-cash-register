@@ -1,6 +1,6 @@
-import type { RemoteQuery } from "@sveltejs/kit";
 import type { JobCreationAttributesAvailable, JobCreationAttributesSelected } from "@workspace/cups/utils";
 import { Serializable } from "#lib/serializable.ts";
+import type { RemoteQuery } from "$app/server";
 import type { PrinterData } from "../data.ts";
 import type { PrinterId } from "../id.ts";
 import type { PrinterReceiptTemplateClient } from "../receipt-template/client/index.ts";

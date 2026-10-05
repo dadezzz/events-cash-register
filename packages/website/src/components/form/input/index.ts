@@ -1,5 +1,5 @@
-import type { RemoteFormField, RemoteFormFieldValue } from "@sveltejs/kit";
 import type { Snippet } from "svelte";
+import type { RemoteFormField, RemoteFormFieldValue } from "$app/server";
 import CheckboxInput from "./CheckboxInput.svelte";
 import ComboBoxInput from "./ComboBoxInput.svelte";
 import HiddenInput from "./HiddenInput.svelte";

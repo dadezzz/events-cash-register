@@ -1,5 +1,5 @@
-import type { RemoteQuery } from "@sveltejs/kit";
 import { Serializable } from "#lib/serializable.ts";
+import type { RemoteQuery } from "$app/server";
 import type { UserData } from "../data.ts";
 import type { UserId } from "../id.ts";
 import type { UserPaginationOptions } from "../pagination.ts";

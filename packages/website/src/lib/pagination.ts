@@ -1,4 +1,5 @@
 import * as v from "valibot";
+import type { ReadonlyURL } from "$app/state";
 
 const pageNumberSchema = v.pipe(v.number(), v.integer(), v.minValue(1));
 const pageSizeSchema = pageNumberSchema;
@@ -58,8 +59,8 @@ const SORT_DIRECTION_PARAM_NAME = "sd";
  * @param options - Partial pagination options to merge into the URL.
  * @returns A new URL with the specified pagination parameters.
  */
-export function createPaginationUrl<V extends string>(currentUrl: URL, options: Partial<PaginationOptions<V>>) {
-  const newUrl = new URL(currentUrl);
+export function createPaginationUrl<V extends string>(currentUrl: ReadonlyURL, options: Partial<PaginationOptions<V>>) {
+  const newUrl = new URL(currentUrl.href);
 
   if (options.page) {
     newUrl.searchParams.set(PAGE_PARAM_NAME, options.page.toString());
@@ -90,7 +91,7 @@ export function createPaginationUrl<V extends string>(currentUrl: URL, options: 
 export function getCurrentPaginationOptions<V extends string>(
   schema: PaginationOptionsSchema<V>,
   pageSize: number,
-  url: URL,
+  url: ReadonlyURL,
 ): PaginationOptions<V> {
   const options: PaginationOptions<V> = {
     page: 1,

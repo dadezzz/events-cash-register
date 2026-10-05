@@ -21,7 +21,7 @@
   {#each users as user (user.data.id)}
     <li>
       <a
-        href={createPaginationUrl(new URL(`/admin/users/${user.data.id}`, page.url), paginationOptions).href}
+        href={createPaginationUrl(new URL(`/admin/users/${user.data.id}`, page.url.origin), paginationOptions).href}
         aria-current={page.url.pathname.startsWith(`/admin/users/${user.data.id}`)}
         class="outline-emerald-default flex w-full items-center gap-2 rounded-md p-2 hover:bg-mist-200 focus:bg-emerald-50 focus:outline-none not-focus:aria-current:bg-mist-100 dark:hover:bg-mist-800 dark:focus:bg-emerald-950 not-focus:dark:aria-current:bg-mist-900"
       >

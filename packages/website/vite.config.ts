@@ -9,7 +9,7 @@ export default defineConfig({
     enhancedImages(),
     sveltekit({
       compilerOptions: { experimental: { async: true } },
-      experimental: { remoteFunctions: true, explicitEnvironmentVariables: true },
+      experimental: { remoteFunctions: true },
       adapter: adapter({ out: "dist" }),
     }),
     tailwindcss(),

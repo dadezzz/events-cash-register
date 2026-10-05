@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { RemoteFormFields } from "@sveltejs/kit";
   import { XIcon } from "phosphor-svelte";
   import { HiddenInput, TextInput } from "#components/form/input/index.ts";
   import type { BlockData, TextBlockData } from "#lib/entities/printer/receipt-template/schema.ts";
+  import type { RemoteFormFields } from "$app/server";
   import DeleteBlockButton from "./DeleteBlockButton.svelte";
 
   interface Props {

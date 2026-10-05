@@ -1,6 +1,6 @@
 import { building } from "$app/env";
 
-type LoggerDataValueSimple = string | number | boolean | undefined | bigint;
+type LoggerDataValueSimple = string | number | boolean | undefined | bigint | string[];
 export type LoggerDataValue = LoggerDataValueSimple | Record<string, LoggerDataValueSimple>;
 export type LoggerData = Record<string, LoggerDataValue>;
 

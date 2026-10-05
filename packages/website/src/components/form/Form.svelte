@@ -1,7 +1,7 @@
 <script lang="ts" generics="I extends RemoteFormInput | void, R">
-  import type { RemoteForm, RemoteFormInput } from "@sveltejs/kit";
   import type { Snippet } from "svelte";
   import type { HTMLFormAttributes } from "svelte/elements";
+  import type { RemoteForm, RemoteFormInput } from "$app/server";
 
   // Can be used to show spinners and feedback that something is going on.
   const WAITING_DELAY = 500;

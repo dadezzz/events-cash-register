@@ -1,4 +1,4 @@
-import type { Transport } from "@sveltejs/kit";
+import type { Transport } from "@sveltejs/kit/hooks";
 import { Duration } from "#lib/duration.ts";
 import { CartItemClient } from "#lib/entities/cart/cart-item/client/index.ts";
 import { CartClient } from "#lib/entities/cart/client/index.ts";

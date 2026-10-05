@@ -1,22 +1,21 @@
-import type { HandleServerError, HandleValidationError, ServerInit } from "@sveltejs/kit";
-import { sequence } from "@sveltejs/kit/hooks";
+import { inspect } from "node:util";
+import { type HandleServerError, type ServerInit, sequence } from "@sveltejs/kit/hooks";
 import { getSession } from "#lib/auth/index.server.ts";
 import { initOrderState } from "#lib/entities/cart/order/index.ts";
 import { initCreateAdmin } from "#lib/entities/user/admin.ts";
 import { initCleanRateLimiterTableJob } from "#lib/server/cron/clean-rate-limiter-table.ts";
 import { initCleanSessionTableJob } from "#lib/server/cron/clean-session-table.ts";
-import { initUpdateAvailablePrintersJob } from "#lib/server/cron/update-available-printers.ts";
+import { initRefreshAvailablePrintersJob } from "#lib/server/cron/refresh-available-printers.ts";
 import { initMigrateDatabase } from "#lib/server/database/index.ts";
-import { logError } from "#lib/server/logger/error.ts";
 import { Logger } from "#lib/server/logger/index.ts";
-import { logger } from "#lib/server/logger/request.ts";
+import { logger as requestLogger } from "#lib/server/logger/request.ts";
 import { building } from "$app/env";
 import { ENABLE_CRON } from "$app/env/private";
 
 export const handle = sequence(
   // Initialize RequestLogger.
   ({ event, resolve }) => {
-    logger.init();
+    requestLogger.init();
     return resolve(event);
   },
   // This is needed to rotate session cookies without giving a 500 error page.
@@ -29,17 +28,34 @@ export const handle = sequence(
   },
 );
 
-export const handleError: HandleServerError = ({ error }) => {
-  if (error instanceof Error) {
-    logError(new Error("internal error", { cause: error }), logger.get() ?? new Logger());
-  } else {
-    console.error(error);
-  }
-};
+export const handleError: HandleServerError = ({ kind, error, issues }) => {
+  const logger = requestLogger.get() ?? new Logger();
 
-// No need to log query errors.
-export const handleValidationError: HandleValidationError = () => {
-  return { message: "bad request" };
+  switch (kind) {
+    case "unknown":
+      if (error instanceof Error) {
+        logger.error({ kind, message: error.message, stack: error.stack });
+      } else {
+        logger.error({ kind, message: "non-error value thrown", value: inspect(error) });
+      }
+
+      // Return a safe message, hiding internal details.
+      return { message: "Internal Error" };
+
+    case "app":
+      logger.debug({ kind, message: error.message, status: error.status });
+      // The { status, message } object is safe to pass through.
+      return error;
+
+    case "framework":
+      // 404s, 405s, etc. are routine; avoid noisy logging.
+      return error;
+
+    case "validation":
+      // `issues` is an array of validation problems.
+      logger.debug({ kind, message: error.message, status: error.status, issues: issues.map((i) => i.message) });
+      return error; // the generic { status, message } is safe
+  }
 };
 
 export const init: ServerInit = async () => {
@@ -51,7 +67,7 @@ export const init: ServerInit = async () => {
     if (ENABLE_CRON) {
       initCleanRateLimiterTableJob();
       initCleanSessionTableJob();
-      initUpdateAvailablePrintersJob();
+      initRefreshAvailablePrintersJob();
     }
   }
 };

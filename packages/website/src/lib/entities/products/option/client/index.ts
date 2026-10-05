@@ -1,6 +1,6 @@
-import type { RemoteQuery } from "@sveltejs/kit";
 import * as v from "valibot";
 import { Serializable } from "#lib/serializable.ts";
+import type { RemoteQuery } from "$app/server";
 import type { ProductOptionData } from "../data.ts";
 import type { ProductOptionId } from "../id.ts";
 import type { ProductOptionValue } from "../index.ts";

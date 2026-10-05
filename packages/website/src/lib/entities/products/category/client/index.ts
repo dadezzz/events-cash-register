@@ -1,5 +1,5 @@
-import type { RemoteQuery } from "@sveltejs/kit";
 import { Serializable } from "#lib/serializable.ts";
+import type { RemoteQuery } from "$app/server";
 import type { ProductClient } from "../../client/index.ts";
 import type { ProductCategoryData } from "../data.ts";
 import type { ProductCategoryId } from "../id.ts";

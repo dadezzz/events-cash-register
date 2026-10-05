@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { RemoteFormFields } from "@sveltejs/kit";
   import FieldErrors from "#components/form/input/FieldErrors.svelte";
   import { HiddenInput } from "#components/form/input/index.ts";
   import {
@@ -8,6 +7,7 @@
     type RootBlockData,
     rootPlaceholderBlockEntries,
   } from "#lib/entities/printer/receipt-template/schema.ts";
+  import type { RemoteFormFields } from "$app/server";
   import AddBlockButton from "./AddBlockButton.svelte";
   import LineBlock from "./LineBlock.svelte";
   import ProductsBlock from "./ProductsBlock.svelte";

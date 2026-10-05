@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { RemoteFormFields } from "@sveltejs/kit";
   import type { HTMLButtonAttributes } from "svelte/elements";
   import { iteratorToNumber } from "#lib/array.ts";
   import type { BlockData } from "#lib/entities/printer/receipt-template/schema.ts";
+  import type { RemoteFormFields } from "$app/server";
 
   interface Props extends Omit<HTMLButtonAttributes, "type" | "onclick"> {
     position: number;

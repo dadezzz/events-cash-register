@@ -21,11 +21,6 @@ const booleanSchema = v.pipe(
 );
 
 export const variables = defineEnvVars({
-  ORIGIN: {
-    description: "Web origin of the application",
-    schema: stringToUrlSchema,
-  },
-
   SESSION_COOKIE_NAME: {
     description: "Name of the session cookie",
     static: true,
@@ -63,6 +58,7 @@ export const variables = defineEnvVars({
 
   CUPS_URL: {
     description: "Url of the CUPS server",
+    schema: stringToUrlSchema,
   },
 
   PUPPETEER_EXECUTABLE_PATH: {

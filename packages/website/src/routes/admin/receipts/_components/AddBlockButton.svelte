@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { RemoteFormFields } from "@sveltejs/kit";
   import { fly } from "svelte/transition";
   import {
     getPopoverContext,
@@ -10,6 +9,7 @@
   } from "#components/popover/index.ts";
   import Separator from "#components/Separator.svelte";
   import type { BlockData } from "#lib/entities/printer/receipt-template/schema.ts";
+  import type { RemoteFormFields } from "$app/server";
 
   interface Props {
     blocksField: RemoteFormFields<BlockData[]>;
