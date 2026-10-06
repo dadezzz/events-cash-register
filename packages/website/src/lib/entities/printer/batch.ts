@@ -2,7 +2,6 @@ import type { JobCreationAttributesAvailable, JobCreationAttributesSelected } fr
 import { inArray } from "drizzle-orm";
 import { Batch, BatchRows } from "#lib/server/batch.ts";
 import { db, s } from "#lib/server/database/index.ts";
-import { availablePrinters } from "./available.ts";
 import { PrinterClient } from "./client/index.ts";
 import { sqlDataColumns } from "./data.ts";
 import type { PrinterId } from "./id.ts";
@@ -11,7 +10,7 @@ import { PrinterReceiptTemplateBatch } from "./receipt-template/batch.ts";
 export class PrinterBatch extends Batch<PrinterId> {
   async getClients(): Promise<BatchRows<PrinterId, PrinterClient>> {
     const rows = await db.select(sqlDataColumns).from(s.printer).where(inArray(s.printer.id, this.ids));
-    return new BatchRows(rows.map((r) => [r.id, new PrinterClient({ ...r, available: availablePrinters.has(r.id) })]));
+    return new BatchRows(rows.map((r) => [r.id, new PrinterClient(r)]));
   }
 
   async getSettingsAvailable(): Promise<BatchRows<PrinterId, JobCreationAttributesAvailable>> {

@@ -1,7 +1,7 @@
 import { inspect } from "node:util";
 import { type HandleServerError, type ServerInit, sequence } from "@sveltejs/kit/hooks";
 import { getSession } from "#lib/auth/index.server.ts";
-import { initOrderState } from "#lib/entities/cart/order/index.ts";
+import { initOrderCounter } from "#lib/entities/cart/order/index.ts";
 import { initCreateAdmin } from "#lib/entities/user/admin.ts";
 import { initCleanRateLimiterTableJob } from "#lib/server/cron/clean-rate-limiter-table.ts";
 import { initCleanSessionTableJob } from "#lib/server/cron/clean-session-table.ts";
@@ -12,6 +12,7 @@ import { logger as requestLogger } from "#lib/server/logger/request.ts";
 import { errorStackForLog } from "#lib/server/logger/utils.ts";
 import { building } from "$app/env";
 import { ENABLE_CRON } from "$app/env/private";
+import { initRefreshPrinters } from "./lib/entities/printer/index.ts";
 
 export const handle = sequence(
   // Initialize RequestLogger.
@@ -63,7 +64,8 @@ export const init: ServerInit = async () => {
   if (!building) {
     await initMigrateDatabase();
     await initCreateAdmin();
-    await initOrderState();
+    await initOrderCounter();
+    await initRefreshPrinters();
 
     if (ENABLE_CRON) {
       initCleanRateLimiterTableJob();

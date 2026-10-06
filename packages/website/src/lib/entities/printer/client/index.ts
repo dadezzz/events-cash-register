@@ -6,9 +6,7 @@ import type { PrinterId } from "../id.ts";
 import type { PrinterReceiptTemplateClient } from "../receipt-template/client/index.ts";
 import * as remote from "./index.remote.ts";
 
-type PrinterDataClient = PrinterData & { available: boolean };
-
-export class PrinterClient extends Serializable<PrinterDataClient> {
+export class PrinterClient extends Serializable<PrinterData> {
   static getAll(): RemoteQuery<PrinterClient[]> {
     return remote.getAll();
   }

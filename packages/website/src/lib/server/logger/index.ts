@@ -18,7 +18,7 @@ export class Logger {
     delete this.data[key];
   }
 
-  private log(level: LoggerLevel, data: LoggerData | string): void {
+  log(level: LoggerLevel, data: LoggerData | string): void {
     if (building || LOGGER_LEVELS_KEYS.indexOf(level) < LOGGER_LEVELS_KEYS.indexOf(LOGGER_MIN_LEVEL)) {
       return;
     }
@@ -35,7 +35,7 @@ export class Logger {
       const levelStr = `${LOGGER_LEVELS[level]}`;
 
       console.log(
-        `${levelStr} \x1b[37m[${time}]\x1b[0m ${messageStr}` +
+        `\x1b[30m${time}\x1b[0m ${levelStr} ${messageStr}` +
           (Object.entries(rest).length !== 0
             ? `  ${inspect(rest, { breakLength: Infinity }).replaceAll("\n", "\n    ")}`
             : ""),
@@ -43,6 +43,10 @@ export class Logger {
     } else {
       console.log(JSON.stringify({ ...this.data, ...data, time, level }));
     }
+  }
+
+  trace(data: LoggerData | string): void {
+    this.log("trace", data);
   }
 
   debug(data: LoggerData | string): void {

@@ -171,6 +171,6 @@ export class Order {
   }
 }
 
-export async function initOrderState() {
+export async function initOrderCounter() {
   await db.insert(s.orderCounter).values({ event: COUNTER_EVENT }).onConflictDoNothing();
 }

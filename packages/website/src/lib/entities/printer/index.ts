@@ -1,13 +1,15 @@
-import type { JobCreationAttributesAvailable, JobCreationAttributesSelected } from "@workspace/cups/utils";
+import type { CupsPrinter } from "@workspace/cups";
+import type { JobCreationAttributesSelected } from "@workspace/cups/utils";
 import { eq } from "drizzle-orm";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { cups } from "#lib/server/cups.ts";
 import { db, s } from "#lib/server/database/index.ts";
 import { logger } from "#lib/server/logger/request.ts";
-import { availablePrinters } from "./available.ts";
 import { PrinterBatch } from "./batch.ts";
 import type { PrinterId } from "./id.ts";
 import { PrinterReceiptTemplate } from "./receipt-template/index.ts";
+
+const availablePrinters = new Map<PrinterId, CupsPrinter>();
 
 export class Printer {
   readonly id: PrinterId;
@@ -35,31 +37,52 @@ export class Printer {
     return new PrinterBatch(printers.map((p) => p.id));
   }
 
-  static async updateAvailable(): Promise<void> {
-    availablePrinters.clear();
-    const memorizedPrinters = await db.select({ id: s.printer.id, name: s.printer.name }).from(s.printer);
+  static async refreshAvailable(): Promise<void> {
+    type MemorizedPrinter = { id: PrinterId; name: string };
+    const printers = new Map<string, { mp?: MemorizedPrinter; cp?: CupsPrinter }>();
+
     const cupsPrinters = await cups.getPdfPrinters();
+    for (const cp of cupsPrinters) {
+      printers.set(cp.name, { cp });
+    }
 
-    for (const cupsPrinter of cupsPrinters) {
-      const printerId = memorizedPrinters.find((mp) => mp.name === cupsPrinter.name)?.id;
+    await db.transaction(async (tx) => {
+      // Set all printers as not available by default.
+      const memorizedPrinters = await tx
+        .update(s.printer)
+        .set({ available: false })
+        .returning({ id: s.printer.id, name: s.printer.name });
 
-      let printer: Printer;
-      if (printerId) {
-        printer = new Printer(printerId);
-      } else {
-        printer = await Printer.create(cupsPrinter.name);
+      for (const mp of memorizedPrinters) {
+        const p = printers.getOrInsert(mp.name, {});
+        p.mp = mp;
       }
 
-      const settings = await cupsPrinter.getJobCreationAttributes();
-      await printer.updateAvailableSettings(settings);
-      availablePrinters.set(printer.id, cupsPrinter);
-    }
-  }
+      for (const p of printers.values()) {
+        if (p.cp) {
+          if (p.mp) {
+            // Make the printer available.
+            await tx.update(s.printer).set({ available: true }).where(eq(s.printer.id, p.mp.id));
+          } else {
+            // Create the printer if it wasn't known.
+            p.mp = await tx
+              .insert(s.printer)
+              .values({ name: p.cp.name, available: true })
+              .returning({ id: s.printer.id, name: s.printer.name })
+              .then(getFirstOrThrow);
+          }
 
-  async updateAvailableSettings(settings: JobCreationAttributesAvailable): Promise<void> {
-    await db.transaction(async (tx) => {
-      await tx.delete(s.printerSettingAvailable).where(eq(s.printerSettingAvailable.printerId, this.id));
-      await tx.insert(s.printerSettingAvailable).values(settings.map((se) => ({ printerId: this.id, ...se })));
+          // Synchronise available settings.
+          const settings = await p.cp.getJobCreationAttributes();
+          // biome-ignore lint/style/noNonNullAssertion: p.mp set above if missing.
+          await tx.delete(s.printerSettingAvailable).where(eq(s.printerSettingAvailable.printerId, p.mp!.id));
+          // biome-ignore lint/style/noNonNullAssertion: See above.
+          await tx.insert(s.printerSettingAvailable).values(settings.map((s) => ({ printerId: p.mp!.id, ...s })));
+
+          // biome-ignore lint/style/noNonNullAssertion: See above.
+          availablePrinters.set(p.mp!.id, p.cp);
+        }
+      }
     });
   }
 
@@ -99,4 +122,8 @@ export class Printer {
   async forget(): Promise<void> {
     await db.delete(s.printer).where(eq(s.printer.id, this.id));
   }
+}
+
+export async function initRefreshPrinters() {
+  await Printer.refreshAvailable();
 }

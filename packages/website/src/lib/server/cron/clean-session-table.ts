@@ -8,6 +8,6 @@ export function initCleanSessionTableJob() {
   job("clean expired sessions", `${randomInt(59)} */5 * * * *`, async ({ logger }) => {
     const cutOffDate = new Date(Date.now() - SESSION_MAX_AGE.asMilliseconds());
     const result = await db.delete(s.session).where(lte(s.session.createdAt, cutOffDate));
-    logger.info(`deleted ${result.rowsAffected} rows`);
+    logger.log(result.rowsAffected > 0 ? "info" : "trace", `deleted ${result.rowsAffected} rows`);
   });
 }
