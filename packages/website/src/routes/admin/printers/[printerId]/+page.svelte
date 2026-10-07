@@ -6,7 +6,6 @@
   import ColumnsLayout from "../_components/ColumnsLayout.svelte";
   import PrintersColumn from "../_components/PrintersColumn.svelte";
   import DeletePrinterDialog from "./_components/DeletePrinterDialog.svelte";
-  import UpdatePrinterForm from "./_components/UpdatePrinterForm.svelte";
   import type { PageProps } from "./$types";
 
   const { params }: PageProps = $props();
@@ -41,10 +40,6 @@
 
     <div class="flex flex-col gap-4 overflow-y-auto p-2">
       <h3 class="text-xl font-bold not-md:hidden">{printer.data.name}</h3>
-
-      <h4 class="font-semibold">Impostazioni</h4>
-
-      <UpdatePrinterForm {printer} />
 
       <h4 class="font-semibold">Elimina</h4>
 

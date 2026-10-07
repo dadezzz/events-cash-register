@@ -3,14 +3,14 @@
   import { DialogButton, DialogContent, DialogRoot, getDialogContext } from "#components/dialog/index.ts";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
-  import type { UserClient } from "#lib/entities/user/client/index.ts";
-  import { deleteUserForm as form } from "../_forms.remote.ts";
+  import type { PrinterReceiptTemplateClient } from "#lib/entities/printer/receipt-template/client/index.ts";
+  import { deleteReceiptForm as form } from "../_forms.remote.ts";
 
   interface Props {
-    user: UserClient;
+    receipt: PrinterReceiptTemplateClient;
   }
 
-  const { user }: Props = $props();
+  const { receipt }: Props = $props();
 </script>
 
 <DialogRoot>
@@ -26,7 +26,7 @@
     <div class="dialog-center dialog-inner flex flex-col gap-2 p-2" transition:fly>
       <h2 class="text-xl font-semibold">Elimina utente</h2>
 
-      <p>Conferma di voler eliminare l'utente {user.data.username}</p>
+      <p>Conferma di voler eliminare {receipt.data.name}</p>
 
       <Form
         {form}
@@ -34,7 +34,7 @@
           dialogContext.open = false;
         }}
       >
-        <HiddenInput field={form.fields.id} value={user.data.id} />
+        <HiddenInput field={form.fields.id} value={receipt.data.id} />
 
         <div class="flex justify-end gap-2">
           <DialogButton class="button-secondary px-2 py-1">Annulla</DialogButton>

@@ -1,18 +1,22 @@
 <script lang="ts">
   import { Form } from "#components/form/index.ts";
   import { ComboBoxInput, HiddenInput, NumericInput } from "#components/form/input/index.ts";
-  import type { PrinterClient } from "#lib/entities/printer/client/index.ts";
-  import { updateSettingsForm } from "../_forms.remote.ts";
-  import { updateSettingsFormSchema } from "../_schemas.ts";
+  import { PrinterClient } from "#lib/entities/printer/client/index.ts";
+  import type { PrinterReceiptTemplateClient } from "#lib/entities/printer/receipt-template/client/index.ts";
+  import { updatePrinterForm } from "../_forms.remote.ts";
+  import { updatePrinterFormSchema } from "../_schemas.ts";
 
   interface Props {
-    printer: PrinterClient;
+    receipt: PrinterReceiptTemplateClient;
   }
 
-  const { printer }: Props = $props();
+  const { receipt }: Props = $props();
 
-  const availableSettings = $derived(await printer.getSettingsAvailable());
-  const selectedSettings = $derived(await printer.getSettingsSelected());
+  const printers = $derived(await PrinterClient.getAll());
+  const selectedPrinter = $derived(await PrinterClient.fromId(receipt.data.printerId));
+
+  const availableSettings = $derived(await selectedPrinter.getSettingsAvailable());
+  const selectedSettings = $derived(await receipt.getPrinterSettingsSelected());
 
   const settingLabels = {
     copies: "Numero di copie",
@@ -21,11 +25,18 @@
     media: "Formato carta",
   };
 
-  const form = $derived(updateSettingsForm.for(printer.data.id).preflight(updateSettingsFormSchema));
+  const form = $derived(updatePrinterForm.preflight(updatePrinterFormSchema));
 </script>
 
 <Form {form} class="flex flex-col gap-2">
-  <HiddenInput field={form.fields.printerId} value={printer.data.id} />
+  <HiddenInput field={form.fields.id} value={receipt.data.id} />
+
+  <ComboBoxInput
+    field={form.fields.printerId}
+    label="Stampante"
+    value={receipt.data.printerId}
+    entries={printers.map((p) => ({ label: p.data.name, value: p.data.id }))}
+  />
 
   {#each availableSettings as setting, i (setting.name)}
     {@const selectedValue = selectedSettings.find((se) => se.name === setting.name)}

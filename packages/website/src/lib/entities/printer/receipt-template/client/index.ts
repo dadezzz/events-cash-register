@@ -1,3 +1,4 @@
+import type { JobCreationAttributesSelected } from "@workspace/cups/utils";
 import { Serializable } from "#lib/serializable.ts";
 import type { RemoteQuery } from "$app/server";
 import type { PrinterReceiptTemplateData } from "../data.ts";
@@ -11,5 +12,9 @@ export class PrinterReceiptTemplateClient extends Serializable<PrinterReceiptTem
 
   static fromId(id: PrinterReceiptTemplateId): RemoteQuery<PrinterReceiptTemplateClient> {
     return remote.fromId(id);
+  }
+
+  getPrinterSettingsSelected(): RemoteQuery<JobCreationAttributesSelected> {
+    return remote.getPrinterSettingsSelected(this.data.id);
   }
 }

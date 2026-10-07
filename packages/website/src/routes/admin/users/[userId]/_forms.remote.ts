@@ -16,6 +16,7 @@ export const deleteUserForm = form(deleteUserFormSchema, async (data) => {
   }
 
   await user.delete();
+
   logger.info({ message: "deleted user", userId: user.id });
   redirect(`/admin/users`);
 });

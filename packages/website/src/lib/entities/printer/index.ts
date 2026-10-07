@@ -86,36 +86,21 @@ export class Printer {
     });
   }
 
-  async updateSelectedSettings(settings: JobCreationAttributesSelected): Promise<void> {
-    await db.transaction(async (tx) => {
-      await tx.delete(s.printerSettingSelected).where(eq(s.printerSettingSelected.printerId, this.id));
-      await tx.insert(s.printerSettingSelected).values(settings.map((se) => ({ printerId: this.id, ...se })));
-    });
-  }
-
-  async getSelectedSettings(): Promise<JobCreationAttributesSelected> {
-    return (await db
-      .select({ name: s.printerSettingSelected.name, value: s.printerSettingSelected.value })
-      .from(s.printerSettingSelected)
-      .where(eq(s.printerSettingSelected.printerId, this.id))) as JobCreationAttributesSelected;
-  }
-
-  async print(title: string, pdf: Uint8Array): Promise<void> {
+  async print(title: string, settings: JobCreationAttributesSelected, pdf: Uint8Array): Promise<void> {
     const cupsPrinter = availablePrinters.get(this.id);
     if (!cupsPrinter) {
       logger.warn({ message: "print job failed because printer is unavailable", printerId: this.id });
       return;
     }
 
-    const settings = await this.getSelectedSettings();
     await cupsPrinter.sendJob(title, settings, "application/pdf", pdf);
   }
 
   async getInvoiceTemplates(): Promise<PrinterReceiptTemplate[]> {
     const rows = await db
-      .select({ id: s.printerReceiptTemplate.id })
-      .from(s.printerReceiptTemplate)
-      .where(eq(s.printerReceiptTemplate.printerId, this.id));
+      .select({ id: s.receiptTemplate.id })
+      .from(s.receiptTemplate)
+      .where(eq(s.receiptTemplate.printerId, this.id));
     return rows.map((r) => new PrinterReceiptTemplate(r.id));
   }
 

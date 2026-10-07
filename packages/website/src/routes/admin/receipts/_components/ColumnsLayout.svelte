@@ -8,7 +8,6 @@
     mainColumn: ColumnId;
     firstColumn: Snippet;
     secondColumn: Snippet;
-    thirdColumn: Snippet;
   }
 
   const { mainColumn, firstColumn, secondColumn }: Props = $props();

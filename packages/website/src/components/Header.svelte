@@ -19,7 +19,7 @@
 
 <header class="border-mist-strong flex items-center border-b p-2">
   <DialogButton
-    class="button-ghost p-1 text-mist-700 transition-[width,visibility] data-[open=false]:mr-4 data-[open=true]:invisible data-[open=true]:w-0 dark:text-mist-300"
+    class="button-ghost p-1 text-mist-700 data-[open=false]:mr-4 data-[open=true]:invisible data-[open=true]:w-0 dark:text-mist-300"
   >
     <SidebarIcon class="size-5" />
   </DialogButton>

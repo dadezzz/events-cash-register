@@ -6,7 +6,7 @@ import type { RootBlockData } from "#lib/entities/printer/receipt-template/schem
 import { json } from "./_utils.ts";
 import printer from "./printer.ts";
 
-export default sqliteTable("printerReceiptTemplate", {
+export default sqliteTable("receiptTemplate", {
   id: text()
     .$type<PrinterReceiptTemplateId>()
     .primaryKey()

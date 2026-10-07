@@ -137,12 +137,12 @@ export class Order {
         }),
     };
 
-    for (const i of receiptPrintingInfo.values()) {
+    for (const pi of receiptPrintingInfo.values()) {
       const page = await browser.newPage();
-      page.setContent(renderReceiptHtml(i.template, receiptData));
+      page.setContent(renderReceiptHtml(pi.template, receiptData));
 
       const pdf = await page.pdf();
-      await i.printer.print(i.name, pdf);
+      await pi.printer.print(pi.name, pi.settings, pdf);
       await page.close();
     }
 

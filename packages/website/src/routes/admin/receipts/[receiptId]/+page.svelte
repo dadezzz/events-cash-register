@@ -1,20 +1,16 @@
 <script lang="ts">
-  import { ArrowLeftIcon } from "phosphor-svelte";
-  import { Form } from "#components/form/index.ts";
-  import { ComboBoxInput, TextInput } from "#components/form/input/index.ts";
-  import Separator from "#components/Separator.svelte";
-  import { PrinterClient } from "#lib/entities/printer/client/index.ts";
+  import { ArrowLeftIcon, ArrowRightIcon } from "phosphor-svelte";
+  import { PrinterReceiptTemplateClient } from "#lib/entities/printer/receipt-template/client/index.ts";
+  import type { PrinterReceiptTemplateId } from "#lib/entities/printer/receipt-template/id.ts";
   import ColumnsLayout from "../_components/ColumnsLayout.svelte";
-  import EmptyOptionsColumn from "../_components/EmptyOptionsColumn.svelte";
   import ReceiptsListColumn from "../_components/ReceiptsListColumn.svelte";
-  import RootBlock from "../_components/RootBlock.svelte";
-  import { updateBlocksForm, updateOptionsForm } from "../_forms.remote.ts";
-  import { updateBlocksFormSchema, updateOptionsFormSchema } from "../_schemas.ts";
+  import DeleteReceiptDialog from "./_components/DeleteReceiptDialog.svelte";
+  import UpdatePrinterForm from "./_components/UpdatePrinterForm.svelte";
+  import type { PageProps } from "./$types";
 
-  const printers = $derived(await PrinterClient.getAll());
+  const { params }: PageProps = $props();
 
-  const optionsForm = updateOptionsForm.preflight(updateOptionsFormSchema);
-  const blocksForm = updateBlocksForm.preflight(updateBlocksFormSchema);
+  const receipt = $derived(await PrinterReceiptTemplateClient.fromId(params.receiptId as PrinterReceiptTemplateId));
 </script>
 
 <ColumnsLayout mainColumn="second">
@@ -27,42 +23,33 @@
         <ArrowLeftIcon class="size-4" />
       </a>
 
-      <span>Editor</span>
+      <span>Configurazione</span>
     </div>
 
     <div class="overflow-y-auto">
       <div class="flex flex-col gap-4 p-2">
-        <h3 class="font-semibold">Dati</h3>
+        <!-- <h3 class="font-semibold">Identificazione</h3>
 
-        <Form form={optionsForm} class="contents">
-          <TextInput field={optionsForm.fields.name} label="Nome" />
+          <TextInput field={printerForm.fields.name} label="Nome" value={receipt.data.name} /> -->
 
-          <ComboBoxInput
-            field={optionsForm.fields.printerId}
-            label="Stampante"
-            entries={printers.map((p) => ({ label: p.data.name, value: p.data.id }))}
-          />
+        <h3 class="font-semibold">Stampante</h3>
 
-          <button type="submit" class="button-primary mt-2 px-2 py-1">Salva</button>
-        </Form>
-      </div>
+        <UpdatePrinterForm {receipt} />
 
-      <Separator orientation="horizontal" class="border-mist-default" />
-
-      <div class="flex flex-col gap-4 p-2">
         <h3 class="font-semibold">Template</h3>
 
-        <Form form={blocksForm} class="flex min-h-0 grow flex-col gap-4 overflow-y-auto p-2">
-          <div class="rounded-md bg-mist-100 p-2 dark:bg-mist-900">
-            <RootBlock field={blocksForm.fields.blocks} />
-          </div>
+        <a
+          href="/admin/receipts/{receipt.data.id}/template"
+          class="button-primary mt-2 flex items-center justify-center gap-2 px-2 py-1"
+        >
+          <span>Modifica template</span>
+          <ArrowRightIcon class="size-5" />
+        </a>
 
-          <button type="submit" class="button-primary mt-2 px-2 py-1">Salva</button>
-        </Form>
+        <h3 class="font-semibold">Elimina</h3>
+
+        <DeleteReceiptDialog {receipt} />
       </div>
     </div>
-  {/snippet}
-  {#snippet thirdColumn()}
-    <EmptyOptionsColumn />
   {/snippet}
 </ColumnsLayout>

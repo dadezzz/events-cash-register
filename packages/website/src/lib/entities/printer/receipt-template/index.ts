@@ -1,3 +1,4 @@
+import type { JobCreationAttributesSelected } from "@workspace/cups/utils";
 import { eq } from "drizzle-orm";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { db, s } from "#lib/server/database/index.ts";
@@ -15,37 +16,46 @@ export class PrinterReceiptTemplate {
 
   static async create(name: string, printer: Printer): Promise<PrinterReceiptTemplate> {
     const row = await db
-      .insert(s.printerReceiptTemplate)
+      .insert(s.receiptTemplate)
       .values({ name, printerId: printer.id, blocks: { type: "root", blocks: [] } })
-      .returning({ id: s.printerReceiptTemplate.id })
+      .returning({ id: s.receiptTemplate.id })
       .then(getFirstOrThrow);
 
     return new PrinterReceiptTemplate(row.id);
   }
 
   static async getAll(): Promise<PrinterReceiptTemplateBatch> {
-    const receipts = await db.select({ id: s.printerReceiptTemplate.id }).from(s.printerReceiptTemplate);
+    const receipts = await db.select({ id: s.receiptTemplate.id }).from(s.receiptTemplate);
     return new PrinterReceiptTemplateBatch(receipts.map((p) => p.id));
   }
 
   static async fromId(id: PrinterReceiptTemplateId): Promise<PrinterReceiptTemplate | null> {
     const row = await db
-      .select({ id: s.printerReceiptTemplate.id })
-      .from(s.printerReceiptTemplate)
-      .where(eq(s.printerReceiptTemplate.id, id))
+      .select({ id: s.receiptTemplate.id })
+      .from(s.receiptTemplate)
+      .where(eq(s.receiptTemplate.id, id))
       .then(getFirstOptional);
 
     return row ? new PrinterReceiptTemplate(row.id) : null;
   }
 
   async update(name: string, printer: Printer): Promise<void> {
-    await db
-      .update(s.printerReceiptTemplate)
-      .set({ name, printerId: printer.id })
-      .where(eq(s.printerReceiptTemplate.id, this.id));
+    await db.update(s.receiptTemplate).set({ name, printerId: printer.id }).where(eq(s.receiptTemplate.id, this.id));
   }
 
   async updateBlocks(blocks: RootBlockData): Promise<void> {
-    await db.update(s.printerReceiptTemplate).set({ blocks }).where(eq(s.printerReceiptTemplate.id, this.id));
+    await db.update(s.receiptTemplate).set({ blocks }).where(eq(s.receiptTemplate.id, this.id));
+  }
+
+  async updatePrinter(printer: Printer, settings: JobCreationAttributesSelected): Promise<void> {
+    await db.transaction(async (tx) => {
+      await tx.update(s.receiptTemplate).set({ printerId: printer.id }).where(eq(s.receiptTemplate.id, this.id));
+      await tx.delete(s.printerSettingSelected).where(eq(s.printerSettingSelected.receiptTemplateId, this.id));
+      await tx.insert(s.printerSettingSelected).values(settings.map((se) => ({ receiptTemplateId: this.id, ...se })));
+    });
+  }
+
+  async delete(): Promise<void> {
+    await db.delete(s.receiptTemplate).where(eq(s.receiptTemplate.id, this.id));
   }
 }

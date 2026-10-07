@@ -1,4 +1,4 @@
-import type { JobCreationAttributesAvailable, JobCreationAttributesSelected } from "@workspace/cups/utils";
+import type { JobCreationAttributesAvailable } from "@workspace/cups/utils";
 import { inArray } from "drizzle-orm";
 import { Batch, BatchRows } from "#lib/server/batch.ts";
 import { db, s } from "#lib/server/database/index.ts";
@@ -34,30 +34,11 @@ export class PrinterBatch extends Batch<PrinterId> {
     return new BatchRows(rows2);
   }
 
-  async getSettingsSelected(): Promise<BatchRows<PrinterId, JobCreationAttributesSelected>> {
-    const rows = await db
-      .select({
-        printerId: s.printerSettingSelected.printerId,
-        name: s.printerSettingSelected.name,
-        value: s.printerSettingSelected.value,
-      })
-      .from(s.printerSettingSelected)
-      .where(inArray(s.printerSettingSelected.printerId, this.ids));
-
-    const rows2: Record<PrinterId, JobCreationAttributesSelected> = {};
-    for (const r of rows) {
-      rows2[r.printerId] ??= [];
-      rows2[r.printerId].push(r as JobCreationAttributesSelected[number]);
-    }
-
-    return new BatchRows(rows2);
-  }
-
   async getReceiptTemplates(): Promise<PrinterReceiptTemplateBatch> {
     const rows = await db
-      .select({ id: s.printerReceiptTemplate.id })
-      .from(s.printerReceiptTemplate)
-      .where(inArray(s.printerReceiptTemplate.printerId, this.ids));
+      .select({ id: s.receiptTemplate.id })
+      .from(s.receiptTemplate)
+      .where(inArray(s.receiptTemplate.printerId, this.ids));
 
     return new PrinterReceiptTemplateBatch(rows.map((r) => r.id));
   }
