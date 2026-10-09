@@ -28,7 +28,7 @@
     "@workspace/cups": "workspace:*",
     "croner": "10.0.1",
     "drizzle-orm": "0.45.3",
-    "handlebars": "4.7.9",
+    "handlebars": "4.7.10",
     "puppeteer-core": "25.12.0",
     "valibot": "1.5.0"
   },
