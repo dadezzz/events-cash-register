@@ -1,5 +1,4 @@
 import { eq, sql } from "drizzle-orm";
-import puppeteer from "puppeteer-core";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { CartItem } from "#lib/entities/cart/cart-item/index.ts";
 import { PrinterReceiptTemplateBatch } from "#lib/entities/printer/receipt-template/batch.ts";
@@ -7,14 +6,21 @@ import { renderReceiptHtml } from "#lib/entities/printer/receipt-template/render
 import { ProductBatch } from "#lib/entities/products/batch.ts";
 import { priceToString } from "#lib/price.ts";
 import { db, s } from "#lib/server/database/index.ts";
-import { PUPPETEER_EXECUTABLE_PATH } from "$app/env/private";
 import type { CartId } from "../id.ts";
 import type { Cart } from "../index.ts";
+import { BrowserInstance } from "./browser.ts";
 
-const browser = await puppeteer.launch({
-  executablePath: PUPPETEER_EXECUTABLE_PATH,
-  args: ["--no-sandbox"],
+const browserInstance = await BrowserInstance.start();
+
+process.on("beforeExit", async () => {
+  await browserInstance.stop();
 });
+
+if (import.meta.hot) {
+  import.meta.hot.dispose(async () => {
+    await browserInstance.stop();
+  });
+}
 
 const COUNTER_EVENT = "default";
 
@@ -138,12 +144,8 @@ export class Order {
     };
 
     for (const pi of receiptPrintingInfo.values()) {
-      const page = await browser.newPage();
-      page.setContent(renderReceiptHtml(pi.template, receiptData));
-
-      const pdf = await page.pdf();
+      const pdf = await browserInstance.renderPdf(renderReceiptHtml(pi.template, receiptData));
       await pi.printer.print(pi.name, pi.settings, pdf);
-      await page.close();
     }
 
     return new Order(cart.id);
