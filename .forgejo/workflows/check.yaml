@@ -24,8 +24,10 @@ jobs:
         run: turbo run check
       - name: Build the website
         run: turbo run build
+      - name: Run tests
+        run: turbo run test
 
-name: check-syntax.yaml
+name: check.yaml
 
 "on":
   pull_request:

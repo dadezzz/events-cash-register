@@ -1,10 +1,10 @@
-import * as argon2 from "@node-rs/argon2";
 import { and, desc, eq, inArray, isNull } from "drizzle-orm";
 import { getFirstOptional, getFirstOrThrow } from "#lib/array.ts";
 import { SessionBatch } from "#lib/entities/session/batch.ts";
 import type { SessionId } from "#lib/entities/session/id.ts";
 import { NewSession } from "#lib/entities/session/index.ts";
 import { sqlSessionNotExpired } from "#lib/entities/session/utils.ts";
+import * as argon2 from "#lib/server/argon2.ts";
 import { db, s } from "#lib/server/database/index.ts";
 import { UserBatch } from "./batch.ts";
 import { sqlDataColumns, type UserData } from "./data.ts";
