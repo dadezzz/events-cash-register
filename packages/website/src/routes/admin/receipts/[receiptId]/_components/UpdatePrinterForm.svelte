@@ -12,12 +12,6 @@
 
   const { receipt }: Props = $props();
 
-  const printers = $derived(await PrinterClient.getAll());
-  const selectedPrinter = $derived(await PrinterClient.fromId(receipt.data.printerId));
-
-  const availableSettings = $derived(await selectedPrinter.getSettingsAvailable());
-  const selectedSettings = $derived(await receipt.getPrinterSettingsSelected());
-
   const settingLabels = {
     copies: "Numero di copie",
     finishings: "Finiture",
@@ -26,6 +20,14 @@
   };
 
   const form = $derived(updatePrinterForm.preflight(updatePrinterFormSchema));
+
+  const printers = $derived(await PrinterClient.getAll());
+  const selectedPrinter = $derived(
+    printers.find((p) => p.data.id === form.fields.printerId.value()) ??
+      printers.find((p) => p.data.id === receipt.data.printerId),
+  );
+  const availableSettings = $derived((await selectedPrinter?.getSettingsAvailable()) ?? []);
+  const selectedSettings = $derived(await receipt.getPrinterSettingsSelected());
 </script>
 
 <Form {form} class="flex flex-col gap-2">

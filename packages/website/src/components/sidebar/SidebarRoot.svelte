@@ -1,44 +1,34 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { MediaQuery } from "svelte/reactivity";
-  import { type DialogContext, DialogOverlay, DialogRoot } from "#components/dialog/index.ts";
-  import { afterNavigate } from "$app/navigation";
+  import { PopoverContent, PopoverRoot } from "#components/popover2/index.ts";
 
   interface Props {
-    dialogContext: DialogContext;
     content: Snippet;
     children: Snippet;
   }
 
-  let { dialogContext = $bindable(), content, children }: Props = $props();
+  let { content, children }: Props = $props();
 
   // Matches Tailwindcss's md breakpoint.
-  const greaterThanTWMDQuery = new MediaQuery("(width >= 768px)", false);
+  const greaterThanTWMDQuery = new MediaQuery("(width >= 768px)", true);
   const greaterThanTWMD = $derived(greaterThanTWMDQuery.current);
-
-  // Close sidebar on mobile navigation.
-  afterNavigate(() => {
-    if (!greaterThanTWMD) {
-      dialogContext.open = false;
-    }
-  });
 </script>
 
 <!-- Inherit the height from parent. -->
 <div class="flex h-full">
-  <DialogRoot bind:context={dialogContext}>
-    <DialogOverlay class="z-20! md:data-[open=true]:hidden" />
-
-    <dialog
-      open
-      id={dialogContext.id}
-      data-open={dialogContext.open}
-      class="border-mist-strong text-default bg-default invisible fixed left-0 z-30 h-full w-0 max-w-fit overflow-x-hidden border-r shadow transition-[width,visibility] data-[open=true]:visible data-[open=true]:w-full data-[open=true]:duration-200 md:static"
+  <PopoverRoot type={greaterThanTWMD ? "js" : "auto"}>
+    <PopoverContent
+      closeOnNav={!greaterThanTWMD}
+      usePortal={!greaterThanTWMD}
+      class="border-mist-strong popover-content popover-backdrop inset-y-0 left-0 z-30 m-0 h-full w-0 max-w-fit
+        overflow-x-hidden border-r transition-[width,overlay] transition-discrete data-[open=true]:w-full max-md:shadow
+        md:backdrop:hidden data-[open=true]:starting:w-0"
     >
       <aside class="p-2">
         {@render content()}
       </aside>
-    </dialog>
+    </PopoverContent>
 
     <!--
       Flex and flex col so that the user can use h-full elements without them
@@ -47,5 +37,5 @@
     <main class="flex w-full flex-col">
       {@render children()}
     </main>
-  </DialogRoot>
+  </PopoverRoot>
 </div>

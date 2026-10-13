@@ -1,8 +1,12 @@
 <script lang="ts">
   import { CaretUpDownIcon, CheckIcon } from "phosphor-svelte";
-  import { fly } from "svelte/transition";
-  import { getPopoverContext, PopoverAnchor, PopoverContent, PopoverRoot } from "#components/popover/index.ts";
-  import PopoverButton from "#components/popover/PopoverButton.svelte";
+  import {
+    getPopoverContext,
+    PopoverAnchor,
+    PopoverButton,
+    PopoverContent,
+    PopoverRoot,
+  } from "#components/popover2/index.ts";
   import type { InputProps } from ".";
   import Field from "./Field.svelte";
   import FieldErrors from "./FieldErrors.svelte";
@@ -52,7 +56,7 @@
 
       <HiddenInput {field} value={field.value()} />
 
-      <PopoverRoot>
+      <PopoverRoot type="auto">
         {const popoverContext = getPopoverContext()}
 
         <div
@@ -126,7 +130,9 @@
               }
             }}
             role="combobox"
-            aria-activedescendant={popoverContext.open ? `${id}-option-${suggestions[suggestionsIndex]}` : undefined}
+            aria-activedescendant={popoverContext.open
+              ? `${id}-option-${suggestions[suggestionsIndex]?.value}`
+              : undefined}
             aria-autocomplete="list"
             aria-controls="{id}-list"
             aria-expanded={popoverContext.open}
@@ -136,9 +142,9 @@
           <PopoverAnchor class="flex">
             <PopoverButton
               aria-label="Open the list of options"
-              class="px-3 py-2 text-mist-400 transition-colors hover:bg-emerald-50
-            hover:text-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 focus:outline-none dark:text-mist-600
-            dark:hover:bg-emerald-950 dark:hover:text-emerald-400 dark:focus:bg-emerald-950 dark:focus:text-emerald-400"
+              class="px-3 py-2 text-mist-400 transition-colors hover:bg-emerald-50 hover:text-emerald-600
+              focus:bg-emerald-50 focus:text-emerald-600 focus:outline-none dark:text-mist-600 dark:hover:bg-emerald-950
+              dark:hover:text-emerald-400 dark:focus:bg-emerald-950 dark:focus:text-emerald-400"
               onclick={() => {
                 // Keep focus on the input node. Entry selection is handled through
                 // pressing the up and down arrow keys.
@@ -152,38 +158,38 @@
           </PopoverAnchor>
         </div>
 
-        <PopoverContent class="anchored-bottom-span-left">
-          <div class="popover-default max-h-96 overflow-y-auto p-2 text-sm" transition:fly>
-            <ul id="{id}-list">
-              {#each suggestions as entry (entry.value)}
-                <li id="{id}-option-{entry.value}">
-                  <button
-                    type="button"
-                    data-selected={suggestions[suggestionsIndex].value === entry.value}
-                    class="flex w-full cursor-pointer items-center justify-between gap-8 rounded-md p-2 transition-colors hover:bg-mist-200 focus:bg-mist-200 focus:outline-none not-group-focus-within:not-group-hover:data-[selected=true]:bg-mist-100 dark:hover:bg-mist-800 dark:focus:bg-mist-800 dark:not-group-focus-within:not-group-hover:data-[selected=true]:bg-mist-900"
-                    onclick={() => {
-                      field.set(entry.value);
+        <PopoverContent
+          class="anchored-bottom-span-left popover-floating-border popover-content max-h-96 overflow-y-auto p-2 text-sm"
+        >
+          <ul id="{id}-list">
+            {#each suggestions as entry (entry.value)}
+              <li id="{id}-option-{entry.value}">
+                <button
+                  type="button"
+                  data-selected={suggestions[suggestionsIndex]?.value === entry.value}
+                  class="flex w-full cursor-pointer items-center justify-between gap-8 rounded-md p-2 transition-colors hover:bg-mist-200 focus:bg-mist-200 focus:outline-none not-group-focus-within:not-group-hover:data-[selected=true]:bg-mist-100 dark:hover:bg-mist-800 dark:focus:bg-mist-800 dark:not-group-focus-within:not-group-hover:data-[selected=true]:bg-mist-900"
+                  onclick={() => {
+                    field.set(entry.value);
 
-                      if (comboboxInput) {
-                        comboboxInput.value = entriesMap.get(entry.value) ?? "";
-                      }
+                    if (comboboxInput) {
+                      comboboxInput.value = entriesMap.get(entry.value) ?? "";
+                    }
 
-                      popoverContext.open = false;
-                    }}
-                  >
-                    <span>{entry.label}</span>
+                    popoverContext.open = false;
+                  }}
+                >
+                  <span>{entry.label}</span>
 
-                    <CheckIcon
-                      data-selected={suggestions[suggestionsIndex].value === entry.value}
-                      class="size-4 opacity-0 transition-opacity data-[selected=true]:opacity-100"
-                    />
-                  </button>
-                </li>
-              {:else}
-                <span class="text-mist-600 dark:text-mist-400">No entries found.</span>
-              {/each}
-            </ul>
-          </div>
+                  <CheckIcon
+                    data-selected={suggestions[suggestionsIndex]?.value === entry.value}
+                    class="size-4 opacity-0 transition-opacity data-[selected=true]:opacity-100"
+                  />
+                </button>
+              </li>
+            {:else}
+              <span class="text-mist-600 dark:text-mist-400">No entries found.</span>
+            {/each}
+          </ul>
         </PopoverContent>
       </PopoverRoot>
 

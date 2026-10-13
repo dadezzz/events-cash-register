@@ -12,7 +12,6 @@
 </script>
 
 <script lang="ts">
-  import { slide } from "svelte/transition";
   import { afterNavigate, beforeNavigate } from "$app/navigation";
 
   interface Props {
@@ -83,20 +82,19 @@
   });
 </script>
 
-<div
-  {id}
-  aria-label="Progresso di caricamento della pagina"
-  role="progressbar"
-  aria-valuenow={progress}
-  aria-valuemin={0}
-  aria-valuemax={1}
-  class="fixed top-0 left-0 z-80 h-1 w-full"
->
-  <!--
-    Unmount to prevent the width transition to be displayed when the bar goes
-    from 1 to 0.
-  -->
-  {#if progress > 0}
-    <div transition:slide class="h-1 bg-emerald-500 transition-[width]" style="width: {progress * 100}%"></div>
-  {/if}
-</div>
+{#if progress > 0}
+  <div
+    {id}
+    aria-label="Progresso di caricamento della pagina"
+    role="progressbar"
+    aria-valuenow={progress}
+    aria-valuemin={0}
+    aria-valuemax={1}
+    class="fixed top-0 left-0 z-80 w-full"
+  >
+    <div
+      class="h-1 w-(--width) bg-emerald-500 opacity-100 transition-[width] duration-200 starting:w-0"
+      style="--width: {progress * 100}%"
+    ></div>
+  </div>
+{/if}

@@ -9,8 +9,8 @@
     SidebarIcon,
     UserGearIcon,
   } from "phosphor-svelte";
-  import { DialogButton } from "#components/dialog/index.ts";
   import Navigation from "#components/navigation/Navigation.svelte";
+  import { PopoverButton } from "#components/popover2/index.ts";
   import { getAdminUserId } from "#lib/auth/index.remote.ts";
   import { page } from "$app/state";
 </script>
@@ -64,10 +64,10 @@
   </div>
 {/snippet}
 
-<div class="flex">
-  <DialogButton class="button-ghost ml-auto p-1 text-mist-700 dark:text-mist-300">
+<div class="mb-2 flex">
+  <PopoverButton class="button-ghost ml-auto p-1 text-mist-700 dark:text-mist-300">
     <SidebarIcon class="size-5" />
-  </DialogButton>
+  </PopoverButton>
 </div>
 
 <Navigation

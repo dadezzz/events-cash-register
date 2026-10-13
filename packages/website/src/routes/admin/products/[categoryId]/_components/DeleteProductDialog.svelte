@@ -1,9 +1,8 @@
 <script lang="ts">
   import { TrashIcon } from "phosphor-svelte";
-  import { fly } from "svelte/transition";
-  import { DialogButton, DialogContent, DialogRoot, getDialogContext } from "#components/dialog/index.ts";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
+  import { getPopoverContext, PopoverButton, PopoverContent, PopoverRoot } from "#components/popover2/index.ts";
   import type { ProductClient } from "#lib/entities/products/client/index.ts";
   import { deleteProductForm } from "../_forms.remote.ts";
 
@@ -16,30 +15,31 @@
   const form = $derived(deleteProductForm.for(product.data.id));
 </script>
 
-<DialogRoot>
-  {const dialogContext = getDialogContext()}
+<PopoverRoot type="auto">
+  {const popoverContext = getPopoverContext()}
 
-  <DialogButton aria-label="Elimina">
+  <PopoverButton aria-label="Elimina">
     <TrashIcon class="size-5" />
-  </DialogButton>
+  </PopoverButton>
 
-  <DialogContent>
-    <div class="dialog-center dialog-inner" transition:fly>
-      <h2>Elimina prodotto</h2>
+  <PopoverContent
+    usePortal
+    class="popover-floating-center popover-backdrop popover-floating-border popover-content p-2"
+  >
+    <h2>Elimina prodotto</h2>
 
-      <p>Conferma di voler eliminare il prodotto {product.data.name}</p>
+    <p>Conferma di voler eliminare il prodotto {product.data.name}</p>
 
-      <Form
-        {form}
-        onresult={() => {
-          dialogContext.open = false;
-        }}
-      >
-        <HiddenInput field={form.fields.id} value={product.data.id} />
+    <Form
+      {form}
+      onresult={() => {
+        popoverContext.open = false;
+      }}
+    >
+      <HiddenInput field={form.fields.id} value={product.data.id} />
 
-        <DialogButton>Annulla</DialogButton>
-        <button type="submit">Conferma</button>
-      </Form>
-    </div>
-  </DialogContent>
-</DialogRoot>
+      <PopoverButton>Annulla</PopoverButton>
+      <button type="submit">Conferma</button>
+    </Form>
+  </PopoverContent>
+</PopoverRoot>

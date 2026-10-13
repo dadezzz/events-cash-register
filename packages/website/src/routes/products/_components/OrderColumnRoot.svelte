@@ -1,52 +1,47 @@
 <script lang="ts">
-  import { createDialogContext, DialogButton, DialogOverlay, DialogRoot } from "#components/dialog/index.ts";
+  import { MediaQuery } from "svelte/reactivity";
   import { FormatPrice } from "#components/format/index.ts";
+  import { getPopoverContext, PopoverButton, PopoverContent, PopoverRoot } from "#components/popover2/index.ts";
   import { CartClient } from "#lib/entities/cart/client/index.ts";
   import OrderColumnContent from "./OrderColumnContent.svelte";
 
   const cart = $derived(await CartClient.getUserLatest());
   const cartTotalPrice = $derived(await cart.getTotalPrice());
 
-  const dialogId = $props.id();
-  const dialogContext = $state(createDialogContext(dialogId));
+  // Matches Tailwindcss's md breakpoint.
+  const greaterThanTWMDQuery = new MediaQuery("(width >= 768px)", true);
+  const greaterThanTWMD = $derived(greaterThanTWMDQuery.current);
 </script>
 
 {#snippet dialogNotch()}
   <div class="flex w-full justify-center py-1">
-    <DialogButton
+    <PopoverButton
       aria-label="Apri/chiudi popup ordine"
       class="button-ghost h-2 w-12 rounded-full bg-mist-200 dark:bg-mist-800"
-    ></DialogButton>
+    ></PopoverButton>
   </div>
 {/snippet}
 
-<svelte:window
-  onkeydown={(e) => {
-    if (e.key === "Escape") {
-      dialogContext.open = false;
-    }
-  }}
-/>
+<PopoverRoot type={greaterThanTWMD ? "js" : "auto"}>
+  {const popoverContext = getPopoverContext()}
 
-<DialogRoot context={dialogContext}>
   <div class="p-2 md:hidden">
     {@render dialogNotch()}
 
-    <DialogButton class="w-full" tabindex={-1}>
+    <PopoverButton class="w-full" tabindex={-1}>
       <div class="flex items-center justify-between">
         <h2 class="font-bold">Ordine</h2>
         <p class="md:hidden">Totale: <FormatPrice price={cartTotalPrice} /></p>
       </div>
-    </DialogButton>
+    </PopoverButton>
   </div>
 
-  <DialogOverlay class="md:data-[open=true]:hidden" />
-
-  <dialog
-    open
-    id={dialogContext.id}
-    data-open={dialogContext.open}
-    class="border-mist-default text-default bg-default fixed bottom-0 z-50 translate-y-full p-2 shadow data-[open=true]:visible data-[open=true]:translate-y-0 data-[open=true]:duration-200 max-md:invisible max-md:w-full max-md:rounded-t-lg max-md:border-t max-md:transition-[translate,visibility] md:static md:h-full md:translate-y-0"
+  <PopoverContent
+    usePortal={!greaterThanTWMD}
+    closeOnNav={!greaterThanTWMD}
+    class="border-mist-default popover-content popover-backdrop bottom-0 z-50 m-0 mt-auto h-0 w-full p-2
+      transition-[height,overlay] transition-discrete data-[open=true]:h-fit max-md:rounded-t-md max-md:border
+      max-md:border-b-0 max-md:shadow md:h-full md:backdrop:hidden data-[open=true]:starting:h-0"
   >
     <div class="md:hidden">
       {@render dialogNotch()}
@@ -55,9 +50,9 @@
     <aside class="flex h-full flex-col">
       <OrderColumnContent
         onresult={() => {
-          dialogContext.open = false;
+          popoverContext.open = false;
         }}
       />
     </aside>
-  </dialog>
-</DialogRoot>
+  </PopoverContent>
+</PopoverRoot>

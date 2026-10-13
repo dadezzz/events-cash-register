@@ -1,16 +1,24 @@
 @import "tailwindcss";
 @import "@toolwind/anchors";
 
-@utility dialog-inner {
-  @apply bg-default text-default border-mist-default rounded-md border shadow;
+@utility popover-floating-center {
+  @apply top-1/2 left-1/2 -translate-1/2 m-0 max-h-[calc(100dvh-var(--spacing)*8)] max-w-[calc(100dvw-var(--spacing)*8)] overflow-auto;
 }
 
-@utility dialog-center {
-  @apply fixed top-1/2 left-1/2 z-50 -translate-1/2;
+@utility popover-backdrop {
+  @apply backdrop:starting:opacity-0 backdrop:transition-[opacity,overlay] backdrop:bg-mist-950/60 backdrop:opacity-100 backdrop:backdrop-blur-xs backdrop:transition-discrete;
 }
 
-@utility popover-default {
-  @apply bg-default text-default border-mist-default z-60 rounded-md border shadow;
+@utility popover-content {
+  @apply bg-default text-default z-50;
+}
+
+@utility popover-floating-border {
+  @apply rounded-md border border-mist-default shadow;
+}
+
+@utility popover-transition-fly {
+  @apply transition-discrete transition-[overlay,opacity,scale] scale-95 opacity-0 data-[open=true]:opacity-100 data-[open=true]:scale-100;
 }
 
 @utility bg-default {

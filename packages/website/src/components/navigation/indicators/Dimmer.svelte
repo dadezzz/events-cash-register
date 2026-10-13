@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-  import { fade } from "svelte/transition";
+  import { SpinnerGapIcon } from "phosphor-svelte";
   import { afterNavigate, beforeNavigate } from "$app/navigation";
 
   let show = $state(false);
@@ -35,10 +35,11 @@
 
 {#if show}
   <div
-    transition:fade
-    class="fixed inset-0 z-70 bg-mist-50/40"
+    class="fixed inset-0 z-70 flex items-center justify-center bg-mist-50/60 opacity-100 transition-opacity duration-200 dark:bg-mist-50/40 starting:opacity-0"
     role="alert"
     aria-live="polite"
     aria-label="La pagina sta caricando più lentamente del previsto"
-  ></div>
+  >
+    <SpinnerGapIcon class="size-12 animate-spin text-emerald-500" />
+  </div>
 {/if}

@@ -1,8 +1,6 @@
 <script lang="ts">
   import { DotsThreeVerticalIcon } from "phosphor-svelte";
-  import { fly } from "svelte/transition";
-  import { PopoverButton, PopoverContent, PopoverRoot } from "#components/popover/index.ts";
-  import PopoverAnchor from "#components/popover/PopoverAnchor.svelte";
+  import { PopoverAnchor, PopoverButton, PopoverContent, PopoverRoot } from "#components/popover2/index.ts";
   import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import { page } from "$app/state";
   import AddCategoryDialog from "./AddCategoryDialog.svelte";
@@ -27,7 +25,7 @@
         <span>{category.data.name}</span>
       </a>
 
-      <PopoverRoot>
+      <PopoverRoot type="auto">
         <PopoverAnchor class="flex">
           <PopoverButton
             aria-label="Opzioni"
@@ -37,11 +35,9 @@
           </PopoverButton>
         </PopoverAnchor>
 
-        <PopoverContent class="anchored-bottom-span-left">
-          <div class="popover-default p-2" transition:fly>
-            <p>Modifica</p>
-            <p>Elimina</p>
-          </div>
+        <PopoverContent class="anchored-bottom-span-left popover-content popover-floating-border p-2">
+          <p>Modifica</p>
+          <p>Elimina</p>
         </PopoverContent>
       </PopoverRoot>
     </li>

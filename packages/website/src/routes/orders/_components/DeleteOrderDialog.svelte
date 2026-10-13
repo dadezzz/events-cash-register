@@ -1,9 +1,8 @@
 <script lang="ts">
   import { TrashIcon } from "phosphor-svelte";
-  import { fly } from "svelte/transition";
-  import { DialogButton, DialogContent, DialogRoot, getDialogContext } from "#components/dialog/index.ts";
   import { Form } from "#components/form/index.ts";
   import { HiddenInput } from "#components/form/input/index.ts";
+  import { getPopoverContext, PopoverButton, PopoverContent, PopoverRoot } from "#components/popover2/index.ts";
   import type { OrderClient } from "#lib/entities/cart/order/client/index.ts";
   import { deleteOrderForm } from "../_forms.remote.ts";
 
@@ -16,26 +15,27 @@
   const form = $derived(deleteOrderForm.for(order.data.cartId));
 </script>
 
-<DialogRoot>
-  {const dialogContext = getDialogContext()}
+<PopoverRoot type="auto">
+  {const popoverContext = getPopoverContext()}
 
-  <DialogButton>
+  <PopoverButton>
     <TrashIcon class="size-4" />
-  </DialogButton>
+  </PopoverButton>
 
-  <DialogContent>
-    <div class="dialog-center dialog-inner" transition:fly>
-      <Form
-        {form}
-        onresult={() => {
-          dialogContext.open = false;
-        }}
-      >
-        <HiddenInput field={form.fields.cartId} value={order.data.cartId} />
+  <PopoverContent
+    usePortal
+    class="popover-backdrop popover-floating-center popover-content popover-floating-border p-2"
+  >
+    <Form
+      {form}
+      onresult={() => {
+        popoverContext.open = false;
+      }}
+    >
+      <HiddenInput field={form.fields.cartId} value={order.data.cartId} />
 
-        <DialogButton>Annulla</DialogButton>
-        <button type="submit">Conferma</button>
-      </Form>
-    </div>
-  </DialogContent>
-</DialogRoot>
+      <PopoverButton>Annulla</PopoverButton>
+      <button type="submit">Conferma</button>
+    </Form>
+  </PopoverContent>
+</PopoverRoot>

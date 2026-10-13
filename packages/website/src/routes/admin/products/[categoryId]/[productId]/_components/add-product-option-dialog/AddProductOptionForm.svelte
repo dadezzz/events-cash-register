@@ -1,10 +1,10 @@
 <script lang="ts">
   import { XIcon } from "phosphor-svelte";
   import * as v from "valibot";
-  import { DialogButton } from "#components/dialog/index.ts";
   import { Form } from "#components/form/index.ts";
   import FieldErrors from "#components/form/input/FieldErrors.svelte";
   import { HiddenInput, NumericInput, RadioInput, TextInput } from "#components/form/input/index.ts";
+  import { PopoverButton } from "#components/popover2/index.ts";
   import type { ProductClient } from "#lib/entities/products/client/index.ts";
   import { addOptionForm } from "../../_forms.remote.ts";
   import { addProductOptionFormSchema } from "../../_schemas.ts";
@@ -80,7 +80,7 @@
   <FieldErrors errors={form.fields.data.issues()} />
 
   <div class="mt-2 flex justify-end gap-2">
-    <DialogButton class="button-secondary px-2 py-1">Annulla</DialogButton>
+    <PopoverButton class="button-secondary px-2 py-1">Annulla</PopoverButton>
     <button type="submit" class="button-primary px-2 py-1">Salva</button>
   </div>
 </Form>
