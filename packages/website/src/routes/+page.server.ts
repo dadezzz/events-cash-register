@@ -3,6 +3,6 @@ import { redirect } from "#lib/redirect.ts";
 import type { PageServerLoad } from "./$types.ts";
 
 export const load: PageServerLoad = async () => {
-  await requireUser();
+  await requireUser("/products");
   redirect("/products");
 };

@@ -1,7 +1,6 @@
 <script lang="ts">
   import { FormatPrice } from "#components/format/index.ts";
   import Header from "#components/Header.svelte";
-  import { requireUser } from "#lib/auth/index.remote.ts";
   import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import type { ProductCategoryId } from "#lib/entities/products/category/id.ts";
   import CategoriesList from "../_components/CategoriesList.svelte";
@@ -10,8 +9,6 @@
   import type { PageProps } from "./$types";
 
   const { params }: PageProps = $props();
-
-  await requireUser();
 
   const category = $derived(await ProductCategoryClient.fromId(params.categoryId as ProductCategoryId));
   const products = $derived(await category.getProducts());
@@ -26,7 +23,9 @@
     <CategoriesList selectedCategory={category} />
   </div>
 
-  <div class="page-section @container h-full w-full overflow-y-auto p-2">
+  <div
+    class="border-mist-default not-md:not-first:border-t md:not-first:border-l @container h-full w-full overflow-y-auto p-2"
+  >
     <h2 class="mb-2 font-semibold">Prodotti</h2>
 
     <ul class="grid gap-2 @md:grid-cols-2 @lg:grid-cols-3">
@@ -47,11 +46,3 @@
     <OrderColumnRoot />
   </div>
 </div>
-
-<style>
-  @reference "#assets/tailwind.css";
-
-  .page-section {
-    @apply border-mist-default not-md:not-first:border-t md:not-first:border-l;
-  }
-</style>

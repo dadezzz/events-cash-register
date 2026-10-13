@@ -1,14 +1,12 @@
 <script lang="ts">
   import Header from "#components/Header.svelte";
   import Pagination from "#components/navigation/Pagination.svelte";
-  import { getAdminUserId, requireUser } from "#lib/auth/index.remote.ts";
+  import { getAdminUserId } from "#lib/auth/index.remote.ts";
   import { OrderClient } from "#lib/entities/cart/order/client/index.ts";
   import { orderPaginationSchema } from "#lib/entities/cart/order/pagination.ts";
   import { getCurrentPaginationOptions } from "#lib/pagination.ts";
   import { page } from "$app/state";
   import DeleteOrderDialog from "./_components/DeleteOrderDialog.svelte";
-
-  await requireUser();
 
   const pageSize = 10;
   const paginationOptions = $derived(getCurrentPaginationOptions(orderPaginationSchema, pageSize, page.url));

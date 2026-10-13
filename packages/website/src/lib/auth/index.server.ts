@@ -20,10 +20,10 @@ export async function getUser(): Promise<User | null> {
   return await requestUser.get();
 }
 
-export async function requireUser(): Promise<User> {
+export async function requireUser(redirectPath: string = "/"): Promise<User> {
   const user = await getUser();
   if (user) return user;
-  throw e.requireSignIn("/");
+  throw e.requireSignIn(redirectPath);
 }
 
 const requestAdmin = new LocalsCache<AdminUser | null>("admin", async () => {
@@ -36,8 +36,8 @@ export async function getAdmin(): Promise<AdminUser | null> {
   return requestAdmin.get();
 }
 
-export async function requireAdmin(): Promise<AdminUser> {
+export async function requireAdmin(redirectPath: string = "/"): Promise<AdminUser> {
   const admin = await getAdmin();
   if (admin) return admin;
-  throw e.requireSignIn("/");
+  throw e.requireSignIn(redirectPath);
 }

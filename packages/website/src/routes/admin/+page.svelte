@@ -1,12 +1,11 @@
 <script lang="ts">
   import Header from "#components/Header.svelte";
-  import { requireAdmin } from "#lib/auth/index.remote.ts";
-
-  await requireAdmin();
 </script>
 
 <Header />
+
 hello
+
 <!--
 - productsLoop:
     - needs to have 1 or more lines as child

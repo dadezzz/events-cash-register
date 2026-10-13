@@ -1,6 +1,5 @@
 <script lang="ts">
   import Header from "#components/Header.svelte";
-  import { requireAdmin } from "#lib/auth/index.remote.ts";
   import { ProductCategoryClient } from "#lib/entities/products/category/client/index.ts";
   import type { ProductCategoryId } from "#lib/entities/products/category/id.ts";
   import { ProductClient } from "#lib/entities/products/client/index.ts";
@@ -10,8 +9,6 @@
   import ProductsColumn from "../_components/ProductsColumn.svelte";
   import OptionsColumn from "./_components/OptionsColumn.svelte";
   import type { PageProps } from "./$types";
-
-  await requireAdmin();
 
   const { params }: PageProps = $props();
 
