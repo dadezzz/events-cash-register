@@ -1,4 +1,4 @@
-FROM git.zarantonello.dev/infra/ci-pnpm:v1.1.21@sha256:fbc515a4a572b7d74871c861f90105ff2e35f3fc1fcd673735df97b8fae48c8b
+FROM git.zarantonello.dev/infra/ci-pnpm:v1.1.22@sha256:0d5d1309a0e583efc5568ce073b4183ba50a93c1945262500dfaab7edb493ad1
 
 # Lines:
 # 1. cups package build deps
