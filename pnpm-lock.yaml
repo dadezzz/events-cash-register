@@ -217,8 +217,8 @@ importers:
         specifier: 4.7.10
         version: 4.7.10
       puppeteer-core:
-        specifier: 25.13.0
-        version: 25.13.0
+        specifier: 25.14.0
+        version: 25.14.0
       valibot:
         specifier: 1.5.0
         version: 1.5.0(typescript@6.0.3)
@@ -1027,8 +1027,8 @@ packages:
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
 
-  '@puppeteer/browsers@3.2.4':
-    resolution: {integrity: sha512-okJ6yQMc0SBexOKxMi966omwAV1uAPwgF/YMZdb04gZQPXVjWHl9bmXjZYtIcsN1+PN3Bz4iFfGK3g+c6lZJ0Q==}
+  '@puppeteer/browsers@3.2.5':
+    resolution: {integrity: sha512-UoCo3Pynbm37aLEEoydSiG+t24ui7sLD40+07CKxzxNy4PpSowJMkvlLIiV67XjP1lMVynhQVnuwlTABqBH8LQ==}
     engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
@@ -1919,8 +1919,8 @@ packages:
   promise-limit@2.7.0:
     resolution: {integrity: sha512-7nJ6v5lnJsXwGprnGXga4wx6d1POjvi5Qmf1ivTRxTjH4Z/9Czja/UCMLVmB9N93GeWOU93XaFaEt6jbuoagNw==}
 
-  puppeteer-core@25.13.0:
-    resolution: {integrity: sha512-cyBS0OEx3e9NS53B5F6+UazXtR7f9Tw0cR1/FbPW59/hV6JPZbkIiMnxK2543IkFp3rsGlLn1iPDLF77TJsJsA==}
+  puppeteer-core@25.14.0:
+    resolution: {integrity: sha512-LQitnes3tBeVbdZ7V/4iwJPLZGgkl9uBVK0W7YYMh68j/3Y9eNuvj4yl+Fdo7zN0SuajOMrhd7aPj3DifK8k6A==}
     engines: {node: '>=22.12.0'}
 
   readdirp@4.1.2:
@@ -2665,7 +2665,7 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@puppeteer/browsers@3.2.4':
+  '@puppeteer/browsers@3.2.5':
     dependencies:
       modern-tar: 0.8.5
       yargs: 18.2.0
@@ -3274,9 +3274,9 @@ snapshots:
 
   promise-limit@2.7.0: {}
 
-  puppeteer-core@25.13.0:
+  puppeteer-core@25.14.0:
     dependencies:
-      '@puppeteer/browsers': 3.2.4
+      '@puppeteer/browsers': 3.2.5
       chromium-bidi: 157.0.8090-0(devtools-protocol@0.0.1696802)
       devtools-protocol: 0.0.1696802
       typed-query-selector: 2.12.3
