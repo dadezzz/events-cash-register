@@ -25,7 +25,7 @@ Scripts are orchestrated with Turbo. Run scripts across all workspaces with
 - **Validation:** valibot
 - **Icons:** phosphor-svelte
 - **Package Manager:** pnpm
-- **Formatter:** Biome + Prettier (Biome for JS/TS, Prettier for CSS/HTML)
+- **Formatter:** Biome
 - **Linter:** Biome
 
 ## Code Style Guidelines

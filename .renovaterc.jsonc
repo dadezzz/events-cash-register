@@ -42,7 +42,7 @@
       "automerge": true,
       "groupName": "CI dependencies",
       "groupSlug": "ci",
-      "matchPackageNames": ["svelte-check", "@biomejs/biome", "@types/*", "prettier*", "pnpm", "vitest", "turbo"],
+      "matchPackageNames": ["svelte-check", "@biomejs/biome", "@types/*", "pnpm", "vitest", "turbo"],
       "matchUpdateTypes": ["!major"]
     },
     // These are devDependencies but they can cause user visible changes.

@@ -1,29 +1,29 @@
 # Git and CI files.
 .devcontainer/
+.dockerignore
 .forgejo/
 .git/
 .gitignore
-.dockerignore
-Dockerfile
 ci.Dockerfile
 cups.Dockerfile
+Dockerfile
 
 # Tool config files (unused in build)
-.prettierignore
-.prettierrc.json
 .releaserc.json
 .renovaterc.json
+.vscode/
+biome.jsonc
 
 # Cache dirs
+.cache/
 .pnpm-store/
 .svelte-kit/
 .turbo/
+build/
 data/
 dist/
 node_modules/
 out/
-.cache/
-build/
 
 # Other files
 .env
