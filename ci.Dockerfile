@@ -8,7 +8,7 @@ RUN apk add --no-cache \
     chromium
 
 # renovate: datasource=npm depName=turbo versioning=npm
-ENV TURBO_VERSION="2.11.9"
+ENV TURBO_VERSION="2.11.10"
 
 RUN --mount=type=cache,sharing=locked,target=/root/.npm \
     npm install -g "turbo@$TURBO_VERSION"
