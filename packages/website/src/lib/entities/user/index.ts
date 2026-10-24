@@ -67,7 +67,7 @@ export class User {
     return new User(user.id);
   }
 
-  async createSession(): Promise<NewSession> {
+  createSession(): Promise<NewSession> {
     return NewSession.create(this);
   }
 
@@ -116,11 +116,11 @@ export class User {
       const grantedPrivileges = privileges.filter((p) => p.granted);
       if (grantedPrivileges.length === 0) return;
 
-      await tx.insert(s.userPrivilege).values(grantedPrivileges.map((p) => ({ userId: this.id, privilege: p.name })));
+      await tx.insert(s.userPrivilege).values(grantedPrivileges.map((p) => ({ privilege: p.name, userId: this.id })));
     });
   }
 
-  async getPrivileges(): Promise<UserPrivilege[]> {
+  getPrivileges(): Promise<UserPrivilege[]> {
     return db
       .select({ privilege: s.userPrivilege.privilege })
       .from(s.userPrivilege)

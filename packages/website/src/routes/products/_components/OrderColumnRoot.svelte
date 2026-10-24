@@ -39,9 +39,7 @@
   <PopoverContent
     usePortal={!greaterThanTWMD}
     closeOnNav={!greaterThanTWMD}
-    class="border-mist-default popover-content popover-backdrop bottom-0 z-50 m-0 mt-auto h-0 w-full p-2
-      transition-[height,overlay] transition-discrete data-[open=true]:h-fit max-md:rounded-t-md max-md:border
-      max-md:border-b-0 max-md:shadow md:h-full md:backdrop:hidden data-[open=true]:starting:h-0"
+    class="border-mist-default popover-content popover-backdrop bottom-0 z-50 m-0 mt-auto h-0 w-full p-2 transition-[height,overlay] transition-discrete data-[open=true]:h-fit max-md:rounded-t-md max-md:border max-md:border-b-0 max-md:shadow md:h-full md:backdrop:hidden data-[open=true]:starting:h-0"
   >
     <div class="md:hidden">
       {@render dialogNotch()}

@@ -23,7 +23,6 @@ A web-based cash register application for event management, built with
 ## Getting Started
 
 Prerequisites:
-
 - clang++ or g++ (c++23 compiler)
 - cups-dev (cups/cups.h for development) or cups-libs (libcups.so.2 for
   production)

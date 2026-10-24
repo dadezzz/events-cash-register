@@ -5,14 +5,14 @@ import { productOptionDataColumnSchema } from "#lib/entities/products/option/ind
 
 export const addProductOptionFormSchema = v.object(
   {
-    productId: productIdSchema,
-    name: v.pipe(v.string(), v.nonEmpty("Input richiesto")),
     data: productOptionDataColumnSchema,
+    name: v.pipe(v.string(), v.nonEmpty("Input richiesto")),
+    productId: productIdSchema,
   },
   "Selezionare un'opzione",
 );
 
 export const deleteProductOptionFormSchema = v.object({
-  productId: productIdSchema,
   id: productOptionIdSchema,
+  productId: productIdSchema,
 });

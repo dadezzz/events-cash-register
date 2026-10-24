@@ -16,8 +16,8 @@ const requestUser = new LocalsCache<User | null>("user", async () => {
   return session.user;
 });
 
-export async function getUser(): Promise<User | null> {
-  return await requestUser.get();
+export function getUser(): Promise<User | null> {
+  return requestUser.get();
 }
 
 export async function requireUser(redirectPath: string = "/"): Promise<User> {
@@ -32,7 +32,7 @@ const requestAdmin = new LocalsCache<AdminUser | null>("admin", async () => {
   return await AdminUser.fromUser(user);
 });
 
-export async function getAdmin(): Promise<AdminUser | null> {
+export function getAdmin(): Promise<AdminUser | null> {
   return requestAdmin.get();
 }
 

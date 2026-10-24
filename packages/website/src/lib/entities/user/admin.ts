@@ -28,14 +28,14 @@ export async function initCreateAdmin() {
       username: INITIAL_ADMIN_USERNAME,
     });
 
-    await admin.updatePrivileges([{ name: "ADMIN", granted: true }]);
+    await admin.updatePrivileges([{ granted: true, name: "ADMIN" }]);
 
     const logger = new Logger();
     logger.warn("found 0 users in the system");
     logger.info({
       message: "created new default admin user",
-      username: INITIAL_ADMIN_USERNAME,
       password: INITIAL_ADMIN_PASSWORD,
+      username: INITIAL_ADMIN_USERNAME,
     });
   }
 }

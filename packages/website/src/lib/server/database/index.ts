@@ -9,7 +9,6 @@ const logger = new Logger();
 
 const db = drizzle({
   connection: DATABASE_URL,
-  schema: s,
   logger: {
     logQuery: (query, _params) => {
       if (DATABASE_LOG_QUERIES) {
@@ -17,6 +16,7 @@ const db = drizzle({
       }
     },
   },
+  schema: s,
 });
 
 await db.run(sql`PRAGMA journal_mode = WAL;`);

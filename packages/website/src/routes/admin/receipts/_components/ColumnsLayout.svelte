@@ -13,17 +13,13 @@
   const { mainColumn, firstColumn, secondColumn }: Props = $props();
 </script>
 
-{#snippet column(
-  id: ColumnId,
-  className: ClassValue,
-  children: Snippet,
-)}
+{#snippet column(id: ColumnId, className: ClassValue, children: Snippet)}
   {#if id === mainColumn}
-    <div class={["border-mist-default flex h-full w-full flex-col not-first:border-l", className]}>
+    <div class={["border-mist-default flex size-full flex-col not-first:border-l", className]}>
       {@render children()}
     </div>
   {:else}
-    <div class={["border-mist-default flex h-full w-full flex-col not-first:border-l max-lg:hidden", className]}>
+    <div class={["border-mist-default flex size-full flex-col not-first:border-l max-lg:hidden", className]}>
       {@render children()}
     </div>
   {/if}

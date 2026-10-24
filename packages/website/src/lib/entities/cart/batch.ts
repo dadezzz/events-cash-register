@@ -22,7 +22,7 @@ export class CartBatch extends Batch<CartId> {
 
   async getItems(): Promise<BatchRows<CartId, CartItem[]>> {
     const rows = await db
-      .select({ id: s.cartItem.id, cartId: s.cartItem.cartId })
+      .select({ cartId: s.cartItem.cartId, id: s.cartItem.id })
       .from(s.cartItem)
       .where(inArray(s.cartItem.cartId, this.ids));
 

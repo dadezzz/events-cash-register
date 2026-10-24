@@ -1,20 +1,16 @@
 <script lang="ts">
   import type { HTMLInputAttributes } from "svelte/elements";
-  import type { InputProps } from ".";
   import Field from "./Field.svelte";
   import FieldErrors from "./FieldErrors.svelte";
   import FieldLabel from "./FieldLabel.svelte";
+  import type { InputProps } from "./index.ts";
 
   type Props = HTMLInputAttributes & InputProps<number>;
   const { field, label, ...rest }: Props = $props();
 </script>
 
 <Field {field}>
-  {#snippet children({
-    errorProps,
-    inputProps,
-    labelProps,
-  })}
+  {#snippet children({ errorProps, inputProps, labelProps })}
     <div class="flex flex-col gap-2">
       <FieldLabel {...labelProps}>{label}</FieldLabel>
 

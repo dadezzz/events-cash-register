@@ -27,7 +27,7 @@ export class UserBatch extends Batch<UserId> {
 
   async getPrivileges(): Promise<BatchRows<UserId, UserPrivilege[]>> {
     const rows = await db
-      .select({ userId: s.userPrivilege.userId, privilege: s.userPrivilege.privilege })
+      .select({ privilege: s.userPrivilege.privilege, userId: s.userPrivilege.userId })
       .from(s.userPrivilege)
       .where(inArray(s.userPrivilege.userId, this.ids));
 

@@ -19,7 +19,7 @@ export class UserClient extends Serializable<UserData> {
     return remote.fromIdAdmin(id);
   }
 
-  static async fromSelf(): Promise<UserClient | null> {
+  static fromSelf(): RemoteQuery<UserClient | null> {
     return remote.fromSelf();
   }
 

@@ -11,7 +11,7 @@ export const addCategoryForm = form(addCategorySchema, async (data) => {
 
   const category = await ProductCategory.create(data.name);
 
-  logger.info({ message: "created new category", categoryId: category.id });
+  logger.info({ categoryId: category.id, message: "created new category" });
   redirect(`/admin/products/${category.id}`);
 });
 
@@ -25,6 +25,6 @@ export const deleteCategoryForm = form(deleteCategorySchema, async (data) => {
 
   await category.delete();
 
-  logger.info({ message: "deleted category", categoryId: category.id });
+  logger.info({ categoryId: category.id, message: "deleted category" });
   redirect(`/admin/products`);
 });

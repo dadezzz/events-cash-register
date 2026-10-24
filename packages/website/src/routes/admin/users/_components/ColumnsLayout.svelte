@@ -12,14 +12,11 @@
   const { mainColumn, firstColumn, secondColumn }: Props = $props();
 </script>
 
-{#snippet column(
-  id: ColumnId,
-  children: Snippet,
-)}
+{#snippet column(id: ColumnId, children: Snippet)}
   {#if id === mainColumn}
-    <div class="border-mist-default flex h-full w-full flex-col not-first:border-l">{@render children()}</div>
+    <div class="border-mist-default flex size-full flex-col not-first:border-l">{@render children()}</div>
   {:else}
-    <div class="border-mist-default flex h-full w-full flex-col not-first:border-l max-md:hidden">
+    <div class="border-mist-default flex size-full flex-col not-first:border-l max-md:hidden">
       {@render children()}
     </div>
   {/if}

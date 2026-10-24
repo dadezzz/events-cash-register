@@ -72,7 +72,7 @@ export class Order {
       .then(getFirstOrThrow);
 
     const createdAt = new Date();
-    await db.insert(s.order).values({ cartId: cart.id, counter: counterRow.value, finalPrice, createdAt });
+    await db.insert(s.order).values({ cartId: cart.id, counter: counterRow.value, createdAt, finalPrice });
 
     const receiptTemplates = await PrinterReceiptTemplateBatch.getAll();
     const receiptPrintingInfo = await receiptTemplates.getPrintingInfo();
@@ -80,7 +80,6 @@ export class Order {
     const quantityCounters = new Map<string, number>();
     const receiptData = {
       date: createdAt.toDateString(),
-      time: createdAt.toTimeString(),
       order: {
         counter: counterRow.toString(),
         discountPrice: priceToString(finalPrice - totalPrice),
@@ -102,9 +101,8 @@ export class Order {
           const values = cartItemValues.get(id) ?? [];
 
           return {
-            name: productClient.data.name,
             hash: CartItem.hash(productClient.data.id, values),
-            price: priceToString(productClient.data.price),
+            name: productClient.data.name,
             options: values
               .map((v) => {
                 const optionClient = productOptionClients.get(v.optionId);
@@ -128,11 +126,12 @@ export class Order {
 
                 return {
                   name: optionClient.data.name,
-                  value: valueStr,
                   price: priceToString(v.price),
+                  value: valueStr,
                 };
               })
               .filter((v) => v !== null),
+            price: priceToString(productClient.data.price),
           };
         })
         .filter((p) => p !== null)
@@ -141,12 +140,15 @@ export class Order {
           quantityCounters.set(hash, quantity);
           return { ...p, quantity: quantity.toString() };
         }),
+      time: createdAt.toTimeString(),
     };
 
-    for (const pi of receiptPrintingInfo.values()) {
-      const pdf = await browserInstance.renderPdf(renderReceiptHtml(pi.template, receiptData));
-      await pi.printer.print(pi.name, pi.settings, pdf);
-    }
+    await Promise.all(
+      receiptPrintingInfo.values().map(async (pi) => {
+        const pdf = await browserInstance.renderPdf(renderReceiptHtml(pi.template, receiptData));
+        await pi.printer.print(pi.name, pi.settings, pdf);
+      }),
+    );
 
     return new Order(cart.id);
   }

@@ -13,7 +13,7 @@
   const popoverId = $props.id();
 
   // svelte-ignore state_referenced_locally See effect below that updates js.
-  const context: PopoverContext = $state({ type, popoverId, open: false });
+  const context: PopoverContext = $state({ open: false, popoverId, type });
   setPopoverContext(context);
 
   // We cannot make context a derived, since the object would be recreated each

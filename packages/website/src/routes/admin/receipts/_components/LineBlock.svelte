@@ -24,9 +24,7 @@
   const { field, blocksField, position, placeHolderEntries }: Props = $props();
 </script>
 
-{#snippet addBlockButton(
-  position: number,
-)}
+{#snippet addBlockButton(position: number)}
   <AddBlockButton
     blocksField={field.blocks as RemoteFormFields<BlockData[]>}
     {position}

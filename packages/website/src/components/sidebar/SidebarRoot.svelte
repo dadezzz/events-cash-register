@@ -21,9 +21,7 @@
     <PopoverContent
       closeOnNav={!greaterThanTWMD}
       usePortal={!greaterThanTWMD}
-      class="border-mist-strong popover-content popover-backdrop inset-y-0 left-0 z-30 m-0 h-full w-0 max-w-fit
-        overflow-x-hidden border-r transition-[width,overlay] transition-discrete data-[open=true]:w-full max-md:shadow
-        md:backdrop:hidden data-[open=true]:starting:w-0"
+      class="border-mist-strong popover-content popover-backdrop inset-y-0 left-0 z-30 m-0 h-full w-0 max-w-fit overflow-x-hidden border-r transition-[width,overlay] transition-discrete data-[open=true]:w-full max-md:shadow md:backdrop:hidden data-[open=true]:starting:w-0"
     >
       <aside class="p-2">
         {@render content()}

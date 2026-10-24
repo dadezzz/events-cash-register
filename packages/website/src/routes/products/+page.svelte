@@ -8,7 +8,7 @@
 <Header />
 
 <div class="flex min-h-0 grow flex-col md:flex-row">
-  <div class="border-mist-default not-md:not-first:border-t md:not-first:border-l p-1">
+  <div class="border-mist-default p-1 not-md:not-first:border-t md:not-first:border-l">
     <h2 class="p-1 font-semibold">Categorie</h2>
 
     <CategoriesList />

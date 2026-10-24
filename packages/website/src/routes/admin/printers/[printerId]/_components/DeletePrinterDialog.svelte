@@ -3,7 +3,7 @@
   import { HiddenInput } from "#components/form/input/index.ts";
   import { getPopoverContext, PopoverButton, PopoverContent, PopoverRoot } from "#components/popover2/index.ts";
   import type { PrinterClient } from "#lib/entities/printer/client/index.ts";
-  import { deletePrinterForm } from "../_forms.remote";
+  import { deletePrinterForm } from "../_forms.remote.ts";
 
   interface Props {
     disabled: boolean;

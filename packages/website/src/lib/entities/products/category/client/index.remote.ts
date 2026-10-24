@@ -42,10 +42,11 @@ export const getProducts = query.batch(productCategoryIdSchema, async (ids) => {
   const batch = new ProductCategoryBatch(ids);
   const rows = await batch.getProducts();
 
-  const rows2 = new Map<ProductCategoryId, ProductClient[]>();
-  for (const r of rows.entries()) {
-    rows2.set(r[0], (await r[1].getClients()).values().toArray());
-  }
+  const rows2 = new Map<ProductCategoryId, ProductClient[]>(
+    await Promise.all(
+      rows.entries().map(async ([id, products]) => [id, (await products.getClients()).values().toArray()] as const),
+    ),
+  );
 
   return (id) => rows2.get(id) ?? [];
 });

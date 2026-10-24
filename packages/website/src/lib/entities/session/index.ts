@@ -131,9 +131,9 @@ export class NewSession extends Session {
       .insert(s.session)
       .values({
         hashedSecret,
-        userId: user.id,
-        userAgent: getRequestHeader("user-agent") ?? "",
         ip: getRequestClientIp(),
+        userAgent: getRequestHeader("user-agent") ?? "",
+        userId: user.id,
       })
       .returning({ id: s.session.id })
       .then(getFirstOrThrow)

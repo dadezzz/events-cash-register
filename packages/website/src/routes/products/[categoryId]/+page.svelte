@@ -24,7 +24,7 @@
   </div>
 
   <div
-    class="border-mist-default not-md:not-first:border-t md:not-first:border-l @container h-full w-full overflow-y-auto p-2"
+    class="border-mist-default @container size-full overflow-y-auto p-2 not-md:not-first:border-t md:not-first:border-l"
   >
     <h2 class="mb-2 font-semibold">Prodotti</h2>
 

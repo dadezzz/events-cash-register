@@ -24,8 +24,8 @@ export function job(name: string, pattern: string, fn: CronCallback) {
         }
       },
       context: { logger },
-      mode: "6-part",
       legacyMode: false,
+      mode: "6-part",
     },
     async (self) => {
       // biome-ignore lint/style/noNonNullAssertion: Context is passed above.
@@ -35,5 +35,6 @@ export function job(name: string, pattern: string, fn: CronCallback) {
     },
   );
 
+  logger.info("started cron job");
   logger.debug(`next run is scheduled at ${job.nextRun()?.toISOString()}`);
 }

@@ -69,7 +69,7 @@ export class RateLimiter {
     }
 
     const logger = new Logger();
-    logger.trace({ message: "initialized rate-limiter", bucketGroup: this.bucketGroup });
+    logger.trace({ bucketGroup: this.bucketGroup, message: "initialized rate-limiter" });
   }
 
   /**
@@ -132,10 +132,10 @@ export class RateLimiter {
     }
 
     logger.warn({
-      message: "hit rate limiter",
-      clientId,
-      clientHash: clientHash.digest,
       bucket: this.bucketGroup,
+      clientHash: clientHash.digest,
+      clientId,
+      message: "hit rate limiter",
     });
 
     return nextDate;

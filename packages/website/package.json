@@ -16,8 +16,6 @@
     "clean": "rm -rf ./dist ./node_modules ./.svelte-kit",
     "dev": "svelte-kit sync && vite dev",
     "drizzle": "drizzle-kit",
-    "lint:check": "biome check",
-    "lint:fix": "biome check --fix",
     "preview": "vite preview",
     "setup": "if [ ! -f .env ]; then cp ../../.env.example .env ; fi",
     "test": "vitest run"

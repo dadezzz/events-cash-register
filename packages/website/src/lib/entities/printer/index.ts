@@ -67,7 +67,7 @@ export class Printer {
             // Create the printer if it wasn't known.
             p.mp = await tx
               .insert(s.printer)
-              .values({ name: p.cp.name, available: true })
+              .values({ available: true, name: p.cp.name })
               .returning({ id: s.printer.id, name: s.printer.name })
               .then(getFirstOrThrow);
           }

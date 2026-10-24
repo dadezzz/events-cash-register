@@ -14,10 +14,10 @@ import { getRequestEvent } from "$app/server";
  *   cookie, mitigating XSS-based theft.
  */
 const safetyOptions = {
-  path: "/" as const,
-  secure: !dev,
-  sameSite: "lax" as const,
   httpOnly: true as const,
+  path: "/" as const,
+  sameSite: "lax" as const,
+  secure: !dev,
 };
 
 /**

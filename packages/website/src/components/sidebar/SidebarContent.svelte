@@ -87,10 +87,7 @@
       : []),
   ]}
 >
-  {#snippet entriesUI({
-    entries,
-    wrappedEntryUI,
-  })}
+  {#snippet entriesUI({ entries, wrappedEntryUI })}
     {#each entries.slice(0, 3) as entry (entry.href)}
       {@render wrappedEntryUI(entry)}
     {/each}
@@ -101,10 +98,7 @@
       {/each}
     </div>
   {/snippet}
-  {#snippet entryUI({
-    href,
-    label,
-  })}
+  {#snippet entryUI({ href, label })}
     <!--
       We check with startsWith since pages typically have a /href/[uuid]
       subpage that would remove the highlight.

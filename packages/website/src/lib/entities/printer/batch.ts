@@ -16,11 +16,11 @@ export class PrinterBatch extends Batch<PrinterId> {
   async getSettingsAvailable(): Promise<BatchRows<PrinterId, JobCreationAttributesAvailable>> {
     const rows = await db
       .select({
-        printerId: s.printerSettingAvailable.printerId,
-        name: s.printerSettingAvailable.name,
-        type: s.printerSettingAvailable.type,
         constraints: s.printerSettingAvailable.constraints,
         default: s.printerSettingAvailable.default,
+        name: s.printerSettingAvailable.name,
+        printerId: s.printerSettingAvailable.printerId,
+        type: s.printerSettingAvailable.type,
       })
       .from(s.printerSettingAvailable)
       .where(inArray(s.printerSettingAvailable.printerId, this.ids));

@@ -17,7 +17,7 @@ export class PrinterReceiptTemplate {
   static async create(name: string, printer: Printer): Promise<PrinterReceiptTemplate> {
     const row = await db
       .insert(s.receiptTemplate)
-      .values({ name, printerId: printer.id, blocks: { type: "root", blocks: [] } })
+      .values({ blocks: { blocks: [], type: "root" }, name, printerId: printer.id })
       .returning({ id: s.receiptTemplate.id })
       .then(getFirstOrThrow);
 

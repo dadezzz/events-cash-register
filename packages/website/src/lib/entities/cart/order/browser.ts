@@ -16,8 +16,8 @@ export class BrowserInstance {
     const logger = new Logger();
 
     const browser = await puppeteer.launch({
-      executablePath: PUPPETEER_EXECUTABLE_PATH,
       args: ["--no-sandbox"],
+      executablePath: PUPPETEER_EXECUTABLE_PATH,
     });
 
     logger.info({ message: "started browser instance", version: await browser.version() });

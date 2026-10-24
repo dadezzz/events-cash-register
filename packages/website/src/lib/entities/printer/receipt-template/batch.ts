@@ -55,8 +55,8 @@ export class PrinterReceiptTemplateBatch extends Batch<PrinterReceiptTemplateId>
       rows2.set(r.id, {
         name: r.name,
         printer: new Printer(r.printerId),
-        template: renderReceiptTemplate(r.blocks),
         settings: settings.get(r.id) ?? [],
+        template: renderReceiptTemplate(r.blocks),
       });
     }
 

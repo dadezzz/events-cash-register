@@ -111,24 +111,24 @@ export async function hash(password: string): Promise<PHCString> {
   // TODO: benchmark to see what parameters allow good security in 250-500ms of
   // compute time.
   const params: Argon2Parameters = {
+    memory: 65536,
     message: password,
     nonce: salt,
-    tagLength: 40,
-    memory: 65536,
     parallelism: 4,
     passes: 3,
+    tagLength: 40,
   };
 
   const hash = await argon2(algorithm, params);
 
   return createPHCString({
     algorithm: algorithm,
-    version: VERSION,
     hash,
     memory: params.memory,
     parallelism: params.parallelism,
     passes: params.passes,
     salt,
+    version: VERSION,
   });
 }
 
@@ -136,12 +136,12 @@ export async function verify(phcString: PHCString, password: string): Promise<bo
   const params = parsePHCString(phcString);
 
   const testHash = await argon2(params.algorithm, {
-    message: password,
-    tagLength: params.hash.length,
     memory: params.memory,
+    message: password,
     nonce: params.salt,
     parallelism: params.parallelism,
     passes: params.passes,
+    tagLength: params.hash.length,
   });
 
   return timingSafeEqual(testHash, params.hash);

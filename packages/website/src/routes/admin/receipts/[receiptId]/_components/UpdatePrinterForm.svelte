@@ -15,8 +15,8 @@
   const settingLabels = {
     copies: "Numero di copie",
     finishings: "Finiture",
-    printColorMode: "Modalità colori",
     media: "Formato carta",
+    printColorMode: "Modalità colori",
   };
 
   const form = $derived(updatePrinterForm.preflight(updatePrinterFormSchema));
@@ -41,7 +41,7 @@
   />
 
   {#each availableSettings as setting, i (setting.name)}
-    {@const selectedValue = selectedSettings.find((se) => se.name === setting.name)}
+    {const selectedValue = $derived(selectedSettings.find((se) => se.name === setting.name))}
 
     <HiddenInput field={form.fields.settings[i].name} value={setting.name} />
 
@@ -57,7 +57,7 @@
         // @ts-expect-error: Bad types :/
         field={form.fields.settings[i].sValue}
         label={settingLabels[setting.name]}
-        entries={setting.constraints.entries.map((e) => ({ value: e, label: e }))}
+        entries={setting.constraints.entries.map((e) => ({ label: e, value: e }))}
         value={(selectedValue?.value as string) ?? setting.default}
       />
     {/if}

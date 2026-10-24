@@ -2,15 +2,14 @@
   "name": "@workspace/root",
   "scripts": {
     "clean": "rm -rf .pnpm-store/ node_modules/ && turbo clean",
-    "format:check": "biome format && prettier --check .",
-    "format:fix": "biome format --fix && prettier --write .",
+    "format:check": "biome format",
+    "format:fix": "biome format --fix",
+    "lint:check": "biome check",
+    "lint:fix": "biome check --fix",
     "setup": "if [ ! -f .env ] ; then cp .env.example .env ; fi"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.15",
-    "prettier": "3.9.10",
-    "prettier-plugin-svelte": "4.1.1",
-    "prettier-plugin-tailwindcss": "0.8.1",
+    "@biomejs/biome": "2.6.2",
     "turbo": "2.11.10"
   },
   "packageManager": "pnpm@12.14.0"

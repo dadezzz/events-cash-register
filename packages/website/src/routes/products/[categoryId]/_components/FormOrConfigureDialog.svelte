@@ -63,17 +63,15 @@
                 field={form.fields.options[i].value as RemoteFormField<boolean>}
                 label={option.data.name}
               />
-              <FormatPrice price={option.data.data.price} class="text-xs text-mist-500 " />
+              <FormatPrice price={option.data.data.price} class="text-xs text-mist-500" />
             </div>
           {:else if option.data.data.type === "choice"}
             <RadioInput
               field={form.fields.options[i].value as RemoteFormField<string>}
-              entries={option.data.data.entries.map((e) => ({ value: e.value, label: e }))}
+              entries={option.data.data.entries.map((e) => ({ label: e, value: e.value }))}
               label={option.data.name}
             >
-              {#snippet entryUI({
-                label,
-              })}
+              {#snippet entryUI({ label })}
                 <div class="group flex w-fit items-center gap-2">
                   <div
                     class="outline-emerald-default flex size-4 items-center justify-center rounded-full border border-mist-300 group-focus-within/radio:outline-2 group-hover:outline-2 group-has-[input:checked]/radio:border-emerald-600 dark:border-mist-600 dark:group-has-[input:checked]/radio:border-emerald-300"
@@ -85,7 +83,7 @@
 
                   <div class="flex items-center gap-3">
                     <span class="text-mist-600 dark:text-mist-300">{label.value}</span>
-                    <FormatPrice price={label.price} class="text-xs text-mist-500 " />
+                    <FormatPrice price={label.price} class="text-xs text-mist-500" />
                   </div>
                 </div>
               {/snippet}

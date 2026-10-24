@@ -28,7 +28,7 @@ export function destGetJobCreationAttributes(
   return attributes;
 }
 
-export async function destSendJob(
+export function destSendJob(
   connection: CupsConnectionData,
   dest: CupsPrinterData,
   info: CupsPrinterInfoData,

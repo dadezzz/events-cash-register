@@ -3,6 +3,6 @@ import { printerReceiptTemplateIdSchema } from "#lib/entities/printer/receipt-te
 import { rootBlockSchema } from "#lib/entities/printer/receipt-template/schema.ts";
 
 export const updateBlocksFormSchema = v.object({
-  id: printerReceiptTemplateIdSchema,
   blocks: rootBlockSchema,
+  id: printerReceiptTemplateIdSchema,
 });

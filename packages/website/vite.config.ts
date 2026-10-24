@@ -5,19 +5,19 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [
-    enhancedImages(),
-    sveltekit({
-      compilerOptions: { experimental: { async: true } },
-      experimental: { remoteFunctions: true },
-      adapter: adapter({ out: "dist" }),
-    }),
-    tailwindcss(),
-  ],
   build: {
     rolldownOptions: {
       // NAPI modules don't work well with the bundler.
       external: ["@workspace/cups"],
     },
   },
+  plugins: [
+    enhancedImages(),
+    sveltekit({
+      adapter: adapter({ out: "dist" }),
+      compilerOptions: { experimental: { async: true } },
+      experimental: { remoteFunctions: true },
+    }),
+    tailwindcss(),
+  ],
 });

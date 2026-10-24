@@ -28,8 +28,8 @@
     field={form.fields.data.type}
     label="Tipo di input"
     entries={addProductOptionFormSchema.entries.data.options.map((e) => ({
-      value: e.entries.type.literal,
       label: v.getDescription(e.entries.type),
+      value: e.entries.type.literal,
     }))}
   />
 

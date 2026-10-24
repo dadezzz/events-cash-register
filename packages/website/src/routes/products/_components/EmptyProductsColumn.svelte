@@ -1,4 +1,4 @@
-<div class="page-section h-full w-full">
+<div class="page-section size-full">
   <h2 class="p-2 font-semibold">Prodotti</h2>
 
   <div class="flex h-full items-center justify-center">

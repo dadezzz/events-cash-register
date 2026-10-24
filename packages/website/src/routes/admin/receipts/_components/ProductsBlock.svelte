@@ -24,9 +24,7 @@
   const { field, blocksField, position }: Props = $props();
 </script>
 
-{#snippet addBlockButton(
-  position: number,
-)}
+{#snippet addBlockButton(position: number)}
   <AddBlockButton
     blocksField={field.blocks}
     {position}
@@ -49,14 +47,14 @@
   {@render addBlockButton(0)}
 
   {#each field.blocks.value() as _, i (i)}
-    {@const block = field.blocks[i]}
+    {const block = $derived(field.blocks[i])}
 
     {#if block.type.value() === "line"}
       <LineBlock
         field={block as RemoteFormFields<LineBlockData>}
         blocksField={field.blocks}
         position={i}
-        placeHolderEntries={productPlaceholderBlockEntries.map((e) => ({ value: e, label: e }))}
+        placeHolderEntries={productPlaceholderBlockEntries.map((e) => ({ label: e, value: e }))}
       />
     {:else if block.type.value() === "productOptions"}
       <ProductOptionsBlock

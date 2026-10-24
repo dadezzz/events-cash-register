@@ -11,21 +11,21 @@ import { ProductOptionClient } from "#lib/entities/products/option/client/index.
 import { UserClient } from "#lib/entities/user/client/index.ts";
 
 export const transport: Transport = {
-  UserClient: {
-    decode: (v) => UserClient.deserialize(v),
-    encode: (v) => v instanceof UserClient && v.serialize(),
+  CartClient: {
+    decode: (v) => CartClient.deserialize(v),
+    encode: (v) => v instanceof CartClient && v.serialize(),
   },
-  ProductClient: {
-    decode: (v) => ProductClient.deserialize(v),
-    encode: (v) => v instanceof ProductClient && v.serialize(),
+  CartItemClient: {
+    decode: (v) => CartItemClient.deserialize(v),
+    encode: (v) => v instanceof CartItemClient && v.serialize(),
   },
-  ProductOptionClient: {
-    decode: (v) => ProductOptionClient.deserialize(v),
-    encode: (v) => v instanceof ProductOptionClient && v.serialize(),
+  Duration: {
+    decode: (v) => Duration.fromMilliseconds(v),
+    encode: (v) => v instanceof Duration && v.asMilliseconds(),
   },
-  ProductCategoryClient: {
-    decode: (v) => ProductCategoryClient.deserialize(v),
-    encode: (v) => v instanceof ProductCategoryClient && v.serialize(),
+  OrderClient: {
+    decode: (v) => OrderClient.deserialize(v),
+    encode: (v) => v instanceof OrderClient && v.serialize(),
   },
   PrinterClient: {
     decode: (v) => PrinterClient.deserialize(v),
@@ -35,20 +35,20 @@ export const transport: Transport = {
     decode: (v) => PrinterReceiptTemplateClient.deserialize(v),
     encode: (v) => v instanceof PrinterReceiptTemplateClient && v.serialize(),
   },
-  CartClient: {
-    decode: (v) => CartClient.deserialize(v),
-    encode: (v) => v instanceof CartClient && v.serialize(),
+  ProductCategoryClient: {
+    decode: (v) => ProductCategoryClient.deserialize(v),
+    encode: (v) => v instanceof ProductCategoryClient && v.serialize(),
   },
-  CartItemClient: {
-    decode: (v) => CartItemClient.deserialize(v),
-    encode: (v) => v instanceof CartItemClient && v.serialize(),
+  ProductClient: {
+    decode: (v) => ProductClient.deserialize(v),
+    encode: (v) => v instanceof ProductClient && v.serialize(),
   },
-  OrderClient: {
-    decode: (v) => OrderClient.deserialize(v),
-    encode: (v) => v instanceof OrderClient && v.serialize(),
+  ProductOptionClient: {
+    decode: (v) => ProductOptionClient.deserialize(v),
+    encode: (v) => v instanceof ProductOptionClient && v.serialize(),
   },
-  Duration: {
-    decode: (v) => Duration.fromMilliseconds(v),
-    encode: (v) => v instanceof Duration && v.asMilliseconds(),
+  UserClient: {
+    decode: (v) => UserClient.deserialize(v),
+    encode: (v) => v instanceof UserClient && v.serialize(),
   },
 };

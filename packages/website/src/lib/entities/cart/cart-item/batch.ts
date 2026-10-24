@@ -41,8 +41,8 @@ export class CartItemBatch extends Batch<CartItemId> {
     const rows = await db
       .select({
         cartItemId: s.cartItemValue.cartItemId,
-        optionId: s.cartItemValue.productOptionId,
         optionData: s.productOption.data,
+        optionId: s.cartItemValue.productOptionId,
         value: s.cartItemValue.value,
       })
       .from(s.cartItemValue)

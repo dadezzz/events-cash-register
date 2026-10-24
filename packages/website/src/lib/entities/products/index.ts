@@ -49,7 +49,7 @@ export class Product {
   }
 
   async addOption(name: string, data: ProductOptionDataColumn): Promise<void> {
-    await db.insert(s.productOption).values({ productId: this.id, name, data });
+    await db.insert(s.productOption).values({ data, name, productId: this.id });
   }
 
   async deleteOption(id: ProductOptionId): Promise<void> {

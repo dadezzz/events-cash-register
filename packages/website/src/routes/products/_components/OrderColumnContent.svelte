@@ -24,8 +24,8 @@
 
 <ul>
   {#each cartItems as cartItem (cartItem.data.id)}
-    {@const product = await cartItem.getProduct()}
-    {@const values = await cartItem.getValues()}
+    {const product = $derived(await cartItem.getProduct())}
+    {const values = $derived(await cartItem.getValues())}
 
     <li>
       {product.data.name}
@@ -34,7 +34,7 @@
 
       <ul class="ml-2">
         {#each values as value (value.optionId)}
-          {@const productOption = await ProductOptionClient.fromId(value.optionId)}
+          {const productOption = $derived(await ProductOptionClient.fromId(value.optionId))}
           <li>{productOption.data.name} - {value.value}</li>
         {/each}
       </ul>

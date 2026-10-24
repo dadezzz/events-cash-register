@@ -10,11 +10,7 @@
 </script>
 
 <Field {field}>
-  {#snippet children({
-    errorProps,
-    inputProps,
-    labelProps,
-  })}
+  {#snippet children({ errorProps, inputProps, labelProps })}
     <div class="flex flex-col gap-2">
       <FieldLabel {...labelProps}>{label}</FieldLabel>
 

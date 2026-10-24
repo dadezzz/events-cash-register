@@ -26,13 +26,13 @@
   });
 
   const errorProps = $derived({
-    id: `${id}-errors`,
     errors: field.issues(),
+    id: `${id}-errors`,
   });
 
   const labelProps = $derived({
-    for: id,
     "data-invalid": !!field.issues()?.length,
+    for: id,
   });
 </script>
 

@@ -9,7 +9,7 @@ import { ProductOptionBatch } from "./option/batch.ts";
 export class ProductBatch extends Batch<ProductId> {
   async getPrices(): Promise<BatchRows<ProductId, number | null>> {
     const rows = await db
-      .select({ id: s.product.id, price: s.product.price, available: s.product.available })
+      .select({ available: s.product.available, id: s.product.id, price: s.product.price })
       .from(s.product)
       .where(inArray(s.product.id, this.ids));
     return new BatchRows(rows.map((r) => [r.id, r.available ? r.price : null] as const));

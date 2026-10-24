@@ -10,9 +10,7 @@
 </script>
 
 <Navigation {entries} class="m-1 flex w-full items-center gap-2 text-sm text-slate-400">
-  {#snippet entryUI({
-    label,
-  })}
+  {#snippet entryUI({ label })}
     <div class="flex items-center gap-2">
       <CaretRightIcon class="size-4 text-slate-400" />
 
@@ -23,10 +21,7 @@
       </span>
     </div>
   {/snippet}
-  {#snippet entriesUI({
-    entries,
-    wrappedEntryUI,
-  })}
+  {#snippet entriesUI({ entries, wrappedEntryUI })}
     <li>
       <a
         aria-label="Ritorna alla pagina Home"

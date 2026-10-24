@@ -10,7 +10,6 @@ register operations. It supports product management (with options), user
 management with role-based access, printer management, and session tracking.
 
 This project uses a pnpm monorepo with packages in `packages/`:
-
 - `packages/website/` - The SvelteKit application
 - `packages/cups/` - NAPI bindings to libcups 2
 

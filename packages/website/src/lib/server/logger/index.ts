@@ -41,7 +41,7 @@ export class Logger {
             : ""),
       );
     } else {
-      console.log(JSON.stringify({ ...this.data, ...data, time, level }));
+      console.log(JSON.stringify({ ...this.data, ...data, level, time }));
     }
   }
 

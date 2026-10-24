@@ -1,21 +1,21 @@
 import * as v from "valibot";
 
 export const textBlockSchema = v.object({
-  type: v.literal("text"),
   text: v.pipe(
     v.string(),
     v.nonEmpty(),
     // Don't allow users to insert arbitrary blocks.
     v.transform((i) => i.replaceAll("{{", "\\{{")),
   ),
+  type: v.literal("text"),
 });
 
 export type TextBlockData = v.InferOutput<typeof textBlockSchema>;
 
 export function placeholderBlockSchema(entries: string[]) {
   return v.object({
-    type: v.literal("placeholder"),
     placeholder: v.picklist(entries),
+    type: v.literal("placeholder"),
   });
 }
 
@@ -35,15 +35,14 @@ export const rootPlaceholderBlockEntries = [
 // Allows disposing more items on the same line.
 export function lineBlockSchema(blocks: (typeof textBlockSchema | ReturnType<typeof placeholderBlockSchema>)[]) {
   return v.object({
-    type: v.literal("line"),
     blocks: v.pipe(v.optional(v.array(v.variant("type", blocks)), []), v.minLength(1, "Inserire almeno un elemento")),
+    type: v.literal("line"),
   });
 }
 
 export type LineBlockData = v.InferOutput<ReturnType<typeof lineBlockSchema>>;
 
 export const productOptionsBlockSchema = v.object({
-  type: v.literal("productOptions"),
   blocks: v.pipe(
     v.optional(
       v.array(
@@ -55,12 +54,12 @@ export const productOptionsBlockSchema = v.object({
     ),
     v.minLength(1, "Inserire almeno un elemento"),
   ),
+  type: v.literal("productOptions"),
 });
 
 export type ProductOptionsBlockData = v.InferOutput<typeof productOptionsBlockSchema>;
 
 export const productsBlockSchema = v.object({
-  type: v.literal("products"),
   blocks: v.pipe(
     v.optional(
       v.array(
@@ -73,12 +72,12 @@ export const productsBlockSchema = v.object({
     ),
     v.minLength(1, "Inserire almeno un elemento"),
   ),
+  type: v.literal("products"),
 });
 
 export type ProductsBlockData = v.InferOutput<typeof productsBlockSchema>;
 
 export const rootBlockSchema = v.object({
-  type: v.literal("root"),
   blocks: v.pipe(
     v.optional(
       v.array(
@@ -91,6 +90,7 @@ export const rootBlockSchema = v.object({
     ),
     v.minLength(1, "Inserire almeno un elemento"),
   ),
+  type: v.literal("root"),
 });
 
 export type RootBlockData = v.InferOutput<typeof rootBlockSchema>;

@@ -42,7 +42,7 @@ export class LocalsCache<T> {
       // @ts-expect-error Symbol works here.
       locals[this.key] = await this.getCallback();
     } else {
-      logger.trace({ message: "locals cache hit", cacheName: this.name });
+      logger.trace({ cacheName: this.name, message: "locals cache hit" });
     }
 
     // @ts-expect-error Symbol works here.

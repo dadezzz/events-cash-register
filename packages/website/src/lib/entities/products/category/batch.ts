@@ -23,7 +23,7 @@ export class ProductCategoryBatch extends Batch<ProductCategoryId> {
 
   async getProducts(): Promise<BatchRows<ProductCategoryId, ProductBatch>> {
     const rows = await db
-      .select({ id: s.product.id, categoryId: s.product.categoryId })
+      .select({ categoryId: s.product.categoryId, id: s.product.id })
       .from(s.product)
       .where(inArray(s.product.categoryId, this.ids));
 

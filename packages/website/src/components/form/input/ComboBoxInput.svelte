@@ -7,11 +7,11 @@
     PopoverContent,
     PopoverRoot,
   } from "#components/popover2/index.ts";
-  import type { InputProps } from ".";
   import Field from "./Field.svelte";
   import FieldErrors from "./FieldErrors.svelte";
   import FieldLabel from "./FieldLabel.svelte";
   import HiddenInput from "./HiddenInput.svelte";
+  import type { InputProps } from "./index.ts";
 
   interface Entry {
     value: string;
@@ -46,11 +46,7 @@
 </script>
 
 <Field {field}>
-  {#snippet children({
-    errorProps,
-    inputProps,
-    labelProps,
-  })}
+  {#snippet children({ errorProps, inputProps, labelProps })}
     <div class="flex flex-col gap-2">
       <FieldLabel {...labelProps}>{label}</FieldLabel>
 
@@ -142,9 +138,7 @@
           <PopoverAnchor class="flex">
             <PopoverButton
               aria-label="Open the list of options"
-              class="px-3 py-2 text-mist-400 transition-colors hover:bg-emerald-50 hover:text-emerald-600
-              focus:bg-emerald-50 focus:text-emerald-600 focus:outline-none dark:text-mist-600 dark:hover:bg-emerald-950
-              dark:hover:text-emerald-400 dark:focus:bg-emerald-950 dark:focus:text-emerald-400"
+              class="px-3 py-2 text-mist-400 transition-colors hover:bg-emerald-50 hover:text-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 focus:outline-none dark:text-mist-600 dark:hover:bg-emerald-950 dark:hover:text-emerald-400 dark:focus:bg-emerald-950 dark:focus:text-emerald-400"
               onclick={() => {
                 // Keep focus on the input node. Entry selection is handled through
                 // pressing the up and down arrow keys.

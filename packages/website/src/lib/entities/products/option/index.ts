@@ -5,23 +5,23 @@ export const productOptionChoiceMinEntries = 2;
 
 export const productOptionDataColumnSchema = v.variant("type", [
   v.object({
-    type: v.pipe(v.literal("boolean"), v.description("Booleano (casella a spunta)")),
     price: priceSchema,
+    type: v.pipe(v.literal("boolean"), v.description("Booleano (casella a spunta)")),
   }),
   v.object({
-    type: v.pipe(v.literal("choice"), v.description("A scelta (radio)")),
     entries: v.pipe(
       v.optional(
         v.array(
           v.object({
-            value: v.pipe(v.string(), v.nonEmpty("Input richiesto")),
             price: priceSchema,
+            value: v.pipe(v.string(), v.nonEmpty("Input richiesto")),
           }),
         ),
         [],
       ),
       v.minLength(productOptionChoiceMinEntries, "Le opzioni devono essere almeno 2"),
     ),
+    type: v.pipe(v.literal("choice"), v.description("A scelta (radio)")),
   }),
 ]);
 

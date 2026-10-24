@@ -55,7 +55,7 @@ export const handleError: HandleServerError = ({ kind, error, issues }) => {
 
     case "validation":
       // `issues` is an array of validation problems.
-      logger.debug({ kind, message: error.message, status: error.status, issues: issues.map((i) => i.message) });
+      logger.debug({ issues: issues.map((i) => i.message), kind, message: error.message, status: error.status });
       return error; // the generic { status, message } is safe
   }
 };
