@@ -23,7 +23,7 @@
   "dependencies": {
     "@libsql/client": "0.18.0",
     "@workspace/cups": "workspace:*",
-    "croner": "10.0.1",
+    "croner": "11.0.0",
     "drizzle-orm": "0.45.4",
     "handlebars": "4.7.10",
     "puppeteer-core": "25.16.0",
