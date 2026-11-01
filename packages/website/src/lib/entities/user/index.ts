@@ -22,7 +22,7 @@ export class User {
     const user = await db
       .select({ id: s.user.id, passwordHash: s.user.passwordHash })
       .from(s.user)
-      .where(eq(s.user.username, username))
+      .where(and(eq(s.user.username, username), isNull(s.user.deletedAt)))
       .then(getFirstOptional);
 
     if (!user || !(await argon2.verify(user.passwordHash, password))) {
@@ -36,7 +36,7 @@ export class User {
     const user = await db
       .select({ id: s.user.id })
       .from(s.user)
-      .where(eq(s.user.username, username))
+      .where(and(eq(s.user.username, username), isNull(s.user.deletedAt)))
       .then(getFirstOptional);
 
     return user ? new User(user.id) : null;
@@ -120,8 +120,8 @@ export class User {
     });
   }
 
-  getPrivileges(): Promise<UserPrivilege[]> {
-    return db
+  async getPrivileges(): Promise<UserPrivilege[]> {
+    return await db
       .select({ privilege: s.userPrivilege.privilege })
       .from(s.userPrivilege)
       .where(eq(s.userPrivilege.userId, this.id))

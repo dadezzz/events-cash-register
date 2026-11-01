@@ -80,7 +80,6 @@ export const variables = defineEnvVars({
   LOGGER_MIN_LEVEL: {
     description: "Filters logs below this level",
     schema: v.pipe(v.string(), v.picklist(LOGGER_LEVELS_KEYS)),
-    static: true,
   },
   LOGGER_PRETTY: {
     description: "Whether to enable readable logs instead of json",

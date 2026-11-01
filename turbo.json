@@ -17,9 +17,8 @@
       "dependsOn": ["setup", "^build"]
     },
     "clean": {},
-    "format:check": {},
-    "format:fix": {},
     "setup": {
+      "dependsOn": ["^build", "//#setup"],
       "cache": false
     },
     "test": {

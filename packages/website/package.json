@@ -17,7 +17,7 @@
     "dev": "svelte-kit sync && vite dev",
     "drizzle": "drizzle-kit",
     "preview": "vite preview",
-    "setup": "if [ ! -f .env ]; then cp ../../.env.example .env ; fi",
+    "setup": "if [ ! -f .env ]; then cp ../../.env.example .env ; else cp ../../.env .env ; fi",
     "test": "vitest run"
   },
   "dependencies": {
