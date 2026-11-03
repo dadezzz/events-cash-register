@@ -17,7 +17,7 @@ RUN --mount=type=cache,sharing=locked,target=/usr/local/pnpm/store pnpm install
 
 COPY --from=pruner /srv/out/full .
 # Copy manually since turborepo prunes the .env.example and makes setup fail.
-COPY .env.example packages/website/.env
+COPY .env.example .env.example
 # Data is needed to run db commands during build, then it is discarded.
 RUN mkdir data && turbo run build && rm -r data
 
