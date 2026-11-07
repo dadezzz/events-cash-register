@@ -1,6 +1,6 @@
 services:
   cups:
-    image: git.zarantonello.dev/projects/events-cash-register-cups:v2026.10.23.1@sha256:f353f33579eeaaacaa716b2edb393103aa144551865725aa85609e32de696b83
+    image: git.zarantonello.dev/projects/events-cash-register-cups:v2026.11.06.1@sha256:6b8bb11055ef4ff89f823e1cb963222a2e44e82356e7f9a8a93a521f85eed301
     volumes:
       - ../data/receipts:/var/spool/ippeveprinter:z
 
