@@ -1,13 +1,13 @@
 services:
   cups:
-    image: git.zarantonello.dev/projects/events-cash-register-cups:v2026.11.06.1@sha256:6b8bb11055ef4ff89f823e1cb963222a2e44e82356e7f9a8a93a521f85eed301
+    image: git.zarantonello.dev/projects/events-cash-register-cups:v2026.11.08.1@sha256:4a0bb4dfd27d59a6e69b323618b86597320e36fe98e76bd688211edb1c39afa5
     volumes:
       - ../data/receipts:/var/spool/ippeveprinter:z
 
   workspace:
     entrypoint: sleep infinity
     env_file: ../.env
-    image: git.zarantonello.dev/projects/events-cash-register-ci:v2026.11.07.1@sha256:594fbf6dafb58733695e96ea72b09a3fde267eaf24c9fe51140b93e53bacc4e7
+    image: git.zarantonello.dev/projects/events-cash-register-ci:v2026.11.08.1@sha256:1cf246f4448fa50f27346ff49934883e05b44a3cd93704c91733da27189f929f
     ports:
       - 5173:5173
       - 4983:4983
