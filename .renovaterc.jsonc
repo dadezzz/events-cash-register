@@ -12,38 +12,31 @@
     {
       "automerge": true,
       "matchFileNames": ["Dockerfile"],
-      "matchUpdateTypes": ["!major"],
       "semanticCommitType": "fix"
-    },
-    {
-      "matchFileNames": ["Dockerfile"],
-      "matchUpdateTypes": ["major"],
-      "semanticCommitType": "feat"
     },
     // Automerge and group devcontainer, actions and ci deps.
     {
       "automerge": true,
       "groupName": "CI dependencies",
       "groupSlug": "ci",
-      "matchFileNames": [".devcontainer/**", ".forgejo/**", "ci.Dockerfile", "cups.Dockerfile"],
-      "matchUpdateTypes": ["!major"]
+      "matchFileNames": [".devcontainer/**", ".forgejo/**", "ci.Dockerfile", "cups.Dockerfile"]
     },
     // Automerge the ci image and don't trigger a release even in Dockerfile.
     // Also group the pnpm in the packageManager in package.json.
-    {
-      "automerge": true,
-      "groupName": "CI dependencies",
-      "groupSlug": "ci",
-      "matchPackageNames": ["git.zarantonello.dev/infra/ci-pnpm", "pnpm"],
-      "semanticCommitType": "ci"
-    },
     // Formatters and linters get automerged.
     {
       "automerge": true,
       "groupName": "CI dependencies",
       "groupSlug": "ci",
-      "matchPackageNames": ["svelte-check", "@biomejs/biome", "@types/*", "pnpm", "vitest", "turbo"],
-      "matchUpdateTypes": ["!major"]
+      "matchPackageNames": [
+        "git.zarantonello.dev/infra/ci-pnpm",
+        "svelte-check",
+        "@biomejs/biome",
+        "@types/*",
+        "pnpm",
+        "vitest",
+        "turbo"
+      ]
     },
     // These are devDependencies but they can cause user visible changes.
     {
@@ -58,24 +51,7 @@
         "tailwindcss",
         "vite"
       ],
-      "matchUpdateTypes": ["!major"],
       "semanticCommitType": "fix"
-    },
-    // Like above but for major versions we use feat.
-    {
-      "matchPackageNames": [
-        "@sveltejs/adapter-node",
-        "@sveltejs/enhanced-img",
-        "@sveltejs/kit",
-        "@tailwindcss/vite",
-        "bits-ui",
-        "phospor-svelte",
-        "svelte",
-        "tailwindcss",
-        "vite"
-      ],
-      "matchUpdateTypes": ["major"],
-      "semanticCommitType": "feat"
     }
   ],
   // Raise limit or there are situations where we can't keep up with the number
