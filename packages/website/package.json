@@ -32,7 +32,7 @@
   "devDependencies": {
     "@sveltejs/adapter-node": "6.0.2",
     "@sveltejs/enhanced-img": "1.0.1",
-    "@sveltejs/kit": "3.2.0",
+    "@sveltejs/kit": "3.4.0",
     "@tailwindcss/vite": "4.3.5",
     "@toolwind/anchors": "1.0.10",
     "@types/node": "26.6.6",
