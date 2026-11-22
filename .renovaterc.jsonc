@@ -1,18 +1,16 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "assignees": ["davide"],
-  "extends": [
-    "config:best-practices",
-    "customManagers:dockerfileVersions",
-    "customManagers:biomeVersions",
-    ":semanticCommits"
-  ],
   "packageRules": [
     // Rebuild the container if something is updated in the Dockerfile.
     {
-      "automerge": true,
       "matchFileNames": ["Dockerfile"],
       "semanticCommitType": "fix"
+    },
+    {
+      "automerge": true,
+      "matchFileNames": ["Dockerfile"],
+      "matchUpdateTypes": ["!major"]
     },
     // Automerge and group devcontainer, actions and ci deps.
     {
@@ -21,22 +19,25 @@
       "groupSlug": "ci",
       "matchFileNames": [".devcontainer/**", ".forgejo/**", "ci.Dockerfile", "cups.Dockerfile"]
     },
-    // Automerge the ci image and don't trigger a release even in Dockerfile.
-    // Also group the pnpm in the packageManager in package.json.
     // Formatters and linters get automerged.
     {
       "automerge": true,
       "groupName": "CI dependencies",
       "groupSlug": "ci",
       "matchPackageNames": [
-        "git.zarantonello.dev/infra/ci-pnpm",
-        "svelte-check",
+        // Automerge the ci image and don't trigger a release even in Dockerfile.
+        "git.zarantonello.dev/projects/events-cash-register-ci",
+        // Also group the pnpm in the packageManager in package.json.
+        "pnpm",
         "@biomejs/biome",
         "@types/*",
-        "pnpm",
-        "vitest",
-        "turbo"
-      ]
+        "svelte-check",
+        "turbo",
+        "typescript",
+        "vitest"
+      ],
+      // Override the 'fix' commit type set by the packages/website/Dockerfile rule.
+      "semanticCommitType": "chore"
     },
     // These are devDependencies but they can cause user visible changes.
     {
@@ -45,7 +46,6 @@
         "@sveltejs/enhanced-img",
         "@sveltejs/kit",
         "@tailwindcss/vite",
-        "bits-ui",
         "phospor-svelte",
         "svelte",
         "tailwindcss",
@@ -53,8 +53,5 @@
       ],
       "semanticCommitType": "fix"
     }
-  ],
-  // Raise limit or there are situations where we can't keep up with the number
-  // of deps to update.
-  "prHourlyLimit": 6
+  ]
 }
