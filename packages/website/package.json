@@ -35,7 +35,7 @@
     "@sveltejs/kit": "3.4.0",
     "@tailwindcss/vite": "4.3.5",
     "@toolwind/anchors": "1.0.10",
-    "@types/node": "26.6.6",
+    "@types/node": "26.6.7",
     "drizzle-kit": "0.31.11",
     "phosphor-svelte": "3.1.1",
     "svelte": "5.59.1",

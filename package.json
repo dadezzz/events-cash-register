@@ -9,7 +9,7 @@
     "setup": "if [ ! -f .env ] ; then cp .env.example .env ; fi"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.8",
+    "@biomejs/biome": "2.6.9",
     "turbo": "2.11.13"
   },
   "packageManager": "pnpm@12.23.0"
